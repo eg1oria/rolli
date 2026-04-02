@@ -1,27 +1,48 @@
+'use client';
+
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { CiShoppingCart } from 'react-icons/ci';
+import { IoMdClose } from 'react-icons/io';
 
-export default function Header() {
+export default function Header({
+  onCartOpen,
+  onMenuToggle,
+  menuOpen,
+}: {
+  onCartOpen?: () => void;
+  cartOpen?: boolean;
+  onMenuToggle?: () => void;
+  menuOpen?: boolean;
+}) {
   return (
-    <header className="px-50.5 fixed top-0 left-0 right-0 z-10 flex items-center justify-between">
+    <header className="px-39 fixed top-0 left-0 right-0 z-[300] flex items-center justify-between">
       <div className="max-w-7xl    flex items-center ">
         <h1
-          className="text-5xl font-semibold text-gray-900 mr-20.5"
+          className="text-5xl font-semibold text-gray-900 mr-23"
           style={{ fontFamily: 'Montserrat, sans-serif' }}>
           ROLLI
         </h1>
 
-        <div className="flex space-x-7 ">
-          <a>О нас</a>
+        <div className="flex space-x-7 bold text-2xl items-end-safe">
+          <a className="text-end">О нас</a>
           <a>Каталог</a>
         </div>
       </div>
       <div className="py-6 flex items-center space-x-14">
-        <a href="tel:+79123434412">+7 912 343 44-12</a>
+        <a
+          href="tel:+79123434412"
+          className="text-xl"
+          style={{
+            letterSpacing: '0.05em',
+          }}>
+          +7 912 343 44-12
+        </a>
 
         <div className="flex space-x-9">
-          <RxHamburgerMenu size={31} />
-          <CiShoppingCart size={31} />
+          <button onClick={onMenuToggle} className="cursor-pointer">
+            {menuOpen ? <IoMdClose size={32} /> : <RxHamburgerMenu size={32} />}
+          </button>
+          <CiShoppingCart size={34} className="cursor-pointer" onClick={onCartOpen} />
         </div>
       </div>
     </header>

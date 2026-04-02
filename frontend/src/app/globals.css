@@ -18,3 +18,57 @@ body {
   background: #fcf3e2;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes levitate {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-levitate {
+  animation: levitate 2s ease-in-out infinite;
+}
+
+.animate-levitate-slow {
+  animation: levitate 4s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #D5715D transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #D5715D;
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #c4604e;
+}
+
+.swiper {
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  scrollbar-width: none;
+}
+
+.swiper-wrapper::-webkit-scrollbar {
+  display: none;
+}
