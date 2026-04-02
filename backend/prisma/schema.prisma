@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  slug      String    @unique
+  sortOrder Int       @default(0)
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id            Int         @id @default(autoincrement())
+  name          String
+  pieces        String
+  description   String      @default("")
+  price         Int
+  imageUrl      String      @default("")
+  categoryId    Int
+  category      Category    @relation(fields: [categoryId], references: [id])
+  isAvailable   Boolean     @default(true)
+  isRecommended Boolean     @default(false)
+  sortOrder     Int         @default(0)
+  orderItems    OrderItem[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([categoryId])
+  @@index([isRecommended])
+}
+
+model Sauce {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  price       Int     @default(0)
+  isAvailable Boolean @default(true)
+  sortOrder   Int     @default(0)
+}
+
+model Promotion {
+  id        Int      @id @default(autoincrement())
+  title     String   @default("")
+  imageUrl  String
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model GiftPromotion {
+  id              Int     @id @default(autoincrement())
+  thresholdAmount Int
+  giftDescription String
+  isActive        Boolean @default(true)
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  orderNumber   String      @unique @default(uuid())
+  type          OrderType
+  customerName  String
+  customerPhone String
+  address       String?
+  comment       String      @default("")
+  sauces        String      @default("")
+  totalPrice    Int
+  status        OrderStatus @default(NEW)
+  items         OrderItem[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Int
+}
+
+enum OrderType {
+  DELIVERY
+  PICKUP
+}
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PREPARING
+  DELIVERING
+  COMPLETED
+  CANCELLED
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  login        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
