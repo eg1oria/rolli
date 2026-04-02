@@ -14,6 +14,12 @@ export class PromotionsService {
     });
   }
 
+  async findAllAdmin() {
+    return this.prisma.promotion.findMany({
+      orderBy: { sortOrder: 'asc' },
+    });
+  }
+
   async findOne(id: number) {
     const promotion = await this.prisma.promotion.findUnique({ where: { id } });
     if (!promotion) {

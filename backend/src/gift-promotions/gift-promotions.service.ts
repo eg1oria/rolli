@@ -13,6 +13,12 @@ export class GiftPromotionsService {
     });
   }
 
+  async findAllAdmin() {
+    return this.prisma.giftPromotion.findMany({
+      orderBy: { id: 'asc' },
+    });
+  }
+
   async findOne(id: number) {
     const promo = await this.prisma.giftPromotion.findUnique({ where: { id } });
     if (!promo) {

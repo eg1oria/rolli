@@ -11,11 +11,17 @@ export class ProductsService {
     categoryId?: number;
     limit?: number;
     offset?: number;
+    includeUnavailable?: boolean;
   }) {
-    const { categoryId, limit = 50, offset = 0 } = params;
+    const {
+      categoryId,
+      limit = 50,
+      offset = 0,
+      includeUnavailable = false,
+    } = params;
     const where = {
       ...(categoryId ? { categoryId } : {}),
-      isAvailable: true,
+      ...(!includeUnavailable ? { isAvailable: true } : {}),
     };
 
     const [data, total] = await Promise.all([

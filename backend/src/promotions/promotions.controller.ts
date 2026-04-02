@@ -9,7 +9,12 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { PromotionsService } from './promotions.service';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
 import { UpdatePromotionDto } from './dto/update-promotion.dto';
@@ -27,6 +32,15 @@ export class PromotionsController {
     return this.promotionsService.findAllActive();
   }
 
+  @Get('admin/promotions')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Все акции для админки' })
+  @ApiResponse({ status: 200, description: 'Список всех акций' })
+  findAllAdmin() {
+    return this.promotionsService.findAllAdmin();
+  }
+
   @Post('admin/promotions')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -41,7 +55,10 @@ export class PromotionsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Обновить акцию' })
   @ApiResponse({ status: 200, description: 'Акция обновлена' })
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePromotionDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdatePromotionDto,
+  ) {
     return this.promotionsService.update(id, dto);
   }
 

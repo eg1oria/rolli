@@ -14,6 +14,12 @@ export class SaucesService {
     });
   }
 
+  async findAllAdmin() {
+    return this.prisma.sauce.findMany({
+      orderBy: { sortOrder: 'asc' },
+    });
+  }
+
   async findOne(id: number) {
     const sauce = await this.prisma.sauce.findUnique({ where: { id } });
     if (!sauce) {

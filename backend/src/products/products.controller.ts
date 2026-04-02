@@ -61,6 +61,27 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  @Get('admin/products')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Все товары для админки (включая недоступные)' })
+  @ApiQuery({ name: 'categoryId', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'offset', required: false, type: Number })
+  @ApiResponse({ status: 200, description: 'Список всех товаров' })
+  findAllAdmin(
+    @Query('categoryId') categoryId?: string,
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.productsService.findAll({
+      categoryId: categoryId ? parseInt(categoryId, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+      offset: offset ? parseInt(offset, 10) : undefined,
+      includeUnavailable: true,
+    });
+  }
+
   @Post('admin/products')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -75,10 +96,7 @@ export class ProductsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Обновить товар' })
   @ApiResponse({ status: 200, description: 'Товар обновлён' })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateProductDto,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateProductDto) {
     return this.productsService.update(id, dto);
   }
 

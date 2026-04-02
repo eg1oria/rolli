@@ -9,7 +9,12 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { SaucesService } from './sauces.service';
 import { CreateSauceDto } from './dto/create-sauce.dto';
 import { UpdateSauceDto } from './dto/update-sauce.dto';
@@ -25,6 +30,15 @@ export class SaucesController {
   @ApiResponse({ status: 200, description: 'Список соусов' })
   findAll() {
     return this.saucesService.findAll();
+  }
+
+  @Get('admin/sauces')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Все соусы для админки' })
+  @ApiResponse({ status: 200, description: 'Список всех соусов' })
+  findAllAdmin() {
+    return this.saucesService.findAllAdmin();
   }
 
   @Post('admin/sauces')

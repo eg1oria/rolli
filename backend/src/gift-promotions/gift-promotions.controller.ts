@@ -9,7 +9,12 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { GiftPromotionsService } from './gift-promotions.service';
 import { CreateGiftPromotionDto } from './dto/create-gift-promotion.dto';
 import { UpdateGiftPromotionDto } from './dto/update-gift-promotion.dto';
@@ -27,6 +32,15 @@ export class GiftPromotionsController {
     return this.giftPromotionsService.findActive();
   }
 
+  @Get('admin/gift-promotions')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Все подарочные акции для админки' })
+  @ApiResponse({ status: 200, description: 'Список всех подарочных акций' })
+  findAllAdmin() {
+    return this.giftPromotionsService.findAllAdmin();
+  }
+
   @Post('admin/gift-promotions')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -41,7 +55,10 @@ export class GiftPromotionsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Обновить подарочную акцию' })
   @ApiResponse({ status: 200, description: 'Акция обновлена' })
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateGiftPromotionDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateGiftPromotionDto,
+  ) {
     return this.giftPromotionsService.update(id, dto);
   }
 
