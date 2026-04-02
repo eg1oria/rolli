@@ -20,7 +20,7 @@ import { GiBrandyBottle } from 'react-icons/gi';
 import { useCart, updateQuantity, removeFromCart, clearCart } from '@/lib/cart';
 import { getImageUrl } from '@/lib/image';
 import { apiGet, apiPost } from '@/lib/api';
-import type { Product, GiftPromotion } from '@/types';
+import type { Product, GiftPromotion, Sauce } from '@/types';
 import { TbTruckDelivery } from "react-icons/tb";
 import dynamic from 'next/dynamic';
 
@@ -48,6 +48,11 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   const [customerPhone, setCustomerPhone] = useState('');
   const [address, setAddress] = useState('');
   const [showMapModal, setShowMapModal] = useState(false);
+  const [availableSauces, setAvailableSauces] = useState<Sauce[]>([]);
+  const [selectedSauces, setSelectedSauces] = useState<Set<string>>(new Set());
+  const [showSauces, setShowSauces] = useState(false);
+  const [comment, setComment] = useState('');
+  const [showComment, setShowComment] = useState(false);
 
   const { items, total, count } = useCart();
 
@@ -79,6 +84,9 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
     apiGet<Product[]>('/products/recommended').then((recs) => {
       setRecommended(recs.length > 0 ? recs.slice(0, 6) : []);
     });
+    apiGet<Sauce[]>('/sauces').then((sauces) => {
+      setAvailableSauces(sauces);
+    }).catch(() => {});
     apiGet<GiftPromotion>('/gift-promotions/active')
       .then((promo) => {
         if (promo && promo.isActive) setGiftPromo(promo);
@@ -99,6 +107,15 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
   const giftProgress = giftPromo ? Math.min(total / giftPromo.thresholdAmount, 1) : 0;
   const giftRemaining = giftPromo ? Math.max(giftPromo.thresholdAmount - total, 0) : 0;
+
+  const toggleSauce = (name: string) => {
+    setSelectedSauces((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
 
   const handleOrder = async () => {
     if (items.length === 0) return;
@@ -125,8 +142,8 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
         customerName: customerName.trim(),
         customerPhone: customerPhone.trim(),
         address: tab === 'delivery' ? address.trim() : null,
-        comment: '',
-        sauces: '',
+        comment: comment.trim(),
+        sauces: Array.from(selectedSauces).join(', '),
         items: items.map((i) => ({
           productId: i.product.id,
           quantity: i.quantity,
@@ -136,6 +153,10 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       setCustomerName('');
       setCustomerPhone('');
       setAddress('');
+      setComment('');
+      setSelectedSauces(new Set());
+      setShowSauces(false);
+      setShowComment(false);
       setShowOrderForm(false);
       setOrderSuccess(true);
     } catch (error) {
@@ -370,25 +391,71 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
           )}
         </div>
         <div className="flex flex-col gap-4 mt-6 mb-10">
-          <div
-            className="flex items-center gap-4 rounded-full p-4 pl-6 cursor-pointer"
-            style={{ backgroundColor: '#EDE5D6' }}>
-            <GiBrandyBottle size={34} />
-            <div className="ml-3">
-              <p>Добавьте любимые соуса</p>
-              <span className="text-sm text-gray-600">Унаги, соевый, сырный, спайси....</span>
+          <div>
+            <div
+              className="flex items-center gap-4 rounded-full p-4 pl-6 cursor-pointer"
+              style={{ backgroundColor: '#EDE5D6' }}
+              onClick={() => setShowSauces(!showSauces)}>
+              <GiBrandyBottle size={34} />
+              <div className="ml-3">
+                <p>Добавьте любимые соуса</p>
+                <span className="text-sm text-gray-600">
+                  {selectedSauces.size > 0
+                    ? Array.from(selectedSauces).join(', ')
+                    : 'Унаги, соевый, сырный, спайси....'}
+                </span>
+              </div>
+              <HiOutlineChevronRight
+                className={`ml-auto transition-transform ${showSauces ? 'rotate-90' : ''}`}
+              />
             </div>
-            <HiOutlineChevronRight className="ml-auto" />
+            {showSauces && (
+              <div className="flex flex-wrap gap-2 mt-3 px-2">
+                {availableSauces.map((sauce) => {
+                  const isSelected = selectedSauces.has(sauce.name);
+                  return (
+                    <button
+                      key={sauce.id}
+                      onClick={() => toggleSauce(sauce.name)}
+                      className="px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer"
+                      style={{
+                        backgroundColor: isSelected ? '#D5715D' : '#fff',
+                        color: isSelected ? '#fff' : '#2D2D2D',
+                        border: isSelected ? '1px solid #D5715D' : '1px solid #ccc',
+                      }}>
+                      {sauce.name}
+                      {sauce.price > 0 && ` +${sauce.price}₽`}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
-          <div
-            className="flex items-center gap-4 rounded-full p-4 pl-6 cursor-pointer"
-            style={{ backgroundColor: '#EDE5D6' }}>
-            <BsChat size={34} />
-            <div className="ml-3">
-              <p>Коментарий к заказу:</p>
-              <span className="text-sm text-gray-600">Например, без васаби</span>
+          <div>
+            <div
+              className="flex items-center gap-4 rounded-full p-4 pl-6 cursor-pointer"
+              style={{ backgroundColor: '#EDE5D6' }}
+              onClick={() => setShowComment(!showComment)}>
+              <BsChat size={34} />
+              <div className="ml-3">
+                <p>Комментарий к заказу:</p>
+                <span className="text-sm text-gray-600">
+                  {comment.trim() || 'Например, без васаби'}
+                </span>
+              </div>
+              <HiOutlineChevronRight
+                className={`ml-auto transition-transform ${showComment ? 'rotate-90' : ''}`}
+              />
             </div>
-            <HiOutlineChevronRight className="ml-auto" />
+            {showComment && (
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Напишите пожелания к заказу..."
+                className="w-full mt-3 px-4 py-3 rounded-2xl border border-gray-300 outline-none resize-none text-sm"
+                rows={3}
+              />
+            )}
           </div>
         </div>
 

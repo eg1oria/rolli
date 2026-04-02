@@ -59,10 +59,6 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
       leafletRef.current = L;
 
       if (cancelled || !mapContainerRef.current) return;
-      if (mapRef.current) {
-        mapRef.current.invalidateSize();
-        return;
-      }
 
       const map = L.map(mapContainerRef.current, {
         center: ORENBURG_CENTER,
@@ -124,19 +120,14 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
     return () => {
       cancelled = true;
       clearTimeout(timer);
-    };
-  }, [open, reverseGeocode]);
-
-  // Cleanup map on unmount
-  useEffect(() => {
-    return () => {
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
         markerRef.current = null;
+        setMapReady(false);
       }
     };
-  }, []);
+  }, [open, reverseGeocode]);
 
   // Invalidate size when opened
   useEffect(() => {
@@ -158,8 +149,8 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
     <div className="fixed inset-0 z-[2000] flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div
-        className="relative w-full max-w-lg mx-4 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
-        style={{ backgroundColor: '#F3EBDB', maxHeight: '85vh' }}>
+        className="relative w-full max-w-3xl mx-4 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+        style={{ backgroundColor: '#F3EBDB', maxHeight: '90vh' }}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4">
           <h3 className="text-xl font-semibold">Адрес доставки</h3>
@@ -171,7 +162,7 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
         </div>
 
         {/* Map */}
-        <div className="relative w-full" style={{ height: '350px' }}>
+        <div className="relative w-full" style={{ height: '500px' }}>
           <link
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
