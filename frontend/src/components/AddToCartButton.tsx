@@ -16,7 +16,7 @@ export default function AddToCartButton({ product }: Props) {
   if (quantity === 0) {
     return (
       <div
-        className="flex items-center justify-between mt-6 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit transition-colors hover:bg-gray-50 hover:shadow-sm"
+        className="flex items-center justify-between mt-6 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit transition-colors hover:bg-black/10"
         onClick={() => addToCart(product)}>
         <span className="text-lg font-medium">{product.price} ₽</span>
         <HiPlus size={24} className="ml-8" />
@@ -25,9 +25,11 @@ export default function AddToCartButton({ product }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-3 mt-6 w-fit">
+    <div className="flex items-center gap-3 mt-6 w-fit rounded-full border border-black-300 px-3 py-0.5" style={{
+      backgroundColor: '#F3EBDB'
+    }}>
       <button
-        className="w-9 h-9 rounded-full border border-black-300 flex items-center justify-center cursor-pointer transition-colors hover:bg-gray-100"
+        className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-white"
         onClick={() => {
           if (quantity <= 1) {
             removeFromCart(product.id);
@@ -37,9 +39,9 @@ export default function AddToCartButton({ product }: Props) {
         }}>
         <HiMinus size={18} />
       </button>
-      <span className="text-lg font-medium min-w-[24px] text-center">{quantity}</span>
+      <span className="text-lg font-medium min-w-[24px] text-center text-white">{quantity}</span>
       <button
-        className="w-9 h-9 rounded-full border border-black-300 flex items-center justify-center cursor-pointer transition-colors hover:bg-gray-100"
+        className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-white"
         onClick={() => updateQuantity(product.id, quantity + 1)}>
         <HiPlus size={18} />
       </button>

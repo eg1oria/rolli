@@ -96,7 +96,7 @@ export default function Hero() {
 
           <div className="flex space-x-4">
             <button
-              className="text-white font-semibold text-2xl z-10 cursor-pointer p-5 transition-transform hover:scale-105"
+              className="text-white font-semibold text-2xl z-10 cursor-pointer p-5"
               style={{
                 width: 366,
                 borderRadius: 67,
