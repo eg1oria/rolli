@@ -4,20 +4,6 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
     unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3001',
-        pathname: '/uploads/**',
-      },
-      {
-        protocol: 'http',
-        hostname: 'backend',
-        port: '5000',
-        pathname: '/uploads/**',
-      },
-    ],
   },
 };
 

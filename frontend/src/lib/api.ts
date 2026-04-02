@@ -58,7 +58,7 @@ export function apiGet<T>(path: string): Promise<T> {
 export function apiPost<T>(path: string, body: unknown): Promise<T> {
   return apiFetch<T>(path, {
     method: 'POST',
-    body: JSON.stringify(body),
+    body: body instanceof FormData ? body : JSON.stringify(body),
   });
 }
 

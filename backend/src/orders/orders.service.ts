@@ -9,6 +9,8 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { OrderType, OrderStatus } from '@prisma/client';
 
+import { randomUUID } from 'crypto';
+
 @Injectable()
 export class OrdersService {
   constructor(
@@ -34,11 +36,24 @@ export class OrdersService {
       throw new BadRequestException('Заказ должен содержать хотя бы один товар');
     }
 
+    // Merge duplicate productIds
+    const mergedItemsMap = new Map<number, number>();
+    for (const item of dto.items) {
+      mergedItemsMap.set(
+        item.productId,
+        (mergedItemsMap.get(item.productId) || 0) + item.quantity,
+      );
+    }
+    const mergedItems = Array.from(mergedItemsMap, ([productId, quantity]) => ({
+      productId,
+      quantity,
+    }));
+
     if (dto.type === OrderType.DELIVERY && !dto.address) {
       throw new BadRequestException('Адрес обязателен для доставки');
     }
 
-    const productIds = dto.items.map((item) => item.productId);
+    const productIds = mergedItems.map((item) => item.productId);
     const products = await this.prisma.product.findMany({
       where: { id: { in: productIds }, isAvailable: true },
     });
@@ -54,7 +69,7 @@ export class OrdersService {
     const productMap = new Map(products.map((p) => [p.id, p]));
 
     let totalPrice = 0;
-    const orderItems = dto.items.map((item) => {
+    const orderItems = mergedItems.map((item) => {
       const product = productMap.get(item.productId)!;
       const itemTotal = product.price * item.quantity;
       totalPrice += itemTotal;
@@ -192,8 +207,7 @@ export class OrdersService {
   }
 
   private generateOrderNumber(): string {
-    const now = Date.now().toString(36).toUpperCase();
-    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return `ORD-${now}-${random}`;
+    const id = randomUUID().replace(/-/g, '').substring(0, 8).toUpperCase();
+    return `ORD-${id}`;
   }
 }

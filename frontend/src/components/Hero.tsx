@@ -102,7 +102,7 @@ export default function Hero() {
                 borderRadius: 67,
                 background: 'linear-gradient(90deg, #D46D5A 0%, #DA896C 50%, #DBA780 100%)',
                 border: '2px solid #DA896C',
-                boxShadow: '0px 0px 36px 0px rgba(34, 60, 80, 0.2) #D4705C',
+                boxShadow: '0px 0px 36px 0px rgba(212, 112, 92, 0.2)',
               }}>
               Заказать сейчас
             </button>

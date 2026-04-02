@@ -58,6 +58,8 @@ export default function AdminProductsPage() {
       setFormOpen(false);
       setEditProduct(null);
       fetchProducts();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'Ошибка при сохранении');
     } finally {
       setSaving(false);
     }
@@ -70,6 +72,8 @@ export default function AdminProductsPage() {
       await apiDelete(`/admin/products/${deleteTarget.id}`);
       setDeleteTarget(null);
       fetchProducts();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'Ошибка при удалении');
     } finally {
       setDeleting(false);
     }

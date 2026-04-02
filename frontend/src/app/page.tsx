@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import MenuModal from '@/components/MenuModal';
 import Recomend from '@/components/Recomend';
-import Rolls from '@/components/Rolls';
+import CategorySections from '@/components/CategorySections';
 import { useState } from 'react';
 import { CiShoppingCart } from 'react-icons/ci';
 import { useCart } from '@/lib/cart';
@@ -32,7 +32,7 @@ export default function Home() {
         <div className="relative">
           <Recomend />
           <Catalog />
-          <Rolls />
+          <CategorySections />
           <button
             className="sticky bottom-[50%] float-right mr-20 z-50 rounded-full text-white p-4 shadow-lg cursor-pointer relative transition-transform hover:scale-110 hover:shadow-xl"
             style={{ backgroundColor: '#D5715D' }}

@@ -46,8 +46,12 @@ export default function AdminOrdersPage() {
   }, [fetchOrders]);
 
   const handleStatusChange = async (orderId: number, status: OrderStatus) => {
-    await apiPatch(`/admin/orders/${orderId}/status`, { status });
-    fetchOrders();
+    try {
+      await apiPatch(`/admin/orders/${orderId}/status`, { status });
+      fetchOrders();
+    } catch {
+      alert('Ошибка при изменении статуса заказа');
+    }
   };
 
   return (

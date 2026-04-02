@@ -46,17 +46,17 @@ export class TelegramService {
     const itemsText = order.items
       .map(
         (item, i) =>
-          `  ${i + 1}. ${item.name} (${item.pieces}) × ${item.quantity} — ${this.formatPrice(item.price * item.quantity)}`,
+          `  ${i + 1}. ${this.escapeHtml(item.name)} (${this.escapeHtml(item.pieces)}) × ${item.quantity} — ${this.formatPrice(item.price * item.quantity)}`,
       )
       .join('\n');
 
     let message = `🆕 Новый заказ #${order.orderNumber}\n\n`;
     message += `📦 Тип: ${typeLabel}\n`;
-    message += `👤 Имя: ${order.customerName}\n`;
-    message += `📞 Тел: ${order.customerPhone}\n`;
+    message += `👤 Имя: ${this.escapeHtml(order.customerName)}\n`;
+    message += `📞 Тел: ${this.escapeHtml(order.customerPhone)}\n`;
 
     if (order.type === 'DELIVERY' && order.address) {
-      message += `📍 Адрес: ${order.address}\n`;
+      message += `📍 Адрес: ${this.escapeHtml(order.address)}\n`;
     } else if (order.type === 'PICKUP') {
       message += `📍 Самовывоз: Пр. Дзержинского 27/2\n`;
     }
@@ -64,11 +64,11 @@ export class TelegramService {
     message += `\n🍣 Товары:\n${itemsText}\n`;
 
     if (order.sauces) {
-      message += `\n🫙 Соусы: ${order.sauces}`;
+      message += `\n🫙 Соусы: ${this.escapeHtml(order.sauces)}`;
     }
 
     if (order.comment) {
-      message += `\n💬 Комментарий: ${order.comment}`;
+      message += `\n💬 Комментарий: ${this.escapeHtml(order.comment)}`;
     }
 
     message += `\n\n💰 Итого: ${this.formatPrice(order.totalPrice)}`;
@@ -112,5 +112,12 @@ export class TelegramService {
 
   private formatPrice(rubles: number): string {
     return `${rubles.toLocaleString('ru-RU')} ₽`;
+  }
+
+  private escapeHtml(text: string): string {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
   }
 }

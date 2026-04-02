@@ -1,8 +1,7 @@
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:3001';
-
 export function getImageUrl(imageUrl: string | null | undefined): string {
   if (!imageUrl) return '/images/set1.png';
   if (imageUrl.startsWith('http')) return imageUrl;
-  if (imageUrl.startsWith('/uploads/')) return `${BACKEND_URL}${imageUrl}`;
+  // In production behind nginx, /uploads/ is proxied directly — no need to prepend backend URL
+  if (imageUrl.startsWith('/uploads/')) return imageUrl;
   return imageUrl;
 }

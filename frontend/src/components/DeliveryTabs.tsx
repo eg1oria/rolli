@@ -14,9 +14,11 @@ export default function DeliveryTabs() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
 
   useEffect(() => {
-    apiGet<Promotion[]>('/promotions').then((promos) => {
-      setPromotions(promos.filter((p) => p.isActive));
-    });
+    apiGet<Promotion[]>('/promotions')
+      .then((promos) => {
+        setPromotions(promos.filter((p) => p.isActive));
+      })
+      .catch(() => {});
   }, []);
 
   return (

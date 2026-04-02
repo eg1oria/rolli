@@ -1,2 +1,27 @@
 /node_modules
 /dist
+.env
+.env.local
+.env.production
+*.env
+
+# Next.js
+.next/
+
+# Build
+backend/dist/
+
+# Uploads
+uploads/
+
+# Test output
+test_output.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

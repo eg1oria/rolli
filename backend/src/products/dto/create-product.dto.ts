@@ -24,7 +24,7 @@ export class CreateProductDto {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ example: 99000, description: 'Цена в копейках' })
+  @ApiProperty({ example: 990, description: 'Цена в рублях' })
   @IsInt()
   @Min(0)
   price: number;

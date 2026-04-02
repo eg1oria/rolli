@@ -38,6 +38,11 @@ body {
   animation-delay: 0.5s;
 }
 
+.animate-levitate-fast {
+  animation: levitate 1.5s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: #D5715D transparent;

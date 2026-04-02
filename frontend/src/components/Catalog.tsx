@@ -16,13 +16,15 @@ export default function Catalog() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiGet<Category[]>('/categories').then((cats) => {
-      setCategories(cats);
-      if (cats.length > 0) {
-        setActive(cats[0].name);
-        setActiveCategoryId(cats[0].id);
-      }
-    });
+    apiGet<Category[]>('/categories')
+      .then((cats) => {
+        setCategories(cats);
+        if (cats.length > 0) {
+          setActive(cats[0].name);
+          setActiveCategoryId(cats[0].id);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ export default function Catalog() {
   const handleCategoryClick = (cat: Category) => {
     setActive(cat.name);
     setActiveCategoryId(cat.id);
+    setLoading(true);
   };
 
   return (

@@ -26,6 +26,14 @@ import dynamic from 'next/dynamic';
 
 const AddressMapModal = dynamic(() => import('./AddressMapModal'), { ssr: false });
 
+function pluralize(n: number, one: string, few: string, many: string): string {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+  return many;
+}
+
 export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [tab, setTab] = useState<'delivery' | 'pickup'>('pickup');
   const [swiperInst, setSwiperInst] = useState<SwiperType | null>(null);
@@ -34,6 +42,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   const [recommended, setRecommended] = useState<Product[]>([]);
   const [giftPromo, setGiftPromo] = useState<GiftPromotion | null>(null);
   const [ordering, setOrdering] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -56,10 +65,15 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) onClose();
+    };
+    document.addEventListener('keydown', handleEsc);
     return () => {
       document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleEsc);
     };
-  }, [open]);
+  }, [open, onClose]);
 
   useEffect(() => {
     apiGet<Product[]>('/products/recommended').then((recs) => {
@@ -123,7 +137,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       setCustomerPhone('');
       setAddress('');
       setShowOrderForm(false);
-      onClose();
+      setOrderSuccess(true);
     } catch (error) {
       alert('Ошибка при оформлении заказа');
       console.error(error);
@@ -135,8 +149,8 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black/50 z-[200] transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={onClose}
+        className={`fixed inset-0 bg-black/50 z-[999] transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => { setOrderSuccess(false); onClose(); }}
       />
       <div
         className={`fixed top-0 right-0 h-full w-full max-w-md z-[1000] p-8 shadow-2xl transition-transform duration-300 overflow-y-auto ${open ? 'translate-x-0' : 'translate-x-full'}`}
@@ -146,11 +160,32 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-semibold mb-4">Корзина</h2>
           <button
-            onClick={onClose}
+            onClick={() => {
+              setOrderSuccess(false);
+              onClose();
+            }}
             className="text-2xl cursor-pointer p-2 bg-black/10 rounded-full">
             <IoMdClose />
           </button>
         </div>
+
+        {orderSuccess ? (
+          <div className="flex flex-col items-center justify-center py-16 gap-6">
+            <div className="text-6xl">&#10003;</div>
+            <h3 className="text-2xl font-semibold text-center">Заказ оформлен!</h3>
+            <p className="text-center text-black/60">Мы скоро свяжемся с вами для подтверждения</p>
+            <button
+              className="px-8 py-3 text-white font-semibold rounded-full transition-colors hover:shadow-md"
+              style={{ backgroundColor: '#D5715D' }}
+              onClick={() => {
+                setOrderSuccess(false);
+                onClose();
+              }}>
+              Отлично
+            </button>
+          </div>
+        ) : (
+        <>
         <div className="flex flex-col gap-3 bg-black/10 rounded-4xl p-4 pb-6 mb-6">
           <div className="flex bg-black/10 rounded-full">
             <button
@@ -203,7 +238,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-black/70">
-            {count} {count === 1 ? 'позиция' : count < 5 ? 'позиции' : 'позиций'}
+            {count} {pluralize(count, 'позиция', 'позиции', 'позиций')}
           </p>
           <button className="text-sm text-black/70 cursor-pointer" onClick={clearCart}>
             Очистить
@@ -455,6 +490,8 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
               </button>
             </div>
           </div>
+        )}
+        </>
         )}
       </div>
       <AddressMapModal

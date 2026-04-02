@@ -8,7 +8,6 @@ import {
   ValidateNested,
   IsInt,
   Min,
-  IsPhoneNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OrderType } from '@prisma/client';

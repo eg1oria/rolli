@@ -5,8 +5,15 @@ import { useEffect } from 'react';
 export default function MenuModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) onClose();
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [open, onClose]);
 
   return (
     <>
