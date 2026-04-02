@@ -1,32 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi2';
 import { BsDatabaseFill } from 'react-icons/bs';
 import { IoBag } from 'react-icons/io5';
 import Image from 'next/image';
-
-const saleCards = [
-  {
-    url: '/images/sale-card1.png',
-    alt: 'Sale Card 1',
-  },
-  {
-    url: '/images/sale-card2.png',
-    alt: 'Sale Card 2',
-  },
-  {
-    url: '/images/sale-card3.png',
-    alt: 'Sale Card 3',
-  },
-  {
-    url: '/images/sale-card4.png',
-    alt: 'Sale Card 4',
-  },
-];
+import { apiGet } from '@/lib/api';
+import { getImageUrl } from '@/lib/image';
+import type { Promotion } from '@/types';
 
 export default function DeliveryTabs() {
   const [active, setActive] = useState<'delivery' | 'pickup'>('delivery');
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+
+  useEffect(() => {
+    apiGet<Promotion[]>('/promotions').then((promos) => {
+      setPromotions(promos.filter((p) => p.isActive));
+    });
+  }, []);
 
   return (
     <div
@@ -89,11 +80,29 @@ export default function DeliveryTabs() {
       </div>
 
       <div className="flex gap-6 mt-1.5 overflow-x-auto">
-        {saleCards.map((card, index) => (
-          <div key={index} className="cursor-pointer shrink-0 flex-1 min-w-0">
-            <Image src={card.url} alt={card.alt} width={320} height={500} className="w-full h-auto" />
-          </div>
-        ))}
+        {promotions.length > 0
+          ? promotions.map((promo) => (
+              <div key={promo.id} className="cursor-pointer shrink-0 flex-1 min-w-0">
+                <Image
+                  src={getImageUrl(promo.imageUrl)}
+                  alt={promo.title}
+                  width={320}
+                  height={500}
+                  className="w-full h-auto"
+                />
+              </div>
+            ))
+          : [1, 2, 3, 4].map((n) => (
+              <div key={n} className="cursor-pointer shrink-0 flex-1 min-w-0">
+                <Image
+                  src={`/images/sale-card${n}.png`}
+                  alt={`Sale Card ${n}`}
+                  width={320}
+                  height={500}
+                  className="w-full h-auto"
+                />
+              </div>
+            ))}
       </div>
     </div>
   );

@@ -1,4 +1,8 @@
+'use client';
+
 import Image from 'next/image';
+import { addToCart } from '@/lib/cart';
+import type { Product } from '@/types';
 
 type RecomendCardProps = {
   name: string;
@@ -6,14 +10,20 @@ type RecomendCardProps = {
   price: string;
   image: string;
   compact?: boolean;
+  product?: Product;
 };
 
-export default function RecomendCard({ name, pieces, price, image, compact }: RecomendCardProps) {
+export default function RecomendCard({ name, pieces, price, image, compact, product }: RecomendCardProps) {
+  const handleClick = () => {
+    if (product) addToCart(product);
+  };
+
   if (compact) {
     return (
       <div
         className="flex flex-col items-center cursor-pointer rounded-2xl pb-3 shrink-0"
-        style={{ backgroundColor: '#EDE5D6', width: 120, height: 190 }}>
+        style={{ backgroundColor: '#EDE5D6', width: 120, height: 190 }}
+        onClick={handleClick}>
         <div className="flex items-center justify-center" style={{ width: 100, height: 100 }}>
           <Image src={image} alt={name} width={80} height={80} />
         </div>
@@ -31,7 +41,8 @@ export default function RecomendCard({ name, pieces, price, image, compact }: Re
   return (
     <div
       className="flex flex-col items-center cursor-pointer rounded-3xl pb-3.5"
-      style={{ backgroundColor: '#EDE5D6' }}>
+      style={{ backgroundColor: '#EDE5D6' }}
+      onClick={handleClick}>
       <div
         className="w-full flex items-center justify-center mb-2"
         style={{ width: 140, height: 140 }}>

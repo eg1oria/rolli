@@ -17,20 +17,21 @@ import type { Swiper as SwiperType } from 'swiper';
 import { BsChat } from 'react-icons/bs';
 import { GiBrandyBottle } from 'react-icons/gi';
 
-const addMore = [
-  { name: 'Филадельфия', pieces: '10 штук', price: '990 руб', image: '/images/recom1.png' },
-  { name: 'Запеченые темпура', pieces: '8 штук', price: '290 руб', image: '/images/recom2.png' },
-  { name: 'Филадельфия', pieces: '10 штук', price: '990 руб', image: '/images/recom1.png' },
-  { name: 'Запеченые темпура', pieces: '8 штук', price: '290 руб', image: '/images/recom2.png' },
-  { name: 'Филадельфия', pieces: '10 штук', price: '990 руб', image: '/images/recom1.png' },
-  { name: 'Филадельфия', pieces: '10 штук', price: '990 руб', image: '/images/recom1.png' },
-];
+import { useCart, updateQuantity, removeFromCart, clearCart } from '@/lib/cart';
+import { getImageUrl } from '@/lib/image';
+import { apiGet, apiPost } from '@/lib/api';
+import type { Product, GiftPromotion } from '@/types';
 
 export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [tab, setTab] = useState<'delivery' | 'pickup'>('pickup');
   const [swiperInst, setSwiperInst] = useState<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const [recommended, setRecommended] = useState<Product[]>([]);
+  const [giftPromo, setGiftPromo] = useState<GiftPromotion | null>(null);
+  const [ordering, setOrdering] = useState(false);
+
+  const { items, total, count } = useCart();
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -38,6 +39,17 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       document.body.style.overflow = '';
     };
   }, [open]);
+
+  useEffect(() => {
+    apiGet<Product[]>('/products').then((all) => {
+      const recs = all.filter((p) => p.isRecommended);
+      setRecommended(recs.length > 0 ? recs.slice(0, 6) : all.slice(0, 6));
+    });
+    apiGet<GiftPromotion[]>('/gift-promotions').then((promos) => {
+      const active = promos.find((p) => p.isActive);
+      if (active) setGiftPromo(active);
+    });
+  }, []);
 
   const handleSwiper = (swiper: SwiperType) => {
     setSwiperInst(swiper);
@@ -49,6 +61,36 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
   };
+
+  const giftProgress = giftPromo ? Math.min(total / giftPromo.thresholdAmount, 1) : 0;
+  const giftRemaining = giftPromo ? Math.max(giftPromo.thresholdAmount - total, 0) : 0;
+
+  const handleOrder = async () => {
+    if (items.length === 0) return;
+    setOrdering(true);
+    try {
+      await apiPost('/orders', {
+        type: tab === 'delivery' ? 'DELIVERY' : 'PICKUP',
+        customerName: '',
+        customerPhone: '',
+        address: tab === 'delivery' ? '' : null,
+        comment: '',
+        sauces: '',
+        items: items.map((i) => ({
+          productId: i.product.id,
+          quantity: i.quantity,
+          price: i.product.price,
+        })),
+      });
+      clearCart();
+      onClose();
+    } catch {
+      // order error — could show a toast
+    } finally {
+      setOrdering(false);
+    }
+  };
+
   return (
     <>
       <div
@@ -97,68 +139,91 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
         </div>
 
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-black/70">1 позиция</p>
-          <button className="text-sm text-black/70 cursor-pointer">Очистить</button>
+          <p className="text-sm text-black/70">{count} {count === 1 ? 'позиция' : count < 5 ? 'позиции' : 'позиций'}</p>
+          <button className="text-sm text-black/70 cursor-pointer" onClick={clearCart}>Очистить</button>
         </div>
 
-        <div className="flex items-center justify-between gap-1 mb-4">
-          <Image
-            src="/images/roll1.png"
-            alt="Cart Item"
-            width={90}
-            height={90}
-            className="rounded-2xl mb-4"
-          />
+        {items.length === 0 && (
+          <p className="text-center text-black/50 py-8">Корзина пуста</p>
+        )}
 
-          <div className="flex flex-col items-start gap-1 mb-4">
-            <h3 className="text-lg font-semibold text-black/60">Филадельфия</h3>
-            <div className="flex items-center gap-4">
-              <p className="font-bold">990 ₽</p>
-              <p className="text-sm text-black/70">8 шт</p>
+        {items.map((item) => (
+          <div key={item.product.id} className="flex items-center justify-between gap-1 mb-4">
+            <Image
+              src={getImageUrl(item.product.imageUrl)}
+              alt={item.product.name}
+              width={90}
+              height={90}
+              className="rounded-2xl mb-4"
+            />
+
+            <div className="flex flex-col items-start gap-1 mb-4">
+              <h3 className="text-lg font-semibold text-black/60">{item.product.name}</h3>
+              <div className="flex items-center gap-4">
+                <p className="font-bold">{item.product.price} ₽</p>
+                <p className="text-sm text-black/70">{item.product.pieces}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                className="p-2 bg-black/4 rounded-full"
+                onClick={() =>
+                  item.quantity <= 1
+                    ? removeFromCart(item.product.id)
+                    : updateQuantity(item.product.id, item.quantity - 1)
+                }>
+                <FiMinus size={18} />
+              </button>
+              <span className="">{item.quantity}</span>
+              <button
+                className="p-2 bg-black/4 rounded-full"
+                onClick={() => updateQuantity(item.product.id, item.quantity + 1)}>
+                <GoPlus />
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button className="p-2 bg-black/4 rounded-full">
-              <FiMinus size={18} />
-            </button>
-            <span className="">1</span>
-            <button className="p-2 bg-black/4 rounded-full">
-              <GoPlus />
-            </button>
+        ))}
+
+        {giftPromo && (
+          <div
+            className="flex items-center gap-4 rounded-full p-4 cursor-pointer"
+            style={{ backgroundColor: '#D5715D' }}>
+            <div className="relative flex items-center justify-center w-14 h-14 shrink-0">
+              <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
+                <circle
+                  cx="24"
+                  cy="24"
+                  r="21"
+                  fill="none"
+                  stroke="rgb(255, 255, 255)"
+                  strokeWidth="2"
+                />
+                <circle
+                  cx="24"
+                  cy="24"
+                  r="21"
+                  fill="none"
+                  stroke="#FFE500"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 21}
+                  strokeDashoffset={2 * Math.PI * 21 * (1 - giftProgress)}
+                />
+              </svg>
+              <GiPresent size={36} className="text-white" />
+            </div>
+            <div>
+              {giftRemaining > 0 ? (
+                <>
+                  <p className="text-white font-semibold text-ls">Еще {giftRemaining} руб</p>
+                  <p className="text-white/80 text-xs">до подарка: {giftPromo.giftDescription}</p>
+                </>
+              ) : (
+                <p className="text-white font-semibold text-ls">Подарок добавлен!</p>
+              )}
+            </div>
           </div>
-        </div>
-        <div
-          className="flex items-center gap-4 rounded-full p-4 cursor-pointer"
-          style={{ backgroundColor: '#D5715D' }}>
-          <div className="relative flex items-center justify-center w-14 h-14 shrink-0">
-            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
-              <circle
-                cx="24"
-                cy="24"
-                r="21"
-                fill="none"
-                stroke="rgb(255, 255, 255)"
-                strokeWidth="2"
-              />
-              <circle
-                cx="24"
-                cy="24"
-                r="21"
-                fill="none"
-                stroke="#FFE500"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeDasharray={2 * Math.PI * 21}
-                strokeDashoffset={2 * Math.PI * 21 * (1 - 0.35)}
-              />
-            </svg>
-            <GiPresent size={36} className="text-white" />
-          </div>
-          <div>
-            <p className="text-white font-semibold text-ls">Еще 1510 руб</p>
-            <p className="text-white/80 text-xs">до подарка: Филадельфия 10шт</p>
-          </div>
-        </div>
+        )}
 
         <div className="mt-6 relative">
           <div className="flex items-center justify-between mb-3">
@@ -176,9 +241,16 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
             slidesPerView="auto"
             spaceBetween={12}
             slidesOffsetAfter={12}>
-            {addMore.map((product, index) => (
-              <SwiperSlide key={index} style={{ width: 'auto' }}>
-                <RecomendCard {...product} compact />
+            {recommended.map((product) => (
+              <SwiperSlide key={product.id} style={{ width: 'auto' }}>
+                <RecomendCard
+                  name={product.name}
+                  pieces={product.pieces}
+                  price={`${product.price} руб`}
+                  image={getImageUrl(product.imageUrl)}
+                  product={product}
+                  compact
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -223,7 +295,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
         <div className="flex flex-col gap-4 mb-4  ">
           <div className="flex justify-between font-bold text-sl">
             <p>Сумма корзины:</p>
-            <span className="">1990 руб</span>
+            <span className="">{total} руб</span>
           </div>
           <div className="flex justify-between font-bold text-sl">
             <p>Время ожидания:</p>
@@ -233,12 +305,14 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
         <div className="">
           <div className="flex justify-between font-bold text-sl items-center gap-2">
             <p className="">К оплате:</p>
-            <span className="text-2xl font-bold">1990 руб</span>
+            <span className="text-2xl font-bold">{total} руб</span>
           </div>
           <button
             className="w-full py-4 mt-4 text-lg font-semibold text-white rounded-full"
-            style={{ backgroundColor: '#D5715D' }}>
-            Оформить заказ
+            style={{ backgroundColor: '#D5715D' }}
+            onClick={handleOrder}
+            disabled={ordering || items.length === 0}>
+            {ordering ? 'Оформляем...' : 'Оформить заказ'}
           </button>
         </div>
       </div>

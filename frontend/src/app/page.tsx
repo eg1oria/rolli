@@ -10,10 +10,12 @@ import Recomend from '@/components/Recomend';
 import Rolls from '@/components/Rolls';
 import { useState } from 'react';
 import { CiShoppingCart } from 'react-icons/ci';
+import { useCart } from '@/lib/cart';
 
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { count } = useCart();
 
   return (
     <div className="flex">
@@ -32,10 +34,15 @@ export default function Home() {
           <Catalog />
           <Rolls />
           <button
-            className="sticky bottom-[50%] float-right mr-20 z-50 rounded-full text-white p-4 shadow-lg cursor-pointer"
+            className="sticky bottom-[50%] float-right mr-20 z-50 rounded-full text-white p-4 shadow-lg cursor-pointer relative"
             style={{ backgroundColor: '#D5715D' }}
             onClick={() => setOpen(true)}>
             <CiShoppingCart size={32} />
+            {count > 0 && (
+              <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {count}
+              </span>
+            )}
           </button>
         </div>
       </div>
