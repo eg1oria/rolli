@@ -10,9 +10,8 @@ export default function Recomend() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    apiGet<Product[]>('/products').then((all) => {
-      const recommended = all.filter((p) => p.isRecommended);
-      setProducts(recommended.length > 0 ? recommended.slice(0, 6) : all.slice(0, 6));
+    apiGet<Product[]>('/products/recommended').then((recs) => {
+      setProducts(recs.slice(0, 6));
     });
   }, []);
 

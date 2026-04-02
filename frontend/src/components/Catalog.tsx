@@ -6,7 +6,7 @@ import { HiPlus } from 'react-icons/hi2';
 import { apiGet } from '@/lib/api';
 import { getImageUrl } from '@/lib/image';
 import { addToCart } from '@/lib/cart';
-import type { Category, Product } from '@/types';
+import type { Category, Product, PaginatedResponse } from '@/types';
 
 export default function Catalog() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,10 +27,17 @@ export default function Catalog() {
 
   useEffect(() => {
     if (activeCategoryId === null) return;
-    setLoading(true);
-    apiGet<Product[]>(`/products?categoryId=${activeCategoryId}`)
-      .then(setProducts)
-      .finally(() => setLoading(false));
+    let cancelled = false;
+    apiGet<PaginatedResponse<Product>>(`/products?categoryId=${activeCategoryId}&limit=100`)
+      .then((res) => {
+        if (!cancelled) setProducts(res.data);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [activeCategoryId]);
 
   const handleCategoryClick = (cat: Category) => {
@@ -45,7 +52,7 @@ export default function Catalog() {
           <button
             key={cat.id}
             onClick={() => handleCategoryClick(cat)}
-            className="px-7 py-1.5 rounded-full transition-all duration-300 cursor-pointer"
+            className="px-7 py-1.5 rounded-full transition-all duration-300 cursor-pointer hover:shadow-md"
             style={{
               backgroundColor: active === cat.name ? '#D5715D' : '#F0E1D5',
               color: active === cat.name ? '#fff' : '#2D2D2D',
@@ -87,7 +94,7 @@ export default function Catalog() {
                 <p className="text-sm text-gray-600">{product.pieces}</p>
                 <p className="text-sm text-gray-600 mt-4">{product.description}</p>
                 <div
-                  className="flex items-center justify-between mt-6 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit"
+                  className="flex items-center justify-between mt-6 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit transition-colors hover:bg-gray-50 hover:shadow-sm"
                   onClick={() => addToCart(product)}>
                   <span className="text-lg font-medium">{product.price} ₽</span>
                   <HiPlus size={24} className="ml-8" />

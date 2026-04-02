@@ -27,7 +27,7 @@ export default function DeliveryTabs() {
         <div className="flex rounded-full " style={{ backgroundColor: '#F0E1D5' }}>
           <button
             onClick={() => setActive('delivery')}
-            className="px-8 py-5 rounded-full text-lg transition-all duration-300 cursor-pointer w-full"
+            className="px-8 py-5 rounded-full text-lg transition-all duration-300 cursor-pointer w-full hover:shadow-sm"
             style={{
               backgroundColor: active === 'delivery' ? '#D5715D' : 'transparent',
               color: active === 'delivery' ? '#fff' : '#2D2D2D',
@@ -37,7 +37,7 @@ export default function DeliveryTabs() {
           </button>
           <button
             onClick={() => setActive('pickup')}
-            className="px-8 py-5 rounded-full text-lg transition-all duration-300 cursor-pointer w-full"
+            className="px-8 py-5 rounded-full text-lg transition-all duration-300 cursor-pointer w-full hover:shadow-sm"
             style={{
               backgroundColor: active === 'pickup' ? '#D5715D' : 'transparent',
               color: active === 'pickup' ? '#fff' : '#2D2D2D',

@@ -113,7 +113,7 @@ export default function DataTable<T extends Record<string, unknown>>({
             <button
               onClick={() => onPageChange(Math.max(0, offset - limit))}
               disabled={currentPage <= 1}
-              className="p-2 rounded-lg transition-colors disabled:opacity-40"
+              className="p-2 rounded-lg transition-colors disabled:opacity-40 hover:bg-gray-100"
               style={{ color: '#2D2D2D' }}>
               <FiChevronLeft size={18} />
             </button>
@@ -123,7 +123,7 @@ export default function DataTable<T extends Record<string, unknown>>({
             <button
               onClick={() => onPageChange(offset + limit)}
               disabled={currentPage >= totalPages}
-              className="p-2 rounded-lg transition-colors disabled:opacity-40"
+              className="p-2 rounded-lg transition-colors disabled:opacity-40 hover:bg-gray-100"
               style={{ color: '#2D2D2D' }}>
               <FiChevronRight size={18} />
             </button>

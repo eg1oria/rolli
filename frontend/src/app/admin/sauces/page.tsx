@@ -3,20 +3,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/api';
 import { isAuthenticated } from '@/lib/auth';
-import type { Category } from '@/types';
+import type { Sauce } from '@/types';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
-import CategoryForm from '@/components/admin/CategoryForm';
+import SauceForm from '@/components/admin/SauceForm';
 import ConfirmModal from '@/components/admin/ConfirmModal';
 import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 
-export default function AdminCategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+export default function AdminSaucesPage() {
+  const [sauces, setSauces] = useState<Sauce[]>([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
-  const [editCategory, setEditCategory] = useState<Category | null>(null);
+  const [editSauce, setEditSauce] = useState<Sauce | null>(null);
   const [saving, setSaving] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<Category | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Sauce | null>(null);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -25,28 +25,33 @@ export default function AdminCategoriesPage() {
     }
   }, []);
 
-  const fetchCategories = useCallback(() => {
+  const fetchSauces = useCallback(() => {
     setLoading(true);
-    apiGet<Category[]>('/categories')
-      .then(setCategories)
+    apiGet<Sauce[]>('/admin/sauces')
+      .then(setSauces)
       .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    fetchSauces();
+  }, [fetchSauces]);
 
-  const handleSave = async (data: { name: string; slug: string; sortOrder: number }) => {
+  const handleSave = async (data: {
+    name: string;
+    price: number;
+    isAvailable: boolean;
+    sortOrder: number;
+  }) => {
     setSaving(true);
     try {
-      if (editCategory) {
-        await apiPut(`/admin/categories/${editCategory.id}`, data);
+      if (editSauce) {
+        await apiPut(`/admin/sauces/${editSauce.id}`, data);
       } else {
-        await apiPost('/admin/categories', data);
+        await apiPost('/admin/sauces', data);
       }
       setFormOpen(false);
-      setEditCategory(null);
-      fetchCategories();
+      setEditSauce(null);
+      fetchSauces();
     } finally {
       setSaving(false);
     }
@@ -56,9 +61,9 @@ export default function AdminCategoriesPage() {
     if (!deleteTarget) return;
     setDeleting(true);
     try {
-      await apiDelete(`/admin/categories/${deleteTarget.id}`);
+      await apiDelete(`/admin/sauces/${deleteTarget.id}`);
       setDeleteTarget(null);
-      fetchCategories();
+      fetchSauces();
     } finally {
       setDeleting(false);
     }
@@ -68,18 +73,18 @@ export default function AdminCategoriesPage() {
     <div className="flex min-h-screen" style={{ backgroundColor: '#F3EBDB' }}>
       <AdminSidebar />
       <div className="flex-1 ml-60 p-8">
-        <AdminHeader title="Категории" />
+        <AdminHeader title="Соусы" />
         <div className="flex justify-end mb-4">
           <button
             onClick={() => {
-              setEditCategory(null);
+              setEditSauce(null);
               setFormOpen(true);
             }}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors hover:shadow-md"
             style={{ backgroundColor: '#D5715D' }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}>
-            <FiPlus size={16} /> Добавить категорию
+            <FiPlus size={16} /> Добавить соус
           </button>
         </div>
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -93,9 +98,9 @@ export default function AdminCategoriesPage() {
                 />
               ))}
             </div>
-          ) : categories.length === 0 ? (
+          ) : sauces.length === 0 ? (
             <p className="p-8 text-center" style={{ color: '#7A7A7A' }}>
-              Нет категорий
+              Нет соусов
             </p>
           ) : (
             <table className="w-full">
@@ -109,38 +114,45 @@ export default function AdminCategoriesPage() {
                   <th
                     className="text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider"
                     style={{ color: '#7A7A7A' }}>
-                    Slug
+                    Цена
                   </th>
                   <th
                     className="text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider"
                     style={{ color: '#7A7A7A' }}>
-                    Порядок
+                    Статус
                   </th>
                   <th className="px-6 py-3"></th>
                 </tr>
               </thead>
               <tbody>
-                {categories.map((cat) => (
+                {sauces.map((sauce) => (
                   <tr
-                    key={cat.id}
+                    key={sauce.id}
                     className="transition-colors"
                     style={{ borderBottom: '1px solid #F3F4F6' }}
                     onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F0E1D5')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}>
                     <td className="px-6 py-4 text-sm font-medium" style={{ color: '#2D2D2D' }}>
-                      {cat.name}
+                      {sauce.name}
                     </td>
                     <td className="px-6 py-4 text-sm" style={{ color: '#7A7A7A' }}>
-                      {cat.slug}
+                      {sauce.price} ₽
                     </td>
-                    <td className="px-6 py-4 text-sm" style={{ color: '#7A7A7A' }}>
-                      {cat.sortOrder}
+                    <td className="px-6 py-4 text-sm">
+                      <span
+                        className="px-2 py-1 rounded-full text-xs font-semibold"
+                        style={{
+                          backgroundColor: sauce.isAvailable ? '#D1FAE5' : '#FEE2E2',
+                          color: sauce.isAvailable ? '#065F46' : '#991B1B',
+                        }}>
+                        {sauce.isAvailable ? 'Доступен' : 'Скрыт'}
+                      </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => {
-                            setEditCategory(cat);
+                            setEditSauce(sauce);
                             setFormOpen(true);
                           }}
                           className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -148,7 +160,7 @@ export default function AdminCategoriesPage() {
                           <FiEdit2 size={16} />
                         </button>
                         <button
-                          onClick={() => setDeleteTarget(cat)}
+                          onClick={() => setDeleteTarget(sauce)}
                           className="p-2 rounded-lg hover:bg-red-50 transition-colors text-red-500">
                           <FiTrash2 size={16} />
                         </button>
@@ -160,20 +172,20 @@ export default function AdminCategoriesPage() {
             </table>
           )}
         </div>
-        <CategoryForm
+        <SauceForm
           isOpen={formOpen}
-          category={editCategory}
+          sauce={editSauce}
           onSave={handleSave}
           onClose={() => {
             setFormOpen(false);
-            setEditCategory(null);
+            setEditSauce(null);
           }}
           isLoading={saving}
         />
         <ConfirmModal
           isOpen={!!deleteTarget}
-          title="Удалить категорию"
-          message={`Удалить «${deleteTarget?.name}»? Все товары этой категории останутся без категории.`}
+          title="Удалить соус"
+          message={`Удалить «${deleteTarget?.name}»?`}
           onConfirm={handleDelete}
           onCancel={() => setDeleteTarget(null)}
           isLoading={deleting}

@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import TelegramBot from 'node-telegram-bot-api';
 
 interface OrderNotification {
   orderNumber: string;
@@ -22,23 +21,22 @@ interface OrderNotification {
 @Injectable()
 export class TelegramService {
   private readonly logger = new Logger(TelegramService.name);
-  private bot: TelegramBot | null = null;
+  private botToken: string;
   private chatId: string;
 
   constructor(private readonly configService: ConfigService) {
-    const token = this.configService.get<string>('telegram.botToken');
+    this.botToken = this.configService.get<string>('telegram.botToken') || '';
     this.chatId = this.configService.get<string>('telegram.chatId') || '';
 
-    if (token) {
-      this.bot = new TelegramBot(token, { polling: false });
-      this.logger.log('Telegram bot initialized');
+    if (this.botToken && this.chatId) {
+      this.logger.log('Telegram bot configured');
     } else {
-      this.logger.warn('Telegram bot token not configured, notifications disabled');
+      this.logger.warn('Telegram not fully configured, notifications disabled');
     }
   }
 
   async sendOrderNotification(order: OrderNotification): Promise<void> {
-    if (!this.bot || !this.chatId) {
+    if (!this.botToken || !this.chatId) {
       this.logger.warn('Telegram not configured, skipping notification');
       return;
     }
@@ -87,15 +85,32 @@ export class TelegramService {
     message += `\n🕐 ${timeStr}`;
 
     try {
-      await this.bot.sendMessage(this.chatId, message);
+      const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: this.chatId,
+          text: message,
+          parse_mode: 'HTML',
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        this.logger.error(`Failed to send Telegram notification: ${error}`);
+        return;
+      }
+
       this.logger.log(`Order notification sent for #${order.orderNumber}`);
     } catch (error) {
       this.logger.error(`Failed to send Telegram notification: ${error}`);
     }
   }
 
-  private formatPrice(kopecks: number): string {
-    const rubles = kopecks / 100;
+  private formatPrice(rubles: number): string {
     return `${rubles.toLocaleString('ru-RU')} ₽`;
   }
 }

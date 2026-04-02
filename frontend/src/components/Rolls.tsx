@@ -6,7 +6,7 @@ import { HiPlus } from 'react-icons/hi2';
 import { apiGet } from '@/lib/api';
 import { getImageUrl } from '@/lib/image';
 import { addToCart } from '@/lib/cart';
-import type { Category, Product } from '@/types';
+import type { Category, Product, PaginatedResponse } from '@/types';
 
 export default function Rolls() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,11 +15,11 @@ export default function Rolls() {
   useEffect(() => {
     apiGet<Category[]>('/categories')
       .then((cats) => {
-        const rollsCat = cats.find(
-          (c) => c.name.toLowerCase() === 'роллы' || c.slug === 'rolly',
-        );
+        const rollsCat = cats.find((c) => c.name.toLowerCase() === 'роллы' || c.slug === 'rolls');
         if (rollsCat) {
-          return apiGet<Product[]>(`/products?categoryId=${rollsCat.id}`);
+          return apiGet<PaginatedResponse<Product>>(
+            `/products?categoryId=${rollsCat.id}&limit=100`,
+          ).then((res) => res.data);
         }
         return [];
       })
@@ -66,7 +66,7 @@ export default function Rolls() {
                 <p className="text-sm text-gray-600">{product.pieces}</p>
                 <p className="text-sm text-gray-600 mt-4">{product.description}</p>
                 <div
-                  className="flex items-center justify-between mt-9 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit"
+                  className="flex items-center justify-between mt-9 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit transition-colors hover:bg-gray-50 hover:shadow-sm"
                   onClick={() => addToCart(product)}>
                   <span className="text-lg font-medium">{product.price} ₽</span>
                   <HiPlus size={24} className="ml-8" />

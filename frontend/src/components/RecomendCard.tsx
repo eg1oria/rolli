@@ -13,7 +13,14 @@ type RecomendCardProps = {
   product?: Product;
 };
 
-export default function RecomendCard({ name, pieces, price, image, compact, product }: RecomendCardProps) {
+export default function RecomendCard({
+  name,
+  pieces,
+  price,
+  image,
+  compact,
+  product,
+}: RecomendCardProps) {
   const handleClick = () => {
     if (product) addToCart(product);
   };

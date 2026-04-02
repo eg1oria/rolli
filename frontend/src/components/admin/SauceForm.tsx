@@ -22,7 +22,7 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
   useEffect(() => {
     if (sauce) {
       setName(sauce.name);
-      setPriceRub(String(sauce.price / 100));
+      setPriceRub(String(sauce.price));
       setIsAvailable(sauce.isAvailable);
       setSortOrder(String(sauce.sortOrder));
     } else {
@@ -42,7 +42,7 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
     if (Object.keys(errs).length > 0) return;
     onSave({
       name: name.trim(),
-      price: Math.round(Number(priceRub) * 100),
+      price: Number(priceRub),
       isAvailable,
       sortOrder: Number(sortOrder),
     });
@@ -54,12 +54,10 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-      onClick={onClose}
-    >
+      onClick={onClose}>
       <div
         className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>
             {sauce ? 'Редактировать соус' : 'Новый соус'}
@@ -71,7 +69,9 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Название *</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Название *
+            </label>
             <input
               type="text"
               value={name}
@@ -85,7 +85,9 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Цена (руб)</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Цена (руб)
+            </label>
             <input
               type="number"
               value={priceRub}
@@ -100,7 +102,9 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Порядок</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Порядок
+            </label>
             <input
               type="number"
               value={sortOrder}
@@ -119,7 +123,9 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
               onChange={(e) => setIsAvailable(e.target.checked)}
               className="w-4 h-4 rounded accent-[#D5715D]"
             />
-            <span className="text-sm" style={{ color: '#2D2D2D' }}>Доступен</span>
+            <span className="text-sm" style={{ color: '#2D2D2D' }}>
+              Доступен
+            </span>
           </label>
 
           <div className="flex justify-end gap-3 pt-4">
@@ -127,8 +133,7 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
               type="button"
               onClick={onClose}
               className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
-              style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}
-            >
+              style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}>
               Отмена
             </button>
             <button
@@ -137,8 +142,7 @@ export default function SauceForm({ isOpen, sauce, onSave, onClose, isLoading }:
               className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-50"
               style={{ backgroundColor: '#D5715D' }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}
-            >
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}>
               {isLoading ? 'Сохранение...' : 'Сохранить'}
             </button>
           </div>

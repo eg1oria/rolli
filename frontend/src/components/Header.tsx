@@ -24,8 +24,8 @@ export default function Header({
         </h1>
 
         <div className="flex space-x-7 bold text-2xl items-end-safe">
-          <a className="text-end">О нас</a>
-          <a>Каталог</a>
+          <a className="text-end transition-opacity hover:opacity-60 cursor-pointer">О нас</a>
+          <a className="transition-opacity hover:opacity-60 cursor-pointer">Каталог</a>
         </div>
       </div>
       <div className="py-6 flex items-center space-x-14">
@@ -39,10 +39,10 @@ export default function Header({
         </a>
 
         <div className="flex space-x-9">
-          <button onClick={onMenuToggle} className="cursor-pointer">
+          <button onClick={onMenuToggle} className="cursor-pointer transition-opacity hover:opacity-60">
             {menuOpen ? <IoMdClose size={32} /> : <RxHamburgerMenu size={32} />}
           </button>
-          <CiShoppingCart size={34} className="cursor-pointer" onClick={onCartOpen} />
+          <CiShoppingCart size={34} className="cursor-pointer transition-opacity hover:opacity-60" onClick={onCartOpen} />
         </div>
       </div>
     </header>

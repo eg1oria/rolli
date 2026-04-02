@@ -96,7 +96,7 @@ export default function Hero() {
 
           <div className="flex space-x-4">
             <button
-              className="text-white font-semibold text-2xl z-10 cursor-pointer p-5"
+              className="text-white font-semibold text-2xl z-10 cursor-pointer p-5 transition-transform hover:scale-105"
               style={{
                 width: 366,
                 borderRadius: 67,
@@ -107,7 +107,7 @@ export default function Hero() {
               Заказать сейчас
             </button>
             <button
-              className="text-black font-bold text-xl z-10 cursor-pointer p-5"
+              className="text-black font-bold text-xl z-10 cursor-pointer p-5 transition-colors hover:bg-gray-100"
               style={{
                 width: 300,
                 borderRadius: 67,
@@ -125,7 +125,7 @@ export default function Hero() {
           fontFamily: 'Montserrat, sans-serif',
         }}>
         <CiClock2 size={34} />
-        <span className="font-bold mr-2">Готовим с 12:00 до 22:00.</span>
+        <span className="font-bold mr-2">Готовим с 9:00 до 22:00.</span>
         Можно сделать предзаказ.
       </div>
     </section>

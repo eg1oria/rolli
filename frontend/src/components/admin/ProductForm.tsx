@@ -14,7 +14,14 @@ interface ProductFormProps {
   isLoading?: boolean;
 }
 
-export default function ProductForm({ isOpen, product, categories, onSave, onClose, isLoading }: ProductFormProps) {
+export default function ProductForm({
+  isOpen,
+  product,
+  categories,
+  onSave,
+  onClose,
+  isLoading,
+}: ProductFormProps) {
   const [name, setName] = useState('');
   const [pieces, setPieces] = useState('');
   const [description, setDescription] = useState('');
@@ -31,7 +38,7 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
       setName(product.name);
       setPieces(product.pieces);
       setDescription(product.description);
-      setPriceRub(String(product.price / 100));
+      setPriceRub(String(product.price));
       setCategoryId(product.categoryId);
       setSortOrder(String(product.sortOrder));
       setIsAvailable(product.isAvailable);
@@ -67,7 +74,7 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
       name: name.trim(),
       pieces: pieces.trim(),
       description: description.trim(),
-      price: Math.round(Number(priceRub) * 100),
+      price: Number(priceRub),
       categoryId: Number(categoryId),
       sortOrder: Number(sortOrder),
       isAvailable,
@@ -82,12 +89,10 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-      onClick={onClose}
-    >
+      onClick={onClose}>
       <div
         className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>
             {product ? 'Редактировать товар' : 'Новый товар'}
@@ -99,7 +104,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Название *</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Название *
+            </label>
             <input
               type="text"
               value={name}
@@ -113,7 +120,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Порции</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Порции
+            </label>
             <input
               type="text"
               value={pieces}
@@ -127,7 +136,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Описание</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Описание
+            </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -141,7 +152,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Цена (руб) *</label>
+              <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+                Цена (руб) *
+              </label>
               <input
                 type="number"
                 value={priceRub}
@@ -156,7 +169,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
               {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Порядок</label>
+              <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+                Порядок
+              </label>
               <input
                 type="number"
                 value={sortOrder}
@@ -170,25 +185,32 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Категория *</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Категория *
+            </label>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value ? Number(e.target.value) : '')}
               className="w-full px-4 py-2.5 rounded-xl border outline-none bg-white"
               style={{ borderColor: errors.categoryId ? '#EF4444' : '#E5E7EB' }}
               onFocus={(e) => (e.target.style.borderColor = '#D5715D')}
-              onBlur={(e) => (e.target.style.borderColor = errors.categoryId ? '#EF4444' : '#E5E7EB')}
-            >
+              onBlur={(e) =>
+                (e.target.style.borderColor = errors.categoryId ? '#EF4444' : '#E5E7EB')
+              }>
               <option value="">Выберите категорию</option>
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
               ))}
             </select>
             {errors.categoryId && <p className="text-red-500 text-xs mt-1">{errors.categoryId}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-2" style={{ color: '#7A7A7A' }}>Изображение</label>
+            <label className="block text-xs font-medium mb-2" style={{ color: '#7A7A7A' }}>
+              Изображение
+            </label>
             <ImageUpload currentImage={imageUrl} onUpload={setImageUrl} type="products" />
           </div>
 
@@ -200,7 +222,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
                 onChange={(e) => setIsAvailable(e.target.checked)}
                 className="w-4 h-4 rounded accent-[#D5715D]"
               />
-              <span className="text-sm" style={{ color: '#2D2D2D' }}>Доступен</span>
+              <span className="text-sm" style={{ color: '#2D2D2D' }}>
+                Доступен
+              </span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -209,7 +233,9 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
                 onChange={(e) => setIsRecommended(e.target.checked)}
                 className="w-4 h-4 rounded accent-[#D5715D]"
               />
-              <span className="text-sm" style={{ color: '#2D2D2D' }}>Рекомендуемый</span>
+              <span className="text-sm" style={{ color: '#2D2D2D' }}>
+                Рекомендуемый
+              </span>
             </label>
           </div>
 
@@ -218,8 +244,7 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
               type="button"
               onClick={onClose}
               className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
-              style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}
-            >
+              style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}>
               Отмена
             </button>
             <button
@@ -228,8 +253,7 @@ export default function ProductForm({ isOpen, product, categories, onSave, onClo
               className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-50"
               style={{ backgroundColor: '#D5715D' }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}
-            >
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}>
               {isLoading ? 'Сохранение...' : 'Сохранить'}
             </button>
           </div>

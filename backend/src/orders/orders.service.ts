@@ -17,6 +17,19 @@ export class OrdersService {
   ) {}
 
   async create(dto: CreateOrderDto) {
+    // TODO: Включить проверку рабочих часов при деплое
+    // Check working hours (9:00–22:00 Orenburg time) - DISABLED FOR DEVELOPMENT
+    // const now = new Date();
+    // const orenburgTime = new Date(
+    //   now.toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg' }),
+    // );
+    // const hour = orenburgTime.getHours();
+    // if (hour < 9 || hour >= 22) {
+    //   throw new BadRequestException(
+    //     'Заказы принимаются с 9:00 до 22:00 по оренбургскому времени. Попробуйте позже.',
+    //   );
+    // }
+
     if (dto.items.length === 0) {
       throw new BadRequestException('Заказ должен содержать хотя бы один товар');
     }
@@ -83,16 +96,15 @@ export class OrdersService {
 
     // Check working hours (12:00–22:00 Yekaterinburg time)
     let outsideWorkingHours = false;
-    const now = new Date();
     const yekaterinburgTime = new Date(
-      now.toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg' }),
+      new Date().toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg' }),
     );
-    const hour = yekaterinburgTime.getHours();
-    if (hour < 12 || hour >= 22) {
+    const checkHour = yekaterinburgTime.getHours();
+    if (checkHour < 12 || checkHour >= 22) {
       outsideWorkingHours = true;
     }
 
-    // Send Telegram notification
+    // Send Telegram notification (fire and forget, but with proper error handling)
     this.telegramService
       .sendOrderNotification({
         orderNumber: order.orderNumber,
@@ -110,7 +122,9 @@ export class OrdersService {
         comment: order.comment,
         totalPrice: order.totalPrice,
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error('Failed to send Telegram notification:', err);
+      });
 
     return {
       ...order,

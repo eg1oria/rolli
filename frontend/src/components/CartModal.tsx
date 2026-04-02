@@ -21,6 +21,10 @@ import { useCart, updateQuantity, removeFromCart, clearCart } from '@/lib/cart';
 import { getImageUrl } from '@/lib/image';
 import { apiGet, apiPost } from '@/lib/api';
 import type { Product, GiftPromotion } from '@/types';
+import { TbTruckDelivery } from "react-icons/tb";
+import dynamic from 'next/dynamic';
+
+const AddressMapModal = dynamic(() => import('./AddressMapModal'), { ssr: false });
 
 export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [tab, setTab] = useState<'delivery' | 'pickup'>('pickup');
@@ -30,8 +34,25 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   const [recommended, setRecommended] = useState<Product[]>([]);
   const [giftPromo, setGiftPromo] = useState<GiftPromotion | null>(null);
   const [ordering, setOrdering] = useState(false);
+  const [showOrderForm, setShowOrderForm] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [showMapModal, setShowMapModal] = useState(false);
 
   const { items, total, count } = useCart();
+
+  // Check if outside working hours - DISABLED FOR DEVELOPMENT
+  const isOutsideWorkingHours = () => {
+    // TODO: Включить при деплое
+    return false;
+    // const now = new Date();
+    // const orenburgTime = new Date(
+    //   now.toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg' }),
+    // );
+    // const hour = orenburgTime.getHours();
+    // return hour < 9 || hour >= 22;
+  };
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -41,14 +62,14 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   }, [open]);
 
   useEffect(() => {
-    apiGet<Product[]>('/products').then((all) => {
-      const recs = all.filter((p) => p.isRecommended);
-      setRecommended(recs.length > 0 ? recs.slice(0, 6) : all.slice(0, 6));
+    apiGet<Product[]>('/products/recommended').then((recs) => {
+      setRecommended(recs.length > 0 ? recs.slice(0, 6) : []);
     });
-    apiGet<GiftPromotion[]>('/gift-promotions').then((promos) => {
-      const active = promos.find((p) => p.isActive);
-      if (active) setGiftPromo(active);
-    });
+    apiGet<GiftPromotion>('/gift-promotions/active')
+      .then((promo) => {
+        if (promo && promo.isActive) setGiftPromo(promo);
+      })
+      .catch(() => {});
   }, []);
 
   const handleSwiper = (swiper: SwiperType) => {
@@ -67,25 +88,45 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
   const handleOrder = async () => {
     if (items.length === 0) return;
+
+    if (isOutsideWorkingHours()) {
+      alert('Заказы принимаются с 9:00 до 22:00 по оренбургскому времени');
+      return;
+    }
+
+    if (!customerName.trim() || !customerPhone.trim()) {
+      alert('Пожалуйста, заполните имя и телефон');
+      return;
+    }
+
+    if (tab === 'delivery' && !address.trim()) {
+      alert('Пожалуйста, укажите адрес доставки');
+      return;
+    }
+
     setOrdering(true);
     try {
       await apiPost('/orders', {
         type: tab === 'delivery' ? 'DELIVERY' : 'PICKUP',
-        customerName: '',
-        customerPhone: '',
-        address: tab === 'delivery' ? '' : null,
+        customerName: customerName.trim(),
+        customerPhone: customerPhone.trim(),
+        address: tab === 'delivery' ? address.trim() : null,
         comment: '',
         sauces: '',
         items: items.map((i) => ({
           productId: i.product.id,
           quantity: i.quantity,
-          price: i.product.price,
         })),
       });
       clearCart();
+      setCustomerName('');
+      setCustomerPhone('');
+      setAddress('');
+      setShowOrderForm(false);
       onClose();
-    } catch {
-      // order error — could show a toast
+    } catch (error) {
+      alert('Ошибка при оформлении заказа');
+      console.error(error);
     } finally {
       setOrdering(false);
     }
@@ -116,36 +157,60 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
               onClick={() => setTab('delivery')}
               className={`flex-1 p-3 rounded-full text-base font-semibold transition-colors cursor-pointer ${
                 tab === 'delivery' ? 'bg-white text-black shadow-sm' : 'text-black/60'
-              }`}>
+              } hover:shadow-sm`}>
               Доставка
             </button>
             <button
               onClick={() => setTab('pickup')}
               className={`flex-1 p-3 rounded-full text-base font-semibold transition-colors cursor-pointer ${
                 tab === 'pickup' ? 'bg-white text-black shadow-sm' : 'text-black/60'
-              }`}>
+              } hover:shadow-sm`}>
               Самовывоз
             </button>
           </div>
 
-          <button className="flex items-center gap-3 mt-1">
-            <IoBag size={34} className="text-black/70 shrink-0" />
-            <div className="flex flex-col items-start">
-              <p className="text-sm font-medium">Проспект Дзержинского 27/2</p>
-              <p className="text-xs text-black/50">~30 минут ожидание</p>
-            </div>
-            <HiOutlineChevronRight size={20} color="#555555" className="ml-auto" />
-          </button>
+          {tab === 'delivery' ? (
+            <button
+              className="flex items-center gap-3 mt-1"
+              onClick={() => setShowMapModal(true)}>
+              <TbTruckDelivery size={34} className="shrink-0" />
+              <div className="flex flex-col items-start">
+                {address ? (
+                  <>
+                    <p className="text-sm font-medium text-left">{address}</p>
+                    <p className="text-xs text-black/50">Нажмите чтобы изменить</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm font-medium">Указать адрес на карте</p>
+                    <p className="text-xs text-black/50">Выберите точку доставки</p>
+                  </>
+                )}
+              </div>
+              <HiOutlineChevronRight size={20} color="#555555" className="ml-auto" />
+            </button>
+          ) : (
+            <button className="flex items-center gap-3 mt-1">
+              <IoBag size={34} className="text-black/70 shrink-0" />
+              <div className="flex flex-col items-start">
+                <p className="text-sm font-medium">Проспект Дзержинского 27/2</p>
+                <p className="text-xs text-black/50">~30 минут ожидание</p>
+              </div>
+              <HiOutlineChevronRight size={20} color="#555555" className="ml-auto" />
+            </button>
+          )}
         </div>
 
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-black/70">{count} {count === 1 ? 'позиция' : count < 5 ? 'позиции' : 'позиций'}</p>
-          <button className="text-sm text-black/70 cursor-pointer" onClick={clearCart}>Очистить</button>
+          <p className="text-sm text-black/70">
+            {count} {count === 1 ? 'позиция' : count < 5 ? 'позиции' : 'позиций'}
+          </p>
+          <button className="text-sm text-black/70 cursor-pointer" onClick={clearCart}>
+            Очистить
+          </button>
         </div>
 
-        {items.length === 0 && (
-          <p className="text-center text-black/50 py-8">Корзина пуста</p>
-        )}
+        {items.length === 0 && <p className="text-center text-black/50 py-8">Корзина пуста</p>}
 
         {items.map((item) => (
           <div key={item.product.id} className="flex items-center justify-between gap-1 mb-4">
@@ -166,7 +231,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
             </div>
             <div className="flex items-center gap-2">
               <button
-                className="p-2 bg-black/4 rounded-full"
+                className="p-2 bg-black/4 rounded-full transition-colors hover:bg-black/10"
                 onClick={() =>
                   item.quantity <= 1
                     ? removeFromCart(item.product.id)
@@ -176,7 +241,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
               </button>
               <span className="">{item.quantity}</span>
               <button
-                className="p-2 bg-black/4 rounded-full"
+                className="p-2 bg-black/4 rounded-full transition-colors hover:bg-black/10"
                 onClick={() => updateQuantity(item.product.id, item.quantity + 1)}>
                 <GoPlus />
               </button>
@@ -302,20 +367,102 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
             <span className="">~30 минут</span>
           </div>
         </div>
-        <div className="">
-          <div className="flex justify-between font-bold text-sl items-center gap-2">
-            <p className="">К оплате:</p>
-            <span className="text-2xl font-bold">{total} руб</span>
+
+        {isOutsideWorkingHours() && (
+          <div
+            className="p-4 rounded-lg mb-4 text-sm font-medium text-white text-center"
+            style={{ backgroundColor: '#DA6F5F' }}>
+            ⏰ Мы работаем с 9:00 до 22:00 по оренбургскому времени
           </div>
-          <button
-            className="w-full py-4 mt-4 text-lg font-semibold text-white rounded-full"
-            style={{ backgroundColor: '#D5715D' }}
-            onClick={handleOrder}
-            disabled={ordering || items.length === 0}>
-            {ordering ? 'Оформляем...' : 'Оформить заказ'}
-          </button>
-        </div>
+        )}
+
+        {!showOrderForm ? (
+          <div className="">
+            <div className="flex justify-between font-bold text-sl items-center gap-2">
+              <p className="">К оплате:</p>
+              <span className="text-2xl font-bold">{total} руб</span>
+            </div>
+            <button
+              className="w-full py-4 mt-4 text-lg font-semibold text-white rounded-full transition-colors hover:shadow-md disabled:opacity-50"
+              style={{ backgroundColor: '#D5715D' }}
+              onClick={() => setShowOrderForm(true)}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}
+              disabled={items.length === 0 || isOutsideWorkingHours()}>
+              {isOutsideWorkingHours() ? 'Приём заказов закрыт' : 'Оформить заказ'}
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4 border-t border-gray-300 pt-4">
+            <h3 className="text-lg font-semibold">Оформление заказа</h3>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Имя *</label>
+              <input
+                type="text"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                placeholder="Иван Иванов"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Телефон *</label>
+              <input
+                type="tel"
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                placeholder="+7 912 343 44-12"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 outline-none"
+              />
+            </div>
+
+            {tab === 'delivery' && (
+              <div>
+                <label className="block text-sm font-medium mb-1">Адрес доставки *</label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="ул. Ленина 15, кв. 42"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 outline-none"
+                />
+              </div>
+            )}
+
+            <div className="flex justify-between font-bold text-sl items-center gap-2 pt-4">
+              <p className="">К оплате:</p>
+              <span className="text-2xl font-bold">{total} руб</span>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                className="flex-1 py-3 rounded-lg text-lg font-semibold transition-colors"
+                style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}
+                onClick={() => setShowOrderForm(false)}
+                disabled={ordering}>
+                Назад
+              </button>
+              <button
+                className="flex-1 py-3 text-lg font-semibold text-white rounded-lg transition-colors hover:shadow-md disabled:opacity-50"
+                style={{ backgroundColor: '#D5715D' }}
+                onClick={handleOrder}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}
+                disabled={ordering}>
+                {ordering ? 'Оформляем...' : 'Подтвердить заказ'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
+      <AddressMapModal
+        open={showMapModal}
+        onClose={() => setShowMapModal(false)}
+        onSelect={(addr) => setAddress(addr)}
+        initialAddress={address}
+      />
     </>
   );
 }

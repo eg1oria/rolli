@@ -34,7 +34,7 @@ export default function Home() {
           <Catalog />
           <Rolls />
           <button
-            className="sticky bottom-[50%] float-right mr-20 z-50 rounded-full text-white p-4 shadow-lg cursor-pointer relative"
+            className="sticky bottom-[50%] float-right mr-20 z-50 rounded-full text-white p-4 shadow-lg cursor-pointer relative transition-transform hover:scale-110 hover:shadow-xl"
             style={{ backgroundColor: '#D5715D' }}
             onClick={() => setOpen(true)}>
             <CiShoppingCart size={32} />
