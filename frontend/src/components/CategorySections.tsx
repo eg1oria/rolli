@@ -2,10 +2,9 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { HiPlus } from 'react-icons/hi2';
 import { apiGet } from '@/lib/api';
 import { getImageUrl } from '@/lib/image';
-import { addToCart } from '@/lib/cart';
+import AddToCartButton from './AddToCartButton';
 import type { Category, Product, PaginatedResponse } from '@/types';
 
 interface CategoryWithProducts {
@@ -40,7 +39,9 @@ export default function CategorySections() {
     return (
       <div className="px-75 py-3">
         <div className="h-10 bg-gray-200 rounded w-48 mb-9 animate-pulse" />
-        <div className="grid grid-cols-4 gap-9 mt-6 pb-7" style={{ borderBottom: '4px solid #F3EBDB' }}>
+        <div
+          className="grid grid-cols-4 gap-9 mt-6 pb-7"
+          style={{ borderBottom: '4px solid #F3EBDB' }}>
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="animate-pulse">
               <div className="bg-gray-200 rounded-2xl" style={{ width: 300, height: 283 }} />
@@ -81,12 +82,7 @@ export default function CategorySections() {
                 <h3 className="text-xl font-semibold mt-4 leading-[100%]">{product.name}</h3>
                 <p className="text-sm text-gray-600">{product.pieces}</p>
                 <p className="text-sm text-gray-600 mt-4">{product.description}</p>
-                <div
-                  className="flex items-center justify-between mt-9 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit transition-colors hover:bg-gray-50 hover:shadow-sm"
-                  onClick={() => addToCart(product)}>
-                  <span className="text-lg font-medium">{product.price} ₽</span>
-                  <HiPlus size={24} className="ml-8" />
-                </div>
+                <AddToCartButton product={product} />
               </div>
             ))}
           </div>
