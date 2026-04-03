@@ -165,33 +165,20 @@ export default function DeliveryTabs({
       </button>
 
       <div className="flex gap-3 md:gap-4 lg:gap-6 mt-1.5 overflow-x-auto pb-2">
-        {promotions.length > 0
-          ? promotions.map((promo) => (
-              <div
-                key={promo.id}
-                className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
-                <Image
-                  src={getImageUrl(promo.imageUrl)}
-                  alt={promo.title}
-                  width={320}
-                  height={500}
-                  className="w-full h-auto"
-                />
-              </div>
-            ))
-          : [1, 2, 3, 4].map((n) => (
-              <div
-                key={n}
-                className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
-                <Image
-                  src={`/images/sale-card${n}.png`}
-                  alt={`Sale Card ${n}`}
-                  width={320}
-                  height={500}
-                  className="w-full h-auto"
-                />
-              </div>
-            ))}
+        {[1, 2, 3, 4].map((n) => (
+          <div
+            key={n}
+            className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]"
+            onClick={() => setShowPromotionsModal(true)}>
+            <Image
+              src={`/images/sale-card${n}.png`}
+              alt={`Акция ${n}`}
+              width={320}
+              height={500}
+              className="w-full h-auto"
+            />
+          </div>
+        ))}
       </div>
 
       <AddressMapModal
@@ -240,7 +227,7 @@ export default function DeliveryTabs({
                           alt={promo.title}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover blur-[3px] scale-[1.05]"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[20px] scale-[1.1]"
                         />
                         <div className="absolute inset-0 bg-black/25 flex items-center px-5 md:px-8">
                           <div className="text-white max-w-[85%]">
@@ -267,7 +254,7 @@ export default function DeliveryTabs({
                           alt={`Акция ${n}`}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover blur-[8px] scale-[1.1]"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[20px] scale-[1.1]"
                         />
                         <div className="absolute inset-0 bg-black/20 flex items-center px-5 md:px-8">
                           <p className="text-white text-lg md:text-2xl font-semibold">
