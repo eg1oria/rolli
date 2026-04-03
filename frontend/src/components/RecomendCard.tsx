@@ -56,12 +56,12 @@ export default function RecomendCard({
         style={{
           backgroundColor: '#EDE5D6',
           width: 120,
-          height: 190,
+          height: 200,
           border: inCart ? '2px solid #D5715D' : '2px solid transparent',
         }}
         onClick={inCart ? undefined : handleAdd}>
-        <div className="flex items-center justify-center" style={{ width: 100, height: 100 }}>
-          <Image src={image} alt={name} width={80} height={80} />
+        <div className="flex items-center justify-center p-2 overflow-hidden" style={{ width: 110, height: 110 }}>
+          <Image src={image} alt={name} width={100} height={100} className="max-w-full max-h-full object-contain" />
         </div>
         <span className="text-xs font-semibold text-center leading-tight line-clamp-2 w-full px-2">
           {name}
@@ -92,21 +92,21 @@ export default function RecomendCard({
 
   return (
     <div
-      className="relative flex flex-col items-center cursor-pointer rounded-3xl pb-3.5 transition-all"
+      className="relative flex flex-col items-center cursor-pointer rounded-3xl pb-3.5 transition-all h-full"
       style={{
         backgroundColor: '#EDE5D6',
         border: inCart ? '2px solid #D5715D' : '2px solid transparent',
       }}
       onClick={inCart ? undefined : handleAdd}>
-      <div className="w-full flex items-center justify-center mb-2 p-2 md:p-4 max-w-[140px] max-h-[140px] mx-auto">
-        <Image src={image} alt={name} width={110} height={110} className="w-full h-auto" />
+      <div className="w-full aspect-square flex items-center justify-center p-3 md:p-4 overflow-hidden">
+        <Image src={image} alt={name} width={200} height={200} className="max-w-full max-h-full object-contain" />
       </div>
-      <span className="text-xs md:text-sm font-semibold text-center px-2">{name}</span>
+      <span className="text-xs md:text-sm font-semibold text-center px-2 line-clamp-2">{name}</span>
       <span className="text-[10px] md:text-xs mt-1 md:mt-2" style={{ color: '#7A7A7A' }}>
         {pieces}
       </span>
       {inCart ? (
-        <div className="flex items-center gap-2 md:gap-3 mt-4 md:mt-9">
+        <div className="flex items-center gap-2 md:gap-3 mt-auto pt-3">
           <button
             className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
             onClick={handleMinus}>
@@ -122,7 +122,7 @@ export default function RecomendCard({
           </button>
         </div>
       ) : (
-        <span className="text-sm md:text-base font-bold mt-4 md:mt-9">{price}</span>
+        <span className="text-sm md:text-base font-bold mt-auto pt-3">{price}</span>
       )}
     </div>
   );
