@@ -131,7 +131,7 @@ export default function Hero() {
             alt="Суши"
             width={215}
             height={215}
-            className="absolute right-[35%] sm:right-[40%] top-0 w-[90px] sm:w-[110px] animate-levitate-fast z-2"
+            className="absolute right-[30%] sm:right-[40%] top-0 w-[90px] sm:w-[110px] animate-levitate-fast z-2"
           />
           <Image
             src="/images/sushi2.png"
@@ -146,7 +146,7 @@ export default function Hero() {
             alt="Hero Image"
             width={955}
             height={775}
-            className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[280px] sm:w-[360px] z-0 opacity-30"
+            className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[280px] sm:w-[360px] z-2"
           />
         </div>
       </div>
