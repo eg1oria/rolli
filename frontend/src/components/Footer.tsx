@@ -3,6 +3,7 @@
 import { FaTelegramPlane } from 'react-icons/fa';
 import { SlSocialVkontakte } from 'react-icons/sl';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface FooterProps {
   onCartOpen?: () => void;
@@ -157,14 +158,16 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
                 </a>
               </li>
               <li>
-                <a href="#" className="transition-opacity hover:opacity-60 cursor-pointer">
+                <Link href="/terms" className="transition-opacity hover:opacity-60 cursor-pointer">
                   Пользовательское соглашение
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="transition-opacity hover:opacity-60 cursor-pointer">
+                <Link
+                  href="/privacy"
+                  className="transition-opacity hover:opacity-60 cursor-pointer">
                   Политика конфиденциальности
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
