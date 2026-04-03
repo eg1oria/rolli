@@ -22,7 +22,12 @@ interface DeliveryTabsProps {
   onAddressSelect: (address: string) => void;
 }
 
-export default function DeliveryTabs({ activeTab, onTabChange, address, onAddressSelect }: DeliveryTabsProps) {
+export default function DeliveryTabs({
+  activeTab,
+  onTabChange,
+  address,
+  onAddressSelect,
+}: DeliveryTabsProps) {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [showMap, setShowMap] = useState(false);
   const [showPromotionsModal, setShowPromotionsModal] = useState(false);
@@ -124,7 +129,9 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
                 <span className="text-sm md:text-base font-semibold truncate">
                   Rolli(Дзержинского)
                 </span>
-                <span className="text-xs md:text-sm font-light truncate" style={{ color: '#7A7A7A' }}>
+                <span
+                  className="text-xs md:text-sm font-light truncate"
+                  style={{ color: '#7A7A7A' }}>
                   Проспект Дзержинского 27/2
                 </span>
               </div>
@@ -231,9 +238,15 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
                         />
                         <div className="absolute inset-0 bg-black/25 flex items-center px-5 md:px-8">
                           <div className="text-white max-w-[85%]">
-                            <p className="text-xl md:text-4xl font-semibold uppercase leading-tight">{promo.title}</p>
+                            <p className="text-xl md:text-4xl font-semibold uppercase leading-tight">
+                              {promo.title}
+                            </p>
                           </div>
-                          <HiOutlineChevronRight size={38} color="#fff" className="ml-auto shrink-0" />
+                          <HiOutlineChevronRight
+                            size={38}
+                            color="#fff"
+                            className="ml-auto shrink-0"
+                          />
                         </div>
                       </button>
                     ))
@@ -251,8 +264,14 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
                           className="w-full h-[96px] md:h-[118px] object-cover"
                         />
                         <div className="absolute inset-0 bg-black/20 flex items-center px-5 md:px-8">
-                          <p className="text-white text-lg md:text-2xl font-semibold">Специальное предложение</p>
-                          <HiOutlineChevronRight size={38} color="#fff" className="ml-auto shrink-0" />
+                          <p className="text-white text-lg md:text-2xl font-semibold">
+                            Специальное предложение
+                          </p>
+                          <HiOutlineChevronRight
+                            size={38}
+                            color="#fff"
+                            className="ml-auto shrink-0"
+                          />
                         </div>
                       </button>
                     ))}
