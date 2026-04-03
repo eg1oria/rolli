@@ -46,9 +46,7 @@ export default function Home() {
         />
         <div className="relative">
           <Recomend />
-          <div id="catalog">
-            <Catalog />
-          </div>
+          <Catalog />
           <CategorySections />
           <button
             className="sticky bottom-6 md:bottom-[50%] float-right mr-4 md:mr-8 lg:mr-12 xl:mr-20 z-50 rounded-full text-white p-3 md:p-4 shadow-lg cursor-pointer transition-transform hover:scale-110 hover:shadow-xl"

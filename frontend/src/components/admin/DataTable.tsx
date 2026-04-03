@@ -84,7 +84,7 @@ export default function DataTable<T extends Record<string, unknown>>({
             ) : (
               data.map((row, i) => (
                 <tr
-                  key={i}
+                  key={(row as Record<string, unknown>).id != null ? String((row as Record<string, unknown>).id) : i}
                   onClick={() => onRowClick?.(row)}
                   className={`transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
                   style={{ borderBottom: '1px solid #F3F4F6' }}

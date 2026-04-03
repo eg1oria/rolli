@@ -26,6 +26,13 @@ export default function AddressMapModal({
   const [address, setAddress] = useState(initialAddress || '');
   const [position, setPosition] = useState<[number, number]>(ORENBURG_CENTER);
   const [mapReady, setMapReady] = useState(false);
+
+  // Sync address when modal reopens with a different initialAddress
+  useEffect(() => {
+    if (open) {
+      setAddress(initialAddress || '');
+    }
+  }, [open, initialAddress]);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
@@ -137,7 +144,8 @@ export default function AddressMapModal({
   // Invalidate size when opened
   useEffect(() => {
     if (open && mapRef.current) {
-      setTimeout(() => mapRef.current?.invalidateSize(), 200);
+      const timer = setTimeout(() => mapRef.current?.invalidateSize(), 200);
+      return () => clearTimeout(timer);
     }
   }, [open]);
 

@@ -33,7 +33,7 @@ async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> 
 
   if (res.status === 401) {
     removeToken();
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {
       window.location.href = '/admin/login';
     }
     throw new ApiError(401, 'Не авторизован');

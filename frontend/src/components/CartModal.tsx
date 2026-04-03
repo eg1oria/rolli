@@ -83,13 +83,17 @@ export default function CartModal({
   };
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    }
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) onClose();
     };
     document.addEventListener('keydown', handleEsc);
     return () => {
-      document.body.style.overflow = '';
+      if (open) {
+        document.body.style.overflow = '';
+      }
       document.removeEventListener('keydown', handleEsc);
     };
   }, [open, onClose]);
@@ -181,9 +185,8 @@ export default function CartModal({
       setShowComment(false);
       setShowOrderForm(false);
       setOrderSuccess(true);
-    } catch (error) {
+    } catch {
       alert('Ошибка при оформлении заказа');
-      console.error(error);
     } finally {
       setOrdering(false);
     }
