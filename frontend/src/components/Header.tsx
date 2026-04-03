@@ -15,7 +15,7 @@ export default function Header({
   menuOpen?: boolean;
 }) {
   return (
-    <header className="px-4 md:px-8 lg:px-16 xl:px-39 fixed top-0 left-0 right-0 z-[300] flex items-center justify-between bg-white/80 backdrop-blur-md">
+    <header className="px-4 md:px-8 lg:px-16 xl:px-39 fixed top-0 left-0 right-0 z-[300] flex items-center justify-between bg-transparent backdrop-blur-md">
       <div className="max-w-7xl flex items-center">
         <h1
           className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold text-gray-900 mr-6 md:mr-10 lg:mr-16 xl:mr-23"
