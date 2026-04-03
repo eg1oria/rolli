@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { CiClock2 } from 'react-icons/ci';
 
-export default function Hero() {
+export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
   return (
     <section className="bg-white">
       <div
@@ -73,13 +73,12 @@ export default function Hero() {
         {/* Text content */}
         <div className="max-w-7xl flex flex-col items-start space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-18 xl:space-y-24 z-10">
           <h1
-            className="mb-1 md:mb-4.5 text-[22px] sm:text-2xl md:text-4xl lg:text-5xl xl:text-[64px]"
+            className="mb-1 md:mb-4.5 text-[22px] sm:text-2xl md:text-4xl lg:text-5xl xl:text-[64px] lg:max-w-[60%]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 600,
               lineHeight: '135.1%',
               letterSpacing: '0.03em',
-              maxWidth: 971,
             }}>
             Доставка роллов от Rolli, которые хочется заказывать снова
           </h1>
@@ -103,17 +102,19 @@ export default function Hero() {
                 background: 'linear-gradient(90deg, #D46D5A 0%, #DA896C 50%, #DBA780 100%)',
                 border: '2px solid #DA896C',
                 boxShadow: '0px 0px 36px 0px rgba(212, 112, 92, 0.2)',
-              }}>
+              }}
+              onClick={onOrderClick}>
               Заказать сейчас
             </button>
-            <button
-              className="text-black font-bold text-base md:text-lg lg:text-xl cursor-pointer p-3 md:p-4 lg:p-5 transition-colors hover:bg-gray-100 w-full sm:w-auto xl:min-w-[300px]"
+            <a
+              href="#catalog"
+              className="text-black font-bold text-base md:text-lg lg:text-xl cursor-pointer p-3 md:p-4 lg:p-5 transition-colors hover:bg-gray-100 w-full sm:w-auto xl:min-w-[300px] text-center"
               style={{
                 borderRadius: 67,
                 border: '2px solid #DA896C',
               }}>
               Смотреть меню
-            </button>
+            </a>
           </div>
         </div>
 

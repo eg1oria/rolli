@@ -49,6 +49,7 @@ export default function Catalog() {
 
   return (
     <div
+      id="catalog"
       className="px-4 md:px-8 lg:px-16 xl:px-75 py-8 md:py-10 lg:py-14"
       style={{ fontFamily: 'Montserrat, sans-serif' }}>
       <div className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2">

@@ -34,7 +34,7 @@ export default function Home() {
           onMenuToggle={() => setMenuOpen(!menuOpen)}
           menuOpen={menuOpen}
         />
-        <Hero />
+        <Hero onOrderClick={() => setOpen(true)} />
 
         <DeliveryTabs
           activeTab={deliveryTab}
