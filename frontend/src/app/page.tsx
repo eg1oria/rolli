@@ -2,12 +2,13 @@
 
 import CartModal from '@/components/CartModal';
 import Catalog from '@/components/Catalog';
+import CategorySections from '@/components/CategorySections';
 import DeliveryTabs from '@/components/DeliveryTabs';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import MenuModal from '@/components/MenuModal';
 import Recomend from '@/components/Recomend';
-import CategorySections from '@/components/CategorySections';
 import { useState } from 'react';
 import { CiShoppingCart } from 'react-icons/ci';
 import { useCart } from '@/lib/cart';
@@ -15,7 +16,14 @@ import { useCart } from '@/lib/cart';
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [deliveryTab, setDeliveryTab] = useState<'delivery' | 'pickup'>('pickup');
+  const [address, setAddress] = useState('');
   const { count } = useCart();
+
+  const handleAddressSelect = (addr: string) => {
+    setAddress(addr);
+    setOpen(true);
+  };
 
   return (
     <div className="flex">
@@ -28,7 +36,12 @@ export default function Home() {
         />
         <Hero />
 
-        <DeliveryTabs />
+        <DeliveryTabs
+          activeTab={deliveryTab}
+          onTabChange={setDeliveryTab}
+          address={address}
+          onAddressSelect={handleAddressSelect}
+        />
         <div className="relative">
           <Recomend />
           <Catalog />
@@ -45,8 +58,16 @@ export default function Home() {
             )}
           </button>
         </div>
+        <Footer />
       </div>
-      <CartModal open={open} onClose={() => setOpen(false)} />
+      <CartModal
+        open={open}
+        onClose={() => setOpen(false)}
+        deliveryTab={deliveryTab}
+        onDeliveryTabChange={setDeliveryTab}
+        address={address}
+        onAddressChange={setAddress}
+      />
       <MenuModal
         open={menuOpen}
         onClose={() => setMenuOpen(false)}

@@ -34,8 +34,23 @@ function pluralize(n: number, one: string, few: string, many: string): string {
   return many;
 }
 
-export default function CartModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const [tab, setTab] = useState<'delivery' | 'pickup'>('pickup');
+interface CartModalProps {
+  open: boolean;
+  onClose: () => void;
+  deliveryTab: 'delivery' | 'pickup';
+  onDeliveryTabChange: (tab: 'delivery' | 'pickup') => void;
+  address: string;
+  onAddressChange: (address: string) => void;
+}
+
+export default function CartModal({
+  open,
+  onClose,
+  deliveryTab,
+  onDeliveryTabChange,
+  address,
+  onAddressChange,
+}: CartModalProps) {
   const [swiperInst, setSwiperInst] = useState<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -46,7 +61,6 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [address, setAddress] = useState('');
   const [showMapModal, setShowMapModal] = useState(false);
   const [availableSauces, setAvailableSauces] = useState<Sauce[]>([]);
   const [selectedSauces, setSelectedSauces] = useState<Set<string>>(new Set());
@@ -133,19 +147,24 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       return;
     }
 
-    if (tab === 'delivery' && !address.trim()) {
+    if (deliveryTab === 'delivery' && !address.trim()) {
       alert('Пожалуйста, укажите адрес доставки');
       return;
     }
 
     setOrdering(true);
     try {
+      const giftEarned = giftPromo && giftRemaining <= 0;
+      const orderComment = giftEarned
+        ? [comment.trim(), `🎁 Подарок: ${giftPromo.giftDescription}`].filter(Boolean).join('\n')
+        : comment.trim();
+
       await apiPost('/orders', {
-        type: tab === 'delivery' ? 'DELIVERY' : 'PICKUP',
+        type: deliveryTab === 'delivery' ? 'DELIVERY' : 'PICKUP',
         customerName: customerName.trim(),
         customerPhone: customerPhone.trim(),
-        address: tab === 'delivery' ? address.trim() : null,
-        comment: comment.trim(),
+        address: deliveryTab === 'delivery' ? address.trim() : null,
+        comment: orderComment,
         sauces: Array.from(selectedSauces).join(', '),
         items: items.map((i) => ({
           productId: i.product.id,
@@ -155,7 +174,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       clearCart();
       setCustomerName('');
       setCustomerPhone('');
-      setAddress('');
+      onAddressChange('');
       setComment('');
       setSelectedSauces(new Set());
       setShowSauces(false);
@@ -218,22 +237,22 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
             <div className="flex flex-col gap-3 bg-black/10 rounded-3xl md:rounded-4xl p-3 md:p-4 pb-4 md:pb-6 mb-4 md:mb-6">
               <div className="flex bg-black/10 rounded-full">
                 <button
-                  onClick={() => setTab('delivery')}
+                  onClick={() => onDeliveryTabChange('delivery')}
                   className={`flex-1 p-2.5 md:p-3 rounded-full text-sm md:text-base font-semibold transition-colors cursor-pointer ${
-                    tab === 'delivery' ? 'bg-white text-black shadow-sm' : 'text-black/60'
+                    deliveryTab === 'delivery' ? 'bg-white text-black shadow-sm' : 'text-black/60'
                   } hover:shadow-sm`}>
                   Доставка
                 </button>
                 <button
-                  onClick={() => setTab('pickup')}
+                  onClick={() => onDeliveryTabChange('pickup')}
                   className={`flex-1 p-2.5 md:p-3 rounded-full text-sm md:text-base font-semibold transition-colors cursor-pointer ${
-                    tab === 'pickup' ? 'bg-white text-black shadow-sm' : 'text-black/60'
+                    deliveryTab === 'pickup' ? 'bg-white text-black shadow-sm' : 'text-black/60'
                   } hover:shadow-sm`}>
                   Самовывоз
                 </button>
               </div>
 
-              {tab === 'delivery' ? (
+              {deliveryTab === 'delivery' ? (
                 <button
                   className="flex items-center gap-3 mt-1 min-h-[44px]"
                   onClick={() => setShowMapModal(true)}>
@@ -322,6 +341,31 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                 </div>
               </div>
             ))}
+
+            {giftPromo && giftRemaining <= 0 && (
+              <div
+                className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4 rounded-2xl p-2 md:p-3"
+                style={{ backgroundColor: '#D5715D10', border: '1px dashed #D5715D' }}>
+                <div
+                  className="rounded-2xl w-16 h-16 md:w-[90px] md:h-[90px] shrink-0 flex items-center justify-center"
+                  style={{ backgroundColor: '#D5715D20' }}>
+                  <GiPresent className="w-8 h-8 md:w-10 md:h-10" style={{ color: '#D5715D' }} />
+                </div>
+                <div className="flex flex-col items-start gap-0.5 md:gap-1 min-w-0 flex-1">
+                  <h3 className="text-sm md:text-lg font-semibold text-black/60 truncate w-full">
+                    {giftPromo.giftDescription}
+                  </h3>
+                  <p className="text-sm md:text-base font-bold" style={{ color: '#D5715D' }}>
+                    Бесплатно
+                  </p>
+                </div>
+                <span
+                  className="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+                  style={{ backgroundColor: '#D5715D', color: '#fff' }}>
+                  Подарок
+                </span>
+              </div>
+            )}
 
             {giftPromo && (
               <div
@@ -553,13 +597,13 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                   />
                 </div>
 
-                {tab === 'delivery' && (
+                {deliveryTab === 'delivery' && (
                   <div>
                     <label className="block text-sm font-medium mb-1">Адрес доставки *</label>
                     <input
                       type="text"
                       value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={(e) => onAddressChange(e.target.value)}
                       placeholder="ул. Ленина 15, кв. 42"
                       className="w-full px-4 py-2.5 md:py-2 rounded-lg border border-gray-300 outline-none text-base"
                     />
@@ -597,7 +641,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
       <AddressMapModal
         open={showMapModal}
         onClose={() => setShowMapModal(false)}
-        onSelect={(addr) => setAddress(addr)}
+        onSelect={(addr) => onAddressChange(addr)}
         initialAddress={address}
       />
     </>

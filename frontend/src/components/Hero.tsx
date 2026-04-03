@@ -34,13 +34,13 @@ export default function Hero() {
           }}
         />
 
-        {/* Big hero plate — desktop only */}
+        {/* Big hero plate — md and up */}
         <Image
           src="/images/hero1.png"
           alt="Hero Image"
           width={955}
           height={775}
-          className="absolute right-0 z-1 hidden lg:block"
+          className="absolute right-0 z-1 hidden md:block w-[500px] lg:w-[700px] xl:w-[955px]"
           style={{ bottom: '-22px' }}
         />
 
