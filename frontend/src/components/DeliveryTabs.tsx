@@ -58,7 +58,9 @@ export default function DeliveryTabs() {
               Самовывоз
             </span>
             <div className="flex flex-col sm:flex-row sm:items-baseline gap-0 sm:gap-2">
-              <span className="text-sm md:text-base font-semibold truncate">Rolli(Дзержинского)</span>
+              <span className="text-sm md:text-base font-semibold truncate">
+                Rolli(Дзержинского)
+              </span>
               <span className="text-xs md:text-sm font-light truncate" style={{ color: '#7A7A7A' }}>
                 Проспект Дзержинского 27/2
               </span>
@@ -73,7 +75,9 @@ export default function DeliveryTabs() {
         style={{ backgroundColor: '#F0E1D5' }}>
         <BsDatabaseFill className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 shrink-0" />
         <div className="flex flex-col leading-tight min-w-0">
-          <span className="text-base md:text-lg lg:text-xl font-bold">Акции и специальные предложения</span>
+          <span className="text-base md:text-lg lg:text-xl font-bold">
+            Акции и специальные предложения
+          </span>
           <span className="text-xs md:text-sm font-light" style={{ color: '#7A7A7A' }}>
             Каждый день новые выгодные позиции и наборы
           </span>
@@ -84,7 +88,9 @@ export default function DeliveryTabs() {
       <div className="flex gap-3 md:gap-4 lg:gap-6 mt-1.5 overflow-x-auto pb-2">
         {promotions.length > 0
           ? promotions.map((promo) => (
-              <div key={promo.id} className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:flex-1 md:w-auto md:min-w-0">
+              <div
+                key={promo.id}
+                className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:flex-1 md:w-auto md:min-w-0">
                 <Image
                   src={getImageUrl(promo.imageUrl)}
                   alt={promo.title}
@@ -95,7 +101,9 @@ export default function DeliveryTabs() {
               </div>
             ))
           : [1, 2, 3, 4].map((n) => (
-              <div key={n} className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:flex-1 md:w-auto md:min-w-0">
+              <div
+                key={n}
+                className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:flex-1 md:w-auto md:min-w-0">
                 <Image
                   src={`/images/sale-card${n}.png`}
                   alt={`Sale Card ${n}`}

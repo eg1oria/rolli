@@ -58,8 +58,10 @@ export default function CategorySections() {
   return (
     <>
       {sections.map(({ category, products }) => (
-        <div key={category.id} className="px-4 md:px-8 lg:px-16 xl:px-75 py-3">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4 md:mb-6 lg:mb-9" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <div key={category.id} id={`category-${category.id}`} className="px-4 md:px-8 lg:px-16 xl:px-75 py-3">
+          <h2
+            className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4 md:mb-6 lg:mb-9"
+            style={{ fontFamily: 'Montserrat, sans-serif' }}>
             {category.name}
           </h2>
           <div
@@ -77,9 +79,13 @@ export default function CategorySections() {
                   />
                 </div>
 
-                <h3 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-4 leading-[100%]">{product.name}</h3>
+                <h3 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-4 leading-[100%]">
+                  {product.name}
+                </h3>
                 <p className="text-xs md:text-sm text-gray-600">{product.pieces}</p>
-                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">{product.description}</p>
+                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">
+                  {product.description}
+                </p>
                 <AddToCartButton product={product} />
               </div>
             ))}

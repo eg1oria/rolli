@@ -48,7 +48,9 @@ export default function Catalog() {
   };
 
   return (
-    <div className="px-4 md:px-8 lg:px-16 xl:px-75 py-8 md:py-10 lg:py-14" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+    <div
+      className="px-4 md:px-8 lg:px-16 xl:px-75 py-8 md:py-10 lg:py-14"
+      style={{ fontFamily: 'Montserrat, sans-serif' }}>
       <div className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2">
         {categories.map((cat) => (
           <button
@@ -91,9 +93,13 @@ export default function Catalog() {
                   />
                 </div>
 
-                <h3 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-4 leading-[100%]">{product.name}</h3>
+                <h3 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-4 leading-[100%]">
+                  {product.name}
+                </h3>
                 <p className="text-xs md:text-sm text-gray-600">{product.pieces}</p>
-                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">{product.description}</p>
+                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">
+                  {product.description}
+                </p>
                 <AddToCartButton product={product} />
               </div>
             ))}

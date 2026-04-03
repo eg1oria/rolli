@@ -34,15 +34,24 @@ export default function Header({
           className="hidden sm:block text-sm md:text-base lg:text-lg xl:text-xl"
           style={{
             letterSpacing: '0.05em',
+            fontFamily: 'Montserrat, sans-serif',
           }}>
           +7 912 343 44-12
         </a>
 
         <div className="flex space-x-4 md:space-x-6 lg:space-x-9">
-          <button onClick={onMenuToggle} className="cursor-pointer transition-opacity hover:opacity-60 min-w-[44px] min-h-[44px] flex items-center justify-center">
-            {menuOpen ? <IoMdClose className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" /> : <RxHamburgerMenu className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />}
+          <button
+            onClick={onMenuToggle}
+            className="cursor-pointer transition-opacity hover:opacity-60 min-w-[44px] min-h-[44px] flex items-center justify-center">
+            {menuOpen ? (
+              <IoMdClose className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+            ) : (
+              <RxHamburgerMenu className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+            )}
           </button>
-          <button onClick={onCartOpen} className="cursor-pointer transition-opacity hover:opacity-60 min-w-[44px] min-h-[44px] flex items-center justify-center">
+          <button
+            onClick={onCartOpen}
+            className="cursor-pointer transition-opacity hover:opacity-60 min-w-[44px] min-h-[44px] flex items-center justify-center">
             <CiShoppingCart className="w-7 h-7 md:w-8 md:h-8 lg:w-[34px] lg:h-[34px]" />
           </button>
         </div>

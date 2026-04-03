@@ -98,8 +98,7 @@ export default function RecomendCard({
         border: inCart ? '2px solid #D5715D' : '2px solid transparent',
       }}
       onClick={inCart ? undefined : handleAdd}>
-      <div
-        className="w-full flex items-center justify-center mb-2 p-2 md:p-4 max-w-[140px] max-h-[140px] mx-auto">
+      <div className="w-full flex items-center justify-center mb-2 p-2 md:p-4 max-w-[140px] max-h-[140px] mx-auto">
         <Image src={image} alt={name} width={110} height={110} className="w-full h-auto" />
       </div>
       <span className="text-xs md:text-sm font-semibold text-center px-2">{name}</span>
@@ -113,7 +112,9 @@ export default function RecomendCard({
             onClick={handleMinus}>
             <HiMinus size={14} />
           </button>
-          <span className="text-sm md:text-base font-bold min-w-[20px] text-center">{quantity}</span>
+          <span className="text-sm md:text-base font-bold min-w-[20px] text-center">
+            {quantity}
+          </span>
           <button
             className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
             onClick={handlePlus}>

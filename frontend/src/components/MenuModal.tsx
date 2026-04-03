@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { HiOutlineChevronRight, HiMapPin } from 'react-icons/hi2';
 import { FaTelegramPlane, FaVk } from 'react-icons/fa';
 import { RiFileList3Line } from 'react-icons/ri';
-
-const menuItems = ['Каталог', 'Сеты', 'Роллы', 'Запечённые', 'Напитки', 'Соусы'];
+import { apiGet } from '@/lib/api';
+import type { Category } from '@/types';
 
 export default function MenuModal({
   open,
@@ -17,6 +17,14 @@ export default function MenuModal({
   onClose: () => void;
   onCartOpen?: () => void;
 }) {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    apiGet<Category[]>('/categories')
+      .then(setCategories)
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     const handleEsc = (e: KeyboardEvent) => {
@@ -28,6 +36,16 @@ export default function MenuModal({
       document.removeEventListener('keydown', handleEsc);
     };
   }, [open, onClose]);
+
+  const handleCategoryClick = (categoryId: number) => {
+    onClose();
+    setTimeout(() => {
+      const el = document.getElementById(`category-${categoryId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 350);
+  };
 
   return (
     <>
@@ -41,15 +59,12 @@ export default function MenuModal({
 
       {/* Card */}
       <div
-        className={`fixed inset-y-2 left-2 right-12 sm:right-auto sm:w-[400px] md:w-[460px] z-[400] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${
-          open
-            ? 'translate-x-0 opacity-100'
-            : '-translate-x-[120%] opacity-0 pointer-events-none'
+        className={`fixed inset-y-2  right-[20%] sm:right-auto sm:w-[400px] md:w-[460px] z-[400] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${
+          open ? 'translate-x-0 opacity-100' : '-translate-x-[120%] opacity-0 pointer-events-none'
         }`}>
         <div
           className="h-full overflow-y-auto flex flex-col py-6 md:py-8"
           style={{ fontFamily: 'Montserrat, sans-serif' }}>
-
           {/* Header */}
           <div className="flex items-center justify-between px-6 md:px-8 mb-2 md:mb-4">
             <h2 className="text-2xl md:text-3xl font-bold">Меню</h2>
@@ -60,14 +75,14 @@ export default function MenuModal({
             </button>
           </div>
 
-          {/* Nav */}
+          {/* Nav — dynamic categories from API */}
           <nav className="flex flex-col px-6 md:px-8 mb-6 md:mb-8">
-            {menuItems.map((item) => (
+            {categories.map((cat) => (
               <a
-                key={item}
+                key={cat.id}
                 className="text-lg md:text-xl lg:text-2xl font-semibold py-2.5 md:py-3 cursor-pointer hover:opacity-60 transition-opacity min-h-[44px] flex items-center"
-                onClick={onClose}>
-                {item}
+                onClick={() => handleCategoryClick(cat.id)}>
+                {cat.name}
               </a>
             ))}
           </nav>
@@ -82,7 +97,7 @@ export default function MenuModal({
               style={{ backgroundColor: '#F5F0E8' }}>
               <HiMapPin className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
               <div className="min-w-0">
-                <p className="text-sm md:text-base font-bold leading-tight">Rolli(Дзержинского)</p>
+                <p className="text-sm md:text-base font-bold leading-tight">Rolli</p>
                 <p className="text-xs md:text-sm text-black/50 leading-tight">
                   Проспект Дзержинского 27/2
                 </p>
@@ -114,7 +129,9 @@ export default function MenuModal({
               <FaVk className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
               <div className="min-w-0">
                 <p className="text-[11px] md:text-xs font-semibold leading-tight">Мы в VK</p>
-                <p className="text-[9px] md:text-[10px] opacity-70 leading-tight">Больше о нас там</p>
+                <p className="text-[9px] md:text-[10px] opacity-70 leading-tight">
+                  Больше о нас там
+                </p>
               </div>
             </a>
           </div>

@@ -41,7 +41,9 @@ export default function AddToCartButton({ product }: Props) {
         }}>
         <HiMinus size={15} />
       </button>
-      <span className="text-base md:text-lg font-medium min-w-[24px] text-center text-white">{quantity}</span>
+      <span className="text-base md:text-lg font-medium min-w-[24px] text-center text-white">
+        {quantity}
+      </span>
       <button
         className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-white"
         onClick={() => updateQuantity(product.id, quantity + 1)}>

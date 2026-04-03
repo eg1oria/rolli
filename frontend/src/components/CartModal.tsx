@@ -106,7 +106,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
   };
 
   const giftProgress = giftPromo ? Math.min(total / giftPromo.thresholdAmount, 1) : 0;
-  const giftRemaining = giftPromo ? Math.max(giftPromo.thresholdAmount - total, 0) : 0;
+  const giftRemaining = giftPromo ? Math.round(Math.max(giftPromo.thresholdAmount - total, 0)) : 0;
 
   const toggleSauce = (name: string) => {
     setSelectedSauces((prev) => {

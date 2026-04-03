@@ -17,7 +17,12 @@ const ORENBURG_BOUNDS: [[number, number], [number, number]] = [
   [51.88, 55.25],
 ];
 
-export default function AddressMapModal({ open, onClose, onSelect, initialAddress }: AddressMapModalProps) {
+export default function AddressMapModal({
+  open,
+  onClose,
+  onSelect,
+  initialAddress,
+}: AddressMapModalProps) {
   const [address, setAddress] = useState(initialAddress || '');
   const [position, setPosition] = useState<[number, number]>(ORENBURG_CENTER);
   const [mapReady, setMapReady] = useState(false);
@@ -29,7 +34,7 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
   const reverseGeocode = useCallback(async (lat: number, lng: number) => {
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=ru`
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=ru`,
       );
       const data = await res.json();
       if (data.display_name) {
@@ -39,7 +44,7 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
             !p.includes('Оренбургская область') &&
             !p.includes('Приволжский') &&
             !p.includes('Россия') &&
-            !p.includes('Russia')
+            !p.includes('Russia'),
         );
         return filtered.join(', ');
       }
@@ -163,10 +168,7 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
 
         {/* Map */}
         <div className="relative w-full h-[250px] md:h-[400px] lg:h-[500px]">
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          />
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
           <div ref={mapContainerRef} className="w-full h-full" />
           {!mapReady && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/10">
@@ -177,11 +179,15 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
 
         {/* Address display & confirm */}
         <div className="px-4 md:px-6 py-3 md:py-4 flex flex-col gap-2 md:gap-3">
-          <div className="flex items-start gap-3 p-3 rounded-2xl" style={{ backgroundColor: '#EDE5D6' }}>
+          <div
+            className="flex items-start gap-3 p-3 rounded-2xl"
+            style={{ backgroundColor: '#EDE5D6' }}>
             <HiMapPin size={22} className="text-red-500 shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
               <p className="text-xs text-black/50 mb-0.5">Выбранный адрес</p>
-              <p className="text-sm font-medium truncate">{address || 'Нажмите на карту для выбора адреса'}</p>
+              <p className="text-sm font-medium truncate">
+                {address || 'Нажмите на карту для выбора адреса'}
+              </p>
             </div>
           </div>
 
