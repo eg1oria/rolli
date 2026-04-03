@@ -47,7 +47,7 @@ export default function Home() {
         </div>
       </div>
       <CartModal open={open} onClose={() => setOpen(false)} />
-      <MenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MenuModal open={menuOpen} onClose={() => setMenuOpen(false)} onCartOpen={() => setOpen(true)} />
     </div>
   );
 }
