@@ -40,12 +40,7 @@ export default function AdminSidebar({
   return (
     <>
       {/* Mobile backdrop */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
-          onClick={onClose}
-        />
-      )}
+      {mobileOpen && <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={onClose} />}
 
       <aside
         className={`fixed left-0 top-0 h-full w-60 flex flex-col z-50 transition-transform duration-300 lg:translate-x-0 ${

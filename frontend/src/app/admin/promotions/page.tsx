@@ -150,7 +150,9 @@ export default function AdminPromotionsPage() {
                         style={{ objectFit: 'cover' }}
                       />
                     </td>
-                    <td className="px-3 md:px-6 py-3 md:py-4 text-sm font-medium" style={{ color: '#2D2D2D' }}>
+                    <td
+                      className="px-3 md:px-6 py-3 md:py-4 text-sm font-medium"
+                      style={{ color: '#2D2D2D' }}>
                       {promo.title || '—'}
                     </td>
                     <td className="px-3 md:px-6 py-3 md:py-4 text-sm">

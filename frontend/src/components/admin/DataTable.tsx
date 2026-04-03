@@ -91,7 +91,10 @@ export default function DataTable<T extends Record<string, unknown>>({
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F0E1D5')}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}>
                   {columns.map((col) => (
-                    <td key={col.key} className="px-3 md:px-6 py-3 md:py-4 text-sm" style={{ color: '#2D2D2D' }}>
+                    <td
+                      key={col.key}
+                      className="px-3 md:px-6 py-3 md:py-4 text-sm"
+                      style={{ color: '#2D2D2D' }}>
                       {col.render ? col.render(row) : String(row[col.key] ?? '')}
                     </td>
                   ))}

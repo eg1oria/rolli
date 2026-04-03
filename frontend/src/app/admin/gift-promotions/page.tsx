@@ -132,7 +132,9 @@ export default function AdminGiftPromotionsPage() {
                     style={{ borderBottom: '1px solid #F3F4F6' }}
                     onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F0E1D5')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}>
-                    <td className="px-3 md:px-6 py-3 md:py-4 text-sm font-medium" style={{ color: '#2D2D2D' }}>
+                    <td
+                      className="px-3 md:px-6 py-3 md:py-4 text-sm font-medium"
+                      style={{ color: '#2D2D2D' }}>
                       {gp.thresholdAmount / 100} ₽
                     </td>
                     <td className="px-3 md:px-6 py-3 md:py-4 text-sm" style={{ color: '#2D2D2D' }}>
