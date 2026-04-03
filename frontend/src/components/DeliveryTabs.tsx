@@ -14,6 +14,7 @@ import dynamic from 'next/dynamic';
 
 const AddressMapModal = dynamic(() => import('./AddressMapModal'), { ssr: false });
 const VK_PROMOTIONS_URL = 'https://vk.com';
+const FALLBACK_SALE_IMAGES_COUNT = 4;
 
 interface DeliveryTabsProps {
   activeTab: 'delivery' | 'pickup';
@@ -68,6 +69,11 @@ export default function DeliveryTabs({
 
   const openPromotionInVk = () => {
     window.open(VK_PROMOTIONS_URL, '_blank', 'noopener,noreferrer');
+  };
+
+  const getFallbackSaleCardSrc = (index: number) => {
+    const imageIndex = ((index - 1) % FALLBACK_SALE_IMAGES_COUNT) + 1;
+    return `/images/sale-card${imageIndex}.png`;
   };
 
   return (
@@ -234,7 +240,7 @@ export default function DeliveryTabs({
                           alt={promo.title}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[3px] scale-[1.05]"
                         />
                         <div className="absolute inset-0 bg-black/25 flex items-center px-5 md:px-8">
                           <div className="text-white max-w-[85%]">
@@ -257,11 +263,11 @@ export default function DeliveryTabs({
                         onClick={openPromotionInVk}
                         className="relative overflow-hidden rounded-2xl md:rounded-3xl text-left cursor-pointer">
                         <Image
-                          src={`/images/sale-card${n}.png`}
+                          src={getFallbackSaleCardSrc(n)}
                           alt={`Акция ${n}`}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[3px] scale-[1.05]"
                         />
                         <div className="absolute inset-0 bg-black/20 flex items-center px-5 md:px-8">
                           <p className="text-white text-lg md:text-2xl font-semibold">
