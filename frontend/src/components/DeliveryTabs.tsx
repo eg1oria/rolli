@@ -85,31 +85,31 @@ export default function DeliveryTabs() {
         <HiOutlineChevronRight size={20} color="#7A7A7A" className="ml-auto shrink-0" />
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 lg:gap-6 mt-1.5">
+      <div className="flex gap-3 md:gap-4 lg:gap-6 mt-1.5 overflow-x-auto pb-2">
         {promotions.length > 0
           ? promotions.map((promo) => (
               <div
                 key={promo.id}
-                className="cursor-pointer max-w-[320px]">
+                className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
                 <Image
                   src={getImageUrl(promo.imageUrl)}
                   alt={promo.title}
                   width={320}
                   height={500}
-                  className="w-full h-auto rounded-xl"
+                  className="w-full h-auto"
                 />
               </div>
             ))
           : [1, 2, 3, 4].map((n) => (
               <div
                 key={n}
-                className="cursor-pointer max-w-[320px]">
+                className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
                 <Image
                   src={`/images/sale-card${n}.png`}
                   alt={`Sale Card ${n}`}
                   width={320}
                   height={500}
-                  className="w-full h-auto rounded-xl"
+                  className="w-full h-auto"
                 />
               </div>
             ))}

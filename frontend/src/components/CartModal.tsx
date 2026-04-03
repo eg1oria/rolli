@@ -446,7 +446,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                           onClick={() => toggleSauce(sauce.name)}
                           className="px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-colors cursor-pointer min-h-[36px]"
                           style={{
-                            backgroundColor: isSelected ? '#D5715D' : '#f5d2cb',
+                            backgroundColor: isSelected ? '#D5715D' : '#f5d2cb00',
                             color: isSelected ? '#fff' : '#2D2D2D',
                             border: '1px solid #D5715D',
                           }}>
@@ -461,7 +461,10 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
               <div>
                 <div
                   className="flex items-center gap-3 md:gap-4 rounded-full p-3 md:p-4 pl-4 md:pl-6 cursor-pointer"
-                  style={{ backgroundColor: '#EDE5D6' }}
+                  style={{
+                    backgroundColor: '#EDE5D6',
+                    border: comment.length > 0 ? '1px solid #D5715D' : '1px solid #d5715d77',
+                  }}
                   onClick={() => setShowComment(!showComment)}>
                   <BsChat className="w-7 h-7 md:w-[34px] md:h-[34px] shrink-0" />
                   <div className="ml-1 md:ml-3 min-w-0">
