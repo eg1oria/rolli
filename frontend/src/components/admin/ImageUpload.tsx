@@ -11,7 +11,7 @@ interface ImageUploadProps {
   type?: string;
 }
 
-const API_HOST = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:3001';
+const API_HOST = process.env.NEXT_PUBLIC_API_URL === '/api' ? '' : 'http://localhost:3002';
 
 export default function ImageUpload({
   currentImage,
