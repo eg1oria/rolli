@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi2';
 import { BsDatabaseFill } from 'react-icons/bs';
 import { IoBag } from 'react-icons/io5';
+import { IoMdClose } from 'react-icons/io';
 import { TbTruckDelivery } from 'react-icons/tb';
 import Image from 'next/image';
 import { apiGet } from '@/lib/api';
@@ -12,6 +13,7 @@ import type { Promotion } from '@/types';
 import dynamic from 'next/dynamic';
 
 const AddressMapModal = dynamic(() => import('./AddressMapModal'), { ssr: false });
+const VK_PROMOTIONS_URL = 'https://vk.com';
 
 interface DeliveryTabsProps {
   activeTab: 'delivery' | 'pickup';
@@ -23,6 +25,7 @@ interface DeliveryTabsProps {
 export default function DeliveryTabs({ activeTab, onTabChange, address, onAddressSelect }: DeliveryTabsProps) {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [showMap, setShowMap] = useState(false);
+  const [showPromotionsModal, setShowPromotionsModal] = useState(false);
 
   useEffect(() => {
     apiGet<Promotion[]>('/promotions')
@@ -32,6 +35,22 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = showPromotionsModal ? 'hidden' : '';
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showPromotionsModal) {
+        setShowPromotionsModal(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [showPromotionsModal]);
+
   const handleDeliveryClick = () => {
     onTabChange('delivery');
     setShowMap(true);
@@ -40,6 +59,10 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
   const handleAddressSelect = (addr: string) => {
     onAddressSelect(addr);
     setShowMap(false);
+  };
+
+  const openPromotionInVk = () => {
+    window.open(VK_PROMOTIONS_URL, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -111,11 +134,13 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
         )}
       </div>
 
-      <div
+      <button
+        type="button"
+        onClick={() => setShowPromotionsModal(true)}
         className="flex items-center gap-3 md:gap-4 rounded-2xl md:rounded-3xl pl-4 md:pl-6 lg:pl-10 pr-4 md:pr-6 py-4 md:py-6 cursor-pointer"
         style={{ backgroundColor: '#F0E1D5' }}>
         <BsDatabaseFill className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 shrink-0" />
-        <div className="flex flex-col leading-tight min-w-0">
+        <div className="flex flex-col leading-tight min-w-0 text-left">
           <span className="text-base md:text-lg lg:text-xl font-bold">
             Акции и специальные предложения
           </span>
@@ -124,7 +149,7 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
           </span>
         </div>
         <HiOutlineChevronRight size={20} color="#7A7A7A" className="ml-auto shrink-0" />
-      </div>
+      </button>
 
       <div className="flex gap-3 md:gap-4 lg:gap-6 mt-1.5 overflow-x-auto pb-2">
         {promotions.length > 0
@@ -162,6 +187,80 @@ export default function DeliveryTabs({ activeTab, onTabChange, address, onAddres
         onSelect={handleAddressSelect}
         initialAddress={address}
       />
+
+      {showPromotionsModal && (
+        <div className="fixed inset-0 z-[2100] flex items-center justify-center p-2 md:p-4">
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setShowPromotionsModal(false)}
+          />
+          <div
+            className="relative z-10 w-full max-w-4xl rounded-2xl md:rounded-3xl p-4 md:p-6"
+            style={{ backgroundColor: '#ECECEC' }}>
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <h2 className="text-2xl md:text-4xl font-semibold">Акции и спец предложения</h2>
+                <p className="text-xs md:text-base font-semibold" style={{ color: '#606060' }}>
+                  Выгодные предложения для наших покупателей.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowPromotionsModal(false)}
+                className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-black/10 hover:bg-black/20 transition-colors flex items-center justify-center cursor-pointer"
+                aria-label="Закрыть модальное окно с акциями">
+                <IoMdClose className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mt-4 md:mt-6 max-h-[70vh] overflow-y-auto pr-1">
+              <div className="flex flex-col gap-3 md:gap-4">
+                {promotions.length > 0
+                  ? promotions.map((promo) => (
+                      <button
+                        key={`modal-promo-${promo.id}`}
+                        type="button"
+                        onClick={openPromotionInVk}
+                        className="relative overflow-hidden rounded-2xl md:rounded-3xl text-left cursor-pointer">
+                        <Image
+                          src={getImageUrl(promo.imageUrl)}
+                          alt={promo.title}
+                          width={1200}
+                          height={280}
+                          className="w-full h-[96px] md:h-[118px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/25 flex items-center px-5 md:px-8">
+                          <div className="text-white max-w-[85%]">
+                            <p className="text-xl md:text-4xl font-semibold uppercase leading-tight">{promo.title}</p>
+                          </div>
+                          <HiOutlineChevronRight size={38} color="#fff" className="ml-auto shrink-0" />
+                        </div>
+                      </button>
+                    ))
+                  : [1, 2, 3, 4, 5].map((n) => (
+                      <button
+                        key={`modal-sale-card-${n}`}
+                        type="button"
+                        onClick={openPromotionInVk}
+                        className="relative overflow-hidden rounded-2xl md:rounded-3xl text-left cursor-pointer">
+                        <Image
+                          src={`/images/sale-card${n}.png`}
+                          alt={`Акция ${n}`}
+                          width={1200}
+                          height={280}
+                          className="w-full h-[96px] md:h-[118px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 flex items-center px-5 md:px-8">
+                          <p className="text-white text-lg md:text-2xl font-semibold">Специальное предложение</p>
+                          <HiOutlineChevronRight size={38} color="#fff" className="ml-auto shrink-0" />
+                        </div>
+                      </button>
+                    ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
