@@ -64,7 +64,7 @@ export default function DataTable<T extends Record<string, unknown>>({
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider"
+                  className="text-left px-3 md:px-6 py-3 text-xs font-semibold uppercase tracking-wider whitespace-nowrap"
                   style={{ color: '#7A7A7A' }}>
                   {col.title}
                 </th>
@@ -91,7 +91,7 @@ export default function DataTable<T extends Record<string, unknown>>({
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F0E1D5')}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}>
                   {columns.map((col) => (
-                    <td key={col.key} className="px-6 py-4 text-sm" style={{ color: '#2D2D2D' }}>
+                    <td key={col.key} className="px-3 md:px-6 py-3 md:py-4 text-sm" style={{ color: '#2D2D2D' }}>
                       {col.render ? col.render(row) : String(row[col.key] ?? '')}
                     </td>
                   ))}
@@ -104,10 +104,10 @@ export default function DataTable<T extends Record<string, unknown>>({
 
       {total > limit && (
         <div
-          className="flex items-center justify-between px-6 py-4"
+          className="flex items-center justify-between px-3 md:px-6 py-3 md:py-4"
           style={{ borderTop: '1px solid #E5E7EB' }}>
           <span className="text-sm" style={{ color: '#7A7A7A' }}>
-            Показано {showFrom}–{showTo} из {total}
+            {showFrom}–{showTo} из {total}
           </span>
           <div className="flex items-center gap-2">
             <button

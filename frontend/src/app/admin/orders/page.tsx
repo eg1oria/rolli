@@ -23,6 +23,7 @@ export default function AdminOrdersPage() {
   const [total, setTotal] = useState(0);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const limit = 20;
 
   useEffect(() => {
@@ -56,9 +57,9 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: '#F3EBDB' }}>
-      <AdminSidebar />
-      <div className="flex-1 ml-60 p-8">
-        <AdminHeader title="Заказы" />
+      <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 ml-0 lg:ml-60 p-4 md:p-8">
+        <AdminHeader title="Заказы" onMenuToggle={() => setSidebarOpen(true)} />
         <DataTable
           columns={[
             {

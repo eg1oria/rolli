@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
     <div
       className="min-h-screen flex items-center justify-center"
       style={{ backgroundColor: '#F3EBDB' }}>
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
+      <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 w-full max-w-sm mx-4">
         <h1 className="text-2xl font-semibold text-center mb-6" style={{ color: '#2D2D2D' }}>
           ROLLI <span className="text-sm font-normal opacity-60">Admin</span>
         </h1>

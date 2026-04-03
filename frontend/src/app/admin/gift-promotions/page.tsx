@@ -18,6 +18,7 @@ export default function AdminGiftPromotionsPage() {
   const [saving, setSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<GiftPromotion | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -70,9 +71,9 @@ export default function AdminGiftPromotionsPage() {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: '#F3EBDB' }}>
-      <AdminSidebar />
-      <div className="flex-1 ml-60 p-8">
-        <AdminHeader title="Подарочные акции" />
+      <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 ml-0 lg:ml-60 p-4 md:p-8">
+        <AdminHeader title="Подарочные акции" onMenuToggle={() => setSidebarOpen(true)} />
         <div className="flex justify-end mb-4">
           <button
             onClick={() => {
@@ -106,17 +107,17 @@ export default function AdminGiftPromotionsPage() {
               <thead>
                 <tr style={{ borderBottom: '1px solid #E5E7EB' }}>
                   <th
-                    className="text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider"
+                    className="text-left px-3 md:px-6 py-3 text-xs font-semibold uppercase tracking-wider"
                     style={{ color: '#7A7A7A' }}>
                     Порог (руб)
                   </th>
                   <th
-                    className="text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider"
+                    className="text-left px-3 md:px-6 py-3 text-xs font-semibold uppercase tracking-wider"
                     style={{ color: '#7A7A7A' }}>
                     Подарок
                   </th>
                   <th
-                    className="text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider"
+                    className="text-left px-3 md:px-6 py-3 text-xs font-semibold uppercase tracking-wider"
                     style={{ color: '#7A7A7A' }}>
                     Статус
                   </th>
@@ -131,13 +132,13 @@ export default function AdminGiftPromotionsPage() {
                     style={{ borderBottom: '1px solid #F3F4F6' }}
                     onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F0E1D5')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}>
-                    <td className="px-6 py-4 text-sm font-medium" style={{ color: '#2D2D2D' }}>
+                    <td className="px-3 md:px-6 py-3 md:py-4 text-sm font-medium" style={{ color: '#2D2D2D' }}>
                       {gp.thresholdAmount / 100} ₽
                     </td>
-                    <td className="px-6 py-4 text-sm" style={{ color: '#2D2D2D' }}>
+                    <td className="px-3 md:px-6 py-3 md:py-4 text-sm" style={{ color: '#2D2D2D' }}>
                       {gp.giftDescription}
                     </td>
-                    <td className="px-6 py-4 text-sm">
+                    <td className="px-3 md:px-6 py-3 md:py-4 text-sm">
                       <span
                         className="px-2 py-1 rounded-full text-xs font-semibold"
                         style={{
@@ -147,7 +148,7 @@ export default function AdminGiftPromotionsPage() {
                         {gp.isActive ? 'Активна' : 'Неактивна'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-3 md:px-6 py-3 md:py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => {

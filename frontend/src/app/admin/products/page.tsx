@@ -24,6 +24,7 @@ export default function AdminProductsPage() {
   const [saving, setSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const limit = 20;
 
   useEffect(() => {
@@ -81,9 +82,9 @@ export default function AdminProductsPage() {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: '#F3EBDB' }}>
-      <AdminSidebar />
-      <div className="flex-1 ml-60 p-8">
-        <AdminHeader title="Товары" />
+      <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 ml-0 lg:ml-60 p-4 md:p-8">
+        <AdminHeader title="Товары" onMenuToggle={() => setSidebarOpen(true)} />
         <div className="flex justify-end mb-4">
           <button
             onClick={() => {

@@ -59,7 +59,7 @@ export default function MenuModal({
 
       {/* Card */}
       <div
-        className={`fixed inset-y-2  right-[20%] sm:right-auto sm:w-[400px] md:w-[460px] z-[400] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${
+        className={`fixed inset-y-2 left-2 right-12 sm:right-auto sm:w-[400px] md:w-[460px] z-[400] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${
           open ? 'translate-x-0 opacity-100' : '-translate-x-[120%] opacity-0 pointer-events-none'
         }`}>
         <div
