@@ -3,6 +3,7 @@
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { CiShoppingCart } from 'react-icons/ci';
 import { IoMdClose } from 'react-icons/io';
+import Image from 'next/image';
 
 export default function Header({
   onCartOpen,
@@ -17,11 +18,13 @@ export default function Header({
   return (
     <header className="px-4 md:px-8 lg:px-16 xl:px-39 fixed top-0 left-0 right-0 z-[300] flex items-center justify-between bg-transparent backdrop-blur-md">
       <div className="max-w-7xl flex items-center">
-        <h1
-          className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold text-gray-900 mr-6 md:mr-10 lg:mr-16 xl:mr-23"
-          style={{ fontFamily: 'Montserrat, sans-serif' }}>
-          ROLLI
-        </h1>
+        <Image
+          src="/logo.png"
+          alt="Rolli"
+          width={140}
+          height={46}
+          className="mr-6 md:mr-10 lg:mr-16 xl:mr-23 w-[80px] md:w-[100px] lg:w-[120px] xl:w-[140px] h-auto"
+        />
 
         <div className="hidden md:flex space-x-4 lg:space-x-7 font-bold text-lg lg:text-xl xl:text-2xl items-end-safe">
           <a className="text-end transition-opacity hover:opacity-60 cursor-pointer">О нас</a>

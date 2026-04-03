@@ -1,5 +1,6 @@
 import { FaTelegramPlane } from 'react-icons/fa';
 import { SlSocialVkontakte } from 'react-icons/sl';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -18,11 +19,13 @@ export default function Footer() {
       {/* Main footer content */}
       <div className="bg-white px-4 md:px-8 lg:px-16 xl:px-39 py-8 md:py-12 lg:py-16">
         {/* Logo */}
-        <h2
-          className="text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 mb-8 md:mb-12"
-          style={{ fontFamily: 'Montserrat, sans-serif' }}>
-          ROLLI
-        </h2>
+        <Image
+          src="/logo.png"
+          alt="Rolli"
+          width={180}
+          height={60}
+          className="mb-8 md:mb-12 w-[120px] md:w-[150px] lg:w-[180px] h-auto"
+        />
 
         {/* Columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
