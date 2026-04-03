@@ -48,18 +48,17 @@ export default function Catalog() {
   };
 
   return (
-    <div className="px-75 py-14 " style={{ fontFamily: 'Montserrat, sans-serif' }}>
-      <div className="flex items-center gap-3 ">
+    <div className="px-4 md:px-8 lg:px-16 xl:px-75 py-8 md:py-10 lg:py-14" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+      <div className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2">
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => handleCategoryClick(cat)}
-            className="px-7 py-1.5 rounded-full transition-all duration-300 cursor-pointer hover:shadow-md"
+            className="px-4 md:px-5 lg:px-7 py-1.5 rounded-full transition-all duration-300 cursor-pointer hover:shadow-md whitespace-nowrap shrink-0 text-sm md:text-base lg:text-lg"
             style={{
               backgroundColor: active === cat.name ? '#D5715D' : '#F0E1D5',
               color: active === cat.name ? '#fff' : '#2D2D2D',
               fontWeight: 600,
-              fontSize: 18,
             }}>
             {cat.name}
           </button>
@@ -67,7 +66,7 @@ export default function Catalog() {
       </div>
 
       <div
-        className="grid grid-cols-4 gap-9 mt-6 pb-7"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-9 mt-4 md:mt-6 pb-5 md:pb-7"
         style={{
           borderBottom: '4px solid #F3EBDB',
         }}>
@@ -92,9 +91,9 @@ export default function Catalog() {
                   />
                 </div>
 
-                <h3 className="text-xl font-semibold mt-4 leading-[100%]">{product.name}</h3>
-                <p className="text-sm text-gray-600">{product.pieces}</p>
-                <p className="text-sm text-gray-600 mt-4">{product.description}</p>
+                <h3 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-4 leading-[100%]">{product.name}</h3>
+                <p className="text-xs md:text-sm text-gray-600">{product.pieces}</p>
+                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">{product.description}</p>
                 <AddToCartButton product={product} />
               </div>
             ))}

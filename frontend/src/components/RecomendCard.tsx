@@ -72,13 +72,13 @@ export default function RecomendCard({
         {inCart ? (
           <div className="flex items-center gap-2 mt-auto">
             <button
-              className="w-6 h-6 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
+              className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
               onClick={handleMinus}>
               <HiMinus size={12} />
             </button>
             <span className="text-sm font-bold min-w-[16px] text-center">{quantity}</span>
             <button
-              className="w-6 h-6 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
+              className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
               onClick={handlePlus}>
               <HiPlus size={12} />
             </button>
@@ -99,22 +99,21 @@ export default function RecomendCard({
       }}
       onClick={inCart ? undefined : handleAdd}>
       <div
-        className="w-full flex items-center justify-center mb-2"
-        style={{ width: 140, height: 140 }}>
-        <Image src={image} alt={name} width={110} height={110} />
+        className="w-full flex items-center justify-center mb-2 p-2 md:p-4 max-w-[140px] max-h-[140px] mx-auto">
+        <Image src={image} alt={name} width={110} height={110} className="w-full h-auto" />
       </div>
-      <span className="text-sm font-semibold">{name}</span>
-      <span className="text-xs mt-2" style={{ color: '#7A7A7A' }}>
+      <span className="text-xs md:text-sm font-semibold text-center px-2">{name}</span>
+      <span className="text-[10px] md:text-xs mt-1 md:mt-2" style={{ color: '#7A7A7A' }}>
         {pieces}
       </span>
       {inCart ? (
-        <div className="flex items-center gap-3 mt-9">
+        <div className="flex items-center gap-2 md:gap-3 mt-4 md:mt-9">
           <button
             className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
             onClick={handleMinus}>
             <HiMinus size={14} />
           </button>
-          <span className="text-base font-bold min-w-[20px] text-center">{quantity}</span>
+          <span className="text-sm md:text-base font-bold min-w-[20px] text-center">{quantity}</span>
           <button
             className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer bg-white/80 hover:bg-white transition-colors"
             onClick={handlePlus}>
@@ -122,7 +121,7 @@ export default function RecomendCard({
           </button>
         </div>
       ) : (
-        <span className="text-base font-bold mt-9">{price}</span>
+        <span className="text-sm md:text-base font-bold mt-4 md:mt-9">{price}</span>
       )}
     </div>
   );

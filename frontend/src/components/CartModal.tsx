@@ -174,29 +174,29 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
         onClick={() => { setOrderSuccess(false); onClose(); }}
       />
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md z-[1000] p-8 shadow-2xl transition-transform duration-300 overflow-y-auto ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-full md:max-w-md z-[1000] p-4 md:p-6 lg:p-8 shadow-2xl transition-transform duration-300 overflow-y-auto ${open ? 'translate-x-0' : 'translate-x-full'}`}
         style={{
           backgroundColor: '#F3EBDB',
         }}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-semibold mb-4">Корзина</h2>
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h2 className="text-2xl md:text-3xl font-semibold">Корзина</h2>
           <button
             onClick={() => {
               setOrderSuccess(false);
               onClose();
             }}
-            className="text-2xl cursor-pointer p-2 bg-black/10 rounded-full">
+            className="text-xl md:text-2xl cursor-pointer p-2 bg-black/10 rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center">
             <IoMdClose />
           </button>
         </div>
 
         {orderSuccess ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-6">
-            <div className="text-6xl">&#10003;</div>
-            <h3 className="text-2xl font-semibold text-center">Заказ оформлен!</h3>
-            <p className="text-center text-black/60">Мы скоро свяжемся с вами для подтверждения</p>
+          <div className="flex flex-col items-center justify-center py-12 md:py-16 gap-4 md:gap-6">
+            <div className="text-5xl md:text-6xl">&#10003;</div>
+            <h3 className="text-xl md:text-2xl font-semibold text-center">Заказ оформлен!</h3>
+            <p className="text-center text-black/60 text-sm md:text-base">Мы скоро свяжемся с вами для подтверждения</p>
             <button
-              className="px-8 py-3 text-white font-semibold rounded-full transition-colors hover:shadow-md"
+              className="px-8 py-3 text-white font-semibold rounded-full transition-colors hover:shadow-md min-h-[48px]"
               style={{ backgroundColor: '#D5715D' }}
               onClick={() => {
                 setOrderSuccess(false);
@@ -207,18 +207,18 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
           </div>
         ) : (
         <>
-        <div className="flex flex-col gap-3 bg-black/10 rounded-4xl p-4 pb-6 mb-6">
+        <div className="flex flex-col gap-3 bg-black/10 rounded-3xl md:rounded-4xl p-3 md:p-4 pb-4 md:pb-6 mb-4 md:mb-6">
           <div className="flex bg-black/10 rounded-full">
             <button
               onClick={() => setTab('delivery')}
-              className={`flex-1 p-3 rounded-full text-base font-semibold transition-colors cursor-pointer ${
+              className={`flex-1 p-2.5 md:p-3 rounded-full text-sm md:text-base font-semibold transition-colors cursor-pointer ${
                 tab === 'delivery' ? 'bg-white text-black shadow-sm' : 'text-black/60'
               } hover:shadow-sm`}>
               Доставка
             </button>
             <button
               onClick={() => setTab('pickup')}
-              className={`flex-1 p-3 rounded-full text-base font-semibold transition-colors cursor-pointer ${
+              className={`flex-1 p-2.5 md:p-3 rounded-full text-sm md:text-base font-semibold transition-colors cursor-pointer ${
                 tab === 'pickup' ? 'bg-white text-black shadow-sm' : 'text-black/60'
               } hover:shadow-sm`}>
               Самовывоз
@@ -227,13 +227,13 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
           {tab === 'delivery' ? (
             <button
-              className="flex items-center gap-3 mt-1"
+              className="flex items-center gap-3 mt-1 min-h-[44px]"
               onClick={() => setShowMapModal(true)}>
-              <TbTruckDelivery size={34} className="shrink-0" />
-              <div className="flex flex-col items-start">
+              <TbTruckDelivery className="w-7 h-7 md:w-[34px] md:h-[34px] shrink-0" />
+              <div className="flex flex-col items-start min-w-0">
                 {address ? (
                   <>
-                    <p className="text-sm font-medium text-left">{address}</p>
+                    <p className="text-sm font-medium text-left truncate w-full">{address}</p>
                     <p className="text-xs text-black/50">Нажмите чтобы изменить</p>
                   </>
                 ) : (
@@ -243,63 +243,63 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                   </>
                 )}
               </div>
-              <HiOutlineChevronRight size={20} color="#555555" className="ml-auto" />
+              <HiOutlineChevronRight size={20} color="#555555" className="ml-auto shrink-0" />
             </button>
           ) : (
-            <button className="flex items-center gap-3 mt-1">
-              <IoBag size={34} className="text-black/70 shrink-0" />
+            <button className="flex items-center gap-3 mt-1 min-h-[44px]">
+              <IoBag className="w-7 h-7 md:w-[34px] md:h-[34px] text-black/70 shrink-0" />
               <div className="flex flex-col items-start">
                 <p className="text-sm font-medium">Проспект Дзержинского 27/2</p>
                 <p className="text-xs text-black/50">~30 минут ожидание</p>
               </div>
-              <HiOutlineChevronRight size={20} color="#555555" className="ml-auto" />
+              <HiOutlineChevronRight size={20} color="#555555" className="ml-auto shrink-0" />
             </button>
           )}
         </div>
 
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3 md:mb-4">
           <p className="text-sm text-black/70">
             {count} {pluralize(count, 'позиция', 'позиции', 'позиций')}
           </p>
-          <button className="text-sm text-black/70 cursor-pointer" onClick={clearCart}>
+          <button className="text-sm text-black/70 cursor-pointer min-h-[44px] flex items-center" onClick={clearCart}>
             Очистить
           </button>
         </div>
 
-        {items.length === 0 && <p className="text-center text-black/50 py-8">Корзина пуста</p>}
+        {items.length === 0 && <p className="text-center text-black/50 py-6 md:py-8">Корзина пуста</p>}
 
         {items.map((item) => (
-          <div key={item.product.id} className="flex items-center justify-between gap-1 mb-4">
+          <div key={item.product.id} className="flex items-center justify-between gap-2 md:gap-3 mb-3 md:mb-4">
             <Image
               src={getImageUrl(item.product.imageUrl)}
               alt={item.product.name}
               width={90}
               height={90}
-              className="rounded-2xl mb-4"
+              className="rounded-2xl mb-2 md:mb-4 w-16 h-16 md:w-[90px] md:h-[90px] object-cover shrink-0"
             />
 
-            <div className="flex flex-col items-start gap-1 mb-4">
-              <h3 className="text-lg font-semibold text-black/60">{item.product.name}</h3>
-              <div className="flex items-center gap-4">
-                <p className="font-bold">{item.product.price} ₽</p>
-                <p className="text-sm text-black/70">{item.product.pieces}</p>
+            <div className="flex flex-col items-start gap-0.5 md:gap-1 mb-2 md:mb-4 min-w-0 flex-1">
+              <h3 className="text-sm md:text-lg font-semibold text-black/60 truncate w-full">{item.product.name}</h3>
+              <div className="flex items-center gap-2 md:gap-4">
+                <p className="text-sm md:text-base font-bold">{item.product.price} ₽</p>
+                <p className="text-xs md:text-sm text-black/70">{item.product.pieces}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
               <button
-                className="p-2 bg-black/4 rounded-full transition-colors hover:bg-black/10"
+                className="p-2 bg-black/4 rounded-full transition-colors hover:bg-black/10 min-w-[36px] min-h-[36px] flex items-center justify-center"
                 onClick={() =>
                   item.quantity <= 1
                     ? removeFromCart(item.product.id)
                     : updateQuantity(item.product.id, item.quantity - 1)
                 }>
-                <FiMinus size={18} />
+                <FiMinus size={16} />
               </button>
-              <span className="">{item.quantity}</span>
+              <span className="text-sm md:text-base min-w-[20px] text-center">{item.quantity}</span>
               <button
-                className="p-2 bg-black/4 rounded-full transition-colors hover:bg-black/10"
+                className="p-2 bg-black/4 rounded-full transition-colors hover:bg-black/10 min-w-[36px] min-h-[36px] flex items-center justify-center"
                 onClick={() => updateQuantity(item.product.id, item.quantity + 1)}>
-                <GoPlus />
+                <GoPlus size={16} />
               </button>
             </div>
           </div>
@@ -307,9 +307,9 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
 
         {giftPromo && (
           <div
-            className="flex items-center gap-4 rounded-full p-4 cursor-pointer"
+            className="flex items-center gap-3 md:gap-4 rounded-full p-3 md:p-4 cursor-pointer"
             style={{ backgroundColor: '#D5715D' }}>
-            <div className="relative flex items-center justify-center w-14 h-14 shrink-0">
+            <div className="relative flex items-center justify-center w-10 h-10 md:w-14 md:h-14 shrink-0">
               <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
                 <circle
                   cx="24"
@@ -331,24 +331,24 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                   strokeDashoffset={2 * Math.PI * 21 * (1 - giftProgress)}
                 />
               </svg>
-              <GiPresent size={36} className="text-white" />
+              <GiPresent className="text-white w-6 h-6 md:w-9 md:h-9" />
             </div>
-            <div>
+            <div className="min-w-0">
               {giftRemaining > 0 ? (
                 <>
-                  <p className="text-white font-semibold text-ls">Еще {giftRemaining} руб</p>
-                  <p className="text-white/80 text-xs">до подарка: {giftPromo.giftDescription}</p>
+                  <p className="text-white font-semibold text-sm md:text-base">Еще {giftRemaining} руб</p>
+                  <p className="text-white/80 text-xs truncate">до подарка: {giftPromo.giftDescription}</p>
                 </>
               ) : (
-                <p className="text-white font-semibold text-ls">Подарок добавлен!</p>
+                <p className="text-white font-semibold text-sm md:text-base">Подарок добавлен!</p>
               )}
             </div>
           </div>
         )}
 
-        <div className="mt-6 relative">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold">Добавить ещё</h3>
+        <div className="mt-4 md:mt-6 relative">
+          <div className="flex items-center justify-between mb-2 md:mb-3">
+            <h3 className="text-base md:text-lg font-semibold">Добавить ещё</h3>
           </div>
           <Swiper
             modules={[Navigation]}
@@ -378,35 +378,35 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
           {!isBeginning && (
             <button
               onClick={() => swiperInst?.slidePrev()}
-              className="absolute -left-5 top-1/2 mt-3 -translate-y-1/2 z-10 p-3 bg-white/90 rounded-full cursor-pointer shadow-md hover:bg-white transition-colors">
+              className="absolute -left-2 md:-left-5 top-1/2 mt-3 -translate-y-1/2 z-10 p-2 md:p-3 bg-white/90 rounded-full cursor-pointer shadow-md hover:bg-white transition-colors">
               <HiOutlineChevronLeft size={16} />
             </button>
           )}
           {!isEnd && (
             <button
               onClick={() => swiperInst?.slideNext()}
-              className="absolute -right-5 top-1/2 mt-3 -translate-y-1/2 z-10 p-3 bg-white/90 rounded-full cursor-pointer shadow-md hover:bg-white transition-colors">
+              className="absolute -right-2 md:-right-5 top-1/2 mt-3 -translate-y-1/2 z-10 p-2 md:p-3 bg-white/90 rounded-full cursor-pointer shadow-md hover:bg-white transition-colors">
               <HiOutlineChevronRight size={16} />
             </button>
           )}
         </div>
-        <div className="flex flex-col gap-4 mt-6 mb-10">
+        <div className="flex flex-col gap-3 md:gap-4 mt-4 md:mt-6 mb-6 md:mb-10">
           <div>
             <div
-              className="flex items-center gap-4 rounded-full p-4 pl-6 cursor-pointer"
+              className="flex items-center gap-3 md:gap-4 rounded-full p-3 md:p-4 pl-4 md:pl-6 cursor-pointer"
               style={{ backgroundColor: '#EDE5D6' }}
               onClick={() => setShowSauces(!showSauces)}>
-              <GiBrandyBottle size={34} />
-              <div className="ml-3">
-                <p>Добавьте любимые соуса</p>
-                <span className="text-sm text-gray-600">
+              <GiBrandyBottle className="w-7 h-7 md:w-[34px] md:h-[34px] shrink-0" />
+              <div className="ml-1 md:ml-3 min-w-0">
+                <p className="text-sm md:text-base">Добавьте любимые соуса</p>
+                <span className="text-xs md:text-sm text-gray-600 truncate block">
                   {selectedSauces.size > 0
                     ? Array.from(selectedSauces).join(', ')
                     : 'Унаги, соевый, сырный, спайси....'}
                 </span>
               </div>
               <HiOutlineChevronRight
-                className={`ml-auto transition-transform ${showSauces ? 'rotate-90' : ''}`}
+                className={`ml-auto shrink-0 transition-transform ${showSauces ? 'rotate-90' : ''}`}
               />
             </div>
             {showSauces && (
@@ -417,7 +417,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                     <button
                       key={sauce.id}
                       onClick={() => toggleSauce(sauce.name)}
-                      className="px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer"
+                      className="px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-colors cursor-pointer min-h-[36px]"
                       style={{
                         backgroundColor: isSelected ? '#D5715D' : '#fff',
                         color: isSelected ? '#fff' : '#2D2D2D',
@@ -433,18 +433,18 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
           </div>
           <div>
             <div
-              className="flex items-center gap-4 rounded-full p-4 pl-6 cursor-pointer"
+              className="flex items-center gap-3 md:gap-4 rounded-full p-3 md:p-4 pl-4 md:pl-6 cursor-pointer"
               style={{ backgroundColor: '#EDE5D6' }}
               onClick={() => setShowComment(!showComment)}>
-              <BsChat size={34} />
-              <div className="ml-3">
-                <p>Комментарий к заказу:</p>
-                <span className="text-sm text-gray-600">
+              <BsChat className="w-7 h-7 md:w-[34px] md:h-[34px] shrink-0" />
+              <div className="ml-1 md:ml-3 min-w-0">
+                <p className="text-sm md:text-base">Комментарий к заказу:</p>
+                <span className="text-xs md:text-sm text-gray-600 truncate block">
                   {comment.trim() || 'Например, без васаби'}
                 </span>
               </div>
               <HiOutlineChevronRight
-                className={`ml-auto transition-transform ${showComment ? 'rotate-90' : ''}`}
+                className={`ml-auto shrink-0 transition-transform ${showComment ? 'rotate-90' : ''}`}
               />
             </div>
             {showComment && (
@@ -452,40 +452,40 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Напишите пожелания к заказу..."
-                className="w-full mt-3 px-4 py-3 rounded-2xl border border-gray-300 outline-none resize-none text-sm"
+                className="w-full mt-3 px-4 py-3 rounded-2xl border border-gray-300 outline-none resize-none text-base md:text-sm"
                 rows={3}
               />
             )}
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 mb-4  ">
-          <div className="flex justify-between font-bold text-sl">
+        <div className="flex flex-col gap-3 md:gap-4 mb-3 md:mb-4">
+          <div className="flex justify-between font-bold text-sm md:text-base">
             <p>Сумма корзины:</p>
-            <span className="">{total} руб</span>
+            <span>{total} руб</span>
           </div>
-          <div className="flex justify-between font-bold text-sl">
+          <div className="flex justify-between font-bold text-sm md:text-base">
             <p>Время ожидания:</p>
-            <span className="">~30 минут</span>
+            <span>~30 минут</span>
           </div>
         </div>
 
         {isOutsideWorkingHours() && (
           <div
-            className="p-4 rounded-lg mb-4 text-sm font-medium text-white text-center"
+            className="p-3 md:p-4 rounded-lg mb-3 md:mb-4 text-xs md:text-sm font-medium text-white text-center"
             style={{ backgroundColor: '#DA6F5F' }}>
             ⏰ Мы работаем с 9:00 до 22:00 по оренбургскому времени
           </div>
         )}
 
         {!showOrderForm ? (
-          <div className="">
-            <div className="flex justify-between font-bold text-sl items-center gap-2">
-              <p className="">К оплате:</p>
-              <span className="text-2xl font-bold">{total} руб</span>
+          <div>
+            <div className="flex justify-between font-bold text-sm md:text-base items-center gap-2">
+              <p>К оплате:</p>
+              <span className="text-xl md:text-2xl font-bold">{total} руб</span>
             </div>
             <button
-              className="w-full py-4 mt-4 text-lg font-semibold text-white rounded-full transition-colors hover:shadow-md disabled:opacity-50"
+              className="w-full py-3 md:py-4 mt-3 md:mt-4 text-base md:text-lg font-semibold text-white rounded-full transition-colors hover:shadow-md disabled:opacity-50 min-h-[48px]"
               style={{ backgroundColor: '#D5715D' }}
               onClick={() => setShowOrderForm(true)}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
@@ -495,8 +495,8 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
             </button>
           </div>
         ) : (
-          <div className="space-y-4 border-t border-gray-300 pt-4">
-            <h3 className="text-lg font-semibold">Оформление заказа</h3>
+          <div className="space-y-3 md:space-y-4 border-t border-gray-300 pt-3 md:pt-4">
+            <h3 className="text-base md:text-lg font-semibold">Оформление заказа</h3>
 
             <div>
               <label className="block text-sm font-medium mb-1">Имя *</label>
@@ -505,7 +505,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="Иван Иванов"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 outline-none"
+                className="w-full px-4 py-2.5 md:py-2 rounded-lg border border-gray-300 outline-none text-base"
               />
             </div>
 
@@ -516,7 +516,7 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
                 placeholder="+7 912 343 44-12"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 outline-none"
+                className="w-full px-4 py-2.5 md:py-2 rounded-lg border border-gray-300 outline-none text-base"
               />
             </div>
 
@@ -528,26 +528,26 @@ export default function CartModal({ open, onClose }: { open: boolean; onClose: (
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="ул. Ленина 15, кв. 42"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 outline-none"
+                  className="w-full px-4 py-2.5 md:py-2 rounded-lg border border-gray-300 outline-none text-base"
                 />
               </div>
             )}
 
-            <div className="flex justify-between font-bold text-sl items-center gap-2 pt-4">
-              <p className="">К оплате:</p>
-              <span className="text-2xl font-bold">{total} руб</span>
+            <div className="flex justify-between font-bold text-sm md:text-base items-center gap-2 pt-3 md:pt-4">
+              <p>К оплате:</p>
+              <span className="text-xl md:text-2xl font-bold">{total} руб</span>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 md:gap-3">
               <button
-                className="flex-1 py-3 rounded-lg text-lg font-semibold transition-colors"
+                className="flex-1 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-colors min-h-[44px]"
                 style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}
                 onClick={() => setShowOrderForm(false)}
                 disabled={ordering}>
                 Назад
               </button>
               <button
-                className="flex-1 py-3 text-lg font-semibold text-white rounded-lg transition-colors hover:shadow-md disabled:opacity-50"
+                className="flex-1 py-2.5 md:py-3 text-base md:text-lg font-semibold text-white rounded-lg transition-colors hover:shadow-md disabled:opacity-50 min-h-[44px]"
                 style={{ backgroundColor: '#D5715D' }}
                 onClick={handleOrder}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}

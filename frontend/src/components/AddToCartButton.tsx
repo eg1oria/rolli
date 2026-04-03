@@ -16,17 +16,17 @@ export default function AddToCartButton({ product }: Props) {
   if (quantity === 0) {
     return (
       <div
-        className="flex items-center justify-between mt-6 pr-3 rounded-full border border-black-300 px-6 py-0.5 cursor-pointer w-fit transition-colors hover:bg-black/10"
+        className="flex items-center justify-between mt-4 md:mt-6 pr-3 rounded-full border border-black-300 px-4 md:px-6 py-1 md:py-0.5 cursor-pointer w-fit transition-colors hover:bg-black/10"
         onClick={() => addToCart(product)}>
-        <span className="text-lg font-medium">{product.price} ₽</span>
-        <HiPlus size={24} className="ml-8" />
+        <span className="text-base md:text-lg font-medium">{product.price} ₽</span>
+        <HiPlus size={24} className="ml-4 md:ml-8" />
       </div>
     );
   }
 
   return (
     <div
-      className="flex items-center gap-3 mt-6 w-fit rounded-full px-3 py-0.5"
+      className="flex items-center gap-3 mt-4 md:mt-6 w-fit rounded-full px-3 py-0.5"
       style={{
         backgroundColor: '#D5715D',
       }}>
@@ -41,7 +41,7 @@ export default function AddToCartButton({ product }: Props) {
         }}>
         <HiMinus size={15} />
       </button>
-      <span className="text-lg font-medium min-w-[24px] text-center text-white">{quantity}</span>
+      <span className="text-base md:text-lg font-medium min-w-[24px] text-center text-white">{quantity}</span>
       <button
         className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-white"
         onClick={() => updateQuantity(product.id, quantity + 1)}>

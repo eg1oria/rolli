@@ -146,23 +146,23 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[2000] flex items-center justify-center">
+    <div className="fixed inset-0 z-[2000] flex items-end md:items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div
-        className="relative w-full max-w-3xl mx-4 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
-        style={{ backgroundColor: '#F3EBDB', maxHeight: '90vh' }}>
+        className="relative w-full md:max-w-3xl md:mx-4 rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[95vh] md:max-h-[90vh]"
+        style={{ backgroundColor: '#F3EBDB' }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4">
-          <h3 className="text-xl font-semibold">Адрес доставки</h3>
+        <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4">
+          <h3 className="text-lg md:text-xl font-semibold">Адрес доставки</h3>
           <button
             onClick={onClose}
-            className="p-2 bg-black/10 rounded-full cursor-pointer hover:bg-black/20 transition-colors">
+            className="p-2 bg-black/10 rounded-full cursor-pointer hover:bg-black/20 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">
             <IoMdClose size={20} />
           </button>
         </div>
 
         {/* Map */}
-        <div className="relative w-full" style={{ height: '500px' }}>
+        <div className="relative w-full h-[250px] md:h-[400px] lg:h-[500px]">
           <link
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -176,7 +176,7 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
         </div>
 
         {/* Address display & confirm */}
-        <div className="px-6 py-4 flex flex-col gap-3">
+        <div className="px-4 md:px-6 py-3 md:py-4 flex flex-col gap-2 md:gap-3">
           <div className="flex items-start gap-3 p-3 rounded-2xl" style={{ backgroundColor: '#EDE5D6' }}>
             <HiMapPin size={22} className="text-red-500 shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
@@ -190,14 +190,14 @@ export default function AddressMapModal({ open, onClose, onSelect, initialAddres
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="Или введите адрес вручную"
-            className="w-full px-4 py-3 rounded-xl border border-black/10 outline-none text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-black/10 outline-none text-base md:text-sm"
             style={{ backgroundColor: '#fff' }}
           />
 
           <button
             onClick={handleConfirm}
             disabled={!address.trim()}
-            className="w-full py-3 text-white font-semibold rounded-full transition-colors hover:shadow-md disabled:opacity-50"
+            className="w-full py-3 text-white font-semibold rounded-full transition-colors hover:shadow-md disabled:opacity-50 min-h-[48px]"
             style={{ backgroundColor: '#D5715D' }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}>

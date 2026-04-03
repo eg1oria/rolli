@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="bg-white">
       <div
-        className="px-39 pt-47 flex items-center justify-between rounded-2xl py-25.5 relative overflow-hidden"
+        className="px-4 md:px-8 lg:px-16 xl:px-39 pt-20 md:pt-28 lg:pt-36 xl:pt-47 pb-12 md:pb-16 lg:pb-20 xl:pb-25.5 flex items-center justify-between rounded-2xl relative overflow-hidden"
         style={{
           backgroundImage: 'url(/images/bg-hero.svg)',
           backgroundSize: 'cover',
@@ -38,7 +38,7 @@ export default function Hero() {
           alt="Hero Image"
           width={955}
           height={775}
-          className="absolute right-0  z-1"
+          className="absolute right-0 z-1 hidden lg:block"
           style={{ bottom: '-22px' }}
         />
 
@@ -47,7 +47,7 @@ export default function Hero() {
           alt="Hero Image"
           width={265}
           height={265}
-          className="absolute right-30  z-2 animate-levitate"
+          className="absolute right-4 lg:right-30 z-2 animate-levitate w-[100px] md:w-[160px] lg:w-[200px] xl:w-[265px]"
           style={{ bottom: '20px' }}
         />
 
@@ -56,7 +56,7 @@ export default function Hero() {
           alt="Hero Image"
           width={265}
           height={265}
-          className="absolute right-175  z-0 animate-levitate-slow"
+          className="absolute right-[40%] lg:right-175 z-0 animate-levitate-slow hidden md:block w-[140px] lg:w-[200px] xl:w-[265px]"
           style={{ top: '250px' }}
         />
 
@@ -65,15 +65,14 @@ export default function Hero() {
           alt="Hero Image"
           width={215}
           height={215}
-          className="absolute right-110  z-3 animate-levitate-fast"
+          className="absolute right-[20%] lg:right-110 z-3 animate-levitate-fast hidden md:block w-[100px] lg:w-[160px] xl:w-[215px]"
           style={{ top: '70px' }}
         />
-        <div className="max-w-7xl flex flex-col items-start space-y-24 overflow-hidden">
+        <div className="max-w-7xl flex flex-col items-start space-y-8 md:space-y-12 lg:space-y-18 xl:space-y-24 overflow-hidden">
           <h1
-            className=" mb-4.5 z-10"
+            className="mb-2 md:mb-4.5 z-10 text-2xl md:text-4xl lg:text-5xl xl:text-[64px]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
-              fontSize: 64,
               fontWeight: 600,
               lineHeight: '135.1%',
               letterSpacing: '0.03em',
@@ -82,10 +81,9 @@ export default function Hero() {
             Доставка роллов от Rolli, которые хочется заказывать снова
           </h1>
           <p
-            className="text-2xl max-w-3xl"
+            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl"
             style={{
               fontFamily: 'Montserrat, sans-serif',
-              fontSize: 20,
               fontWeight: 400,
               lineHeight: '170%',
               letterSpacing: '0.03em',
@@ -94,11 +92,10 @@ export default function Hero() {
             минут — быстро, аккуратно и вкусно
           </p>
 
-          <div className="flex space-x-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
             <button
-              className="text-white font-semibold text-2xl z-10 cursor-pointer p-5"
+              className="text-white font-semibold text-base md:text-lg lg:text-xl xl:text-2xl z-10 cursor-pointer p-3 md:p-4 lg:p-5 w-full sm:w-auto xl:min-w-[366px]"
               style={{
-                width: 366,
                 borderRadius: 67,
                 background: 'linear-gradient(90deg, #D46D5A 0%, #DA896C 50%, #DBA780 100%)',
                 border: '2px solid #DA896C',
@@ -107,9 +104,8 @@ export default function Hero() {
               Заказать сейчас
             </button>
             <button
-              className="text-black font-bold text-xl z-10 cursor-pointer p-5 transition-colors hover:bg-gray-100"
+              className="text-black font-bold text-base md:text-lg lg:text-xl z-10 cursor-pointer p-3 md:p-4 lg:p-5 transition-colors hover:bg-gray-100 w-full sm:w-auto xl:min-w-[300px]"
               style={{
-                width: 300,
                 borderRadius: 67,
                 border: '2px solid #DA896C',
               }}>
@@ -119,14 +115,14 @@ export default function Hero() {
         </div>
       </div>
       <div
-        className="flex items-center space-x-2 py-4 items-center justify-center text-white z-10 text-2xl font-light"
+        className="flex items-center justify-center space-x-2 py-3 md:py-4 text-white z-10 text-sm md:text-lg lg:text-xl xl:text-2xl font-light px-4"
         style={{
           backgroundColor: '#343943',
           fontFamily: 'Montserrat, sans-serif',
         }}>
-        <CiClock2 size={34} />
+        <CiClock2 className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-[34px] xl:h-[34px] shrink-0" />
         <span className="font-bold mr-2">Готовим с 9:00 до 22:00.</span>
-        Можно сделать предзаказ.
+        <span className="hidden sm:inline">Можно сделать предзаказ.</span>
       </div>
     </section>
   );
