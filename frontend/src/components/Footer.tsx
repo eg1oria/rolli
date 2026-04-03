@@ -1,8 +1,22 @@
+'use client';
+
 import { FaTelegramPlane } from 'react-icons/fa';
 import { SlSocialVkontakte } from 'react-icons/sl';
 import Image from 'next/image';
 
-export default function Footer() {
+interface FooterProps {
+  onCartOpen?: () => void;
+  onContactsOpen?: () => void;
+}
+
+export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <footer className="mt-16 md:mt-24">
       {/* Dark banner */}
@@ -52,24 +66,36 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 text-sm md:text-base text-black/70">
               <li>
-                <a href="#about" className="transition-opacity hover:opacity-60 cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('about')}
+                  className="transition-opacity hover:opacity-60 cursor-pointer">
                   О нас
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#catalog" className="transition-opacity hover:opacity-60 cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('catalog')}
+                  className="transition-opacity hover:opacity-60 cursor-pointer">
                   Каталог
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#cart" className="transition-opacity hover:opacity-60 cursor-pointer">
+                <button
+                  type="button"
+                  onClick={onCartOpen}
+                  className="transition-opacity hover:opacity-60 cursor-pointer">
                   Корзина
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#contacts" className="transition-opacity hover:opacity-60 cursor-pointer">
+                <button
+                  type="button"
+                  onClick={onContactsOpen}
+                  className="transition-opacity hover:opacity-60 cursor-pointer">
                   Контакты
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -84,12 +110,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm md:text-base text-black/70">
               <li>
                 <a
-                  href="https://t.me/"
+                  href="https://t.me/rolli56"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 transition-opacity hover:opacity-60">
                   <FaTelegramPlane className="w-4 h-4" />
-                  Telegram
+                  @rolli56
                 </a>
               </li>
               <li>
@@ -109,9 +135,9 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:Example123@gmail.com"
+                  href="mailto:premiumshop56@yandex.ru"
                   className="transition-opacity hover:opacity-60">
-                  Example123@gmail.com
+                  premiumshop56@yandex.ru
                 </a>
               </li>
             </ul>

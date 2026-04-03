@@ -109,7 +109,7 @@ export default function MenuModal({
           {/* Social */}
           <div className="flex gap-2 px-5 md:px-7 mb-3">
             <a
-              href="https://t.me/Rollisushi"
+              href="https://t.me/rolli56"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 md:px-4 py-2.5 md:py-3 rounded-full flex-1 text-white min-h-[44px]"
@@ -117,7 +117,7 @@ export default function MenuModal({
               <FaTelegramPlane className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
               <div className="min-w-0">
                 <p className="text-[11px] md:text-xs font-semibold leading-tight">Мы в Telegram</p>
-                <p className="text-[9px] md:text-[10px] opacity-70 leading-tight">@Rollisushi</p>
+                <p className="text-[9px] md:text-[10px] opacity-70 leading-tight">@rolli56</p>
               </div>
             </a>
             <a

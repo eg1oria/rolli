@@ -267,7 +267,7 @@ export default function DeliveryTabs({
                           alt={`Акция ${n}`}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover blur-[3px] scale-[1.05]"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[8px] scale-[1.1]"
                         />
                         <div className="absolute inset-0 bg-black/20 flex items-center px-5 md:px-8">
                           <p className="text-white text-lg md:text-2xl font-semibold">

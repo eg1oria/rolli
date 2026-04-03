@@ -34,7 +34,9 @@ export default function Home() {
           onMenuToggle={() => setMenuOpen(!menuOpen)}
           menuOpen={menuOpen}
         />
-        <Hero onOrderClick={() => setOpen(true)} />
+        <div id="about">
+          <Hero onOrderClick={() => setOpen(true)} />
+        </div>
 
         <DeliveryTabs
           activeTab={deliveryTab}
@@ -44,7 +46,9 @@ export default function Home() {
         />
         <div className="relative">
           <Recomend />
-          <Catalog />
+          <div id="catalog">
+            <Catalog />
+          </div>
           <CategorySections />
           <button
             className="sticky bottom-6 md:bottom-[50%] float-right mr-4 md:mr-8 lg:mr-12 xl:mr-20 z-50 rounded-full text-white p-3 md:p-4 shadow-lg cursor-pointer transition-transform hover:scale-110 hover:shadow-xl"
@@ -58,7 +62,7 @@ export default function Home() {
             )}
           </button>
         </div>
-        <Footer />
+        <Footer onCartOpen={() => setOpen(true)} onContactsOpen={() => setMenuOpen(true)} />
       </div>
       <CartModal
         open={open}
