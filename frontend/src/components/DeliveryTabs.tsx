@@ -13,7 +13,7 @@ import type { Promotion } from '@/types';
 import dynamic from 'next/dynamic';
 
 const AddressMapModal = dynamic(() => import('./AddressMapModal'), { ssr: false });
-const VK_PROMOTIONS_URL = 'https://vk.com';
+const VK_PROMOTIONS_URL = 'https://vk.com/market-19468570?screen=group';
 const FALLBACK_SALE_IMAGES_COUNT = 4;
 
 interface DeliveryTabsProps {
@@ -168,7 +168,7 @@ export default function DeliveryTabs({
         {[1, 2, 3, 4].map((n) => (
           <div
             key={n}
-            className="cursor-pointer shrink-0 w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]"
+            className="cursor-pointer shrink-0 w-[180px] sm:w-[220px] md:w-[260px] lg:w-[300px]"
             onClick={() => setShowPromotionsModal(true)}>
             <Image
               src={`/images/sale-card${n}.png`}
@@ -227,7 +227,7 @@ export default function DeliveryTabs({
                           alt={promo.title}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover blur-[20px] scale-[1.1]"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[1px]"
                         />
                         <div className="absolute inset-0 bg-black/25 flex items-center py-1 px-5 md:px-8">
                           <div className="text-white max-w-[85%]">
@@ -259,7 +259,7 @@ export default function DeliveryTabs({
                           alt={`Акция ${n}`}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover blur-[20px] scale-[1.1]"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[1px]"
                         />
                         <div className="absolute inset-0 bg-black/20 flex items-center py-1 px-5 md:px-8">
                           <p className="text-white text-lg md:text-2xl font-semibold">

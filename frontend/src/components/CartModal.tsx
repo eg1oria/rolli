@@ -68,7 +68,13 @@ export default function CartModal({
   const [comment, setComment] = useState('');
   const [showComment, setShowComment] = useState(false);
 
-  const { items, total, count } = useCart();
+  const { items, total: cartTotal, count } = useCart();
+
+  const saucesTotal = availableSauces
+    .filter((s) => selectedSauces.has(s.name))
+    .reduce((sum, s) => sum + s.price, 0);
+
+  const total = cartTotal + saucesTotal;
 
   // Check if outside working hours - DISABLED FOR DEVELOPMENT
   const isOutsideWorkingHours = () => {

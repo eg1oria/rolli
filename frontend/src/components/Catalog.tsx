@@ -83,7 +83,7 @@ export default function Catalog() {
               </div>
             ))
           : products.map((product) => (
-              <div key={product.id}>
+              <div key={product.id} className="flex flex-col h-full">
                 <div className="w-full flex items-center justify-center mb-2 aspect-square">
                   <Image
                     src={getImageUrl(product.imageUrl)}
@@ -98,7 +98,7 @@ export default function Catalog() {
                   {product.name}
                 </h3>
                 <p className="text-xs md:text-sm text-gray-600">{product.pieces}</p>
-                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">
+                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4 flex-grow">
                   {product.description}
                 </p>
                 <AddToCartButton product={product} />

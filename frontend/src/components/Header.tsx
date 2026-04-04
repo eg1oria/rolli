@@ -23,7 +23,7 @@ export default function Header({
           alt="Rolli"
           width={140}
           height={46}
-          className="mr-6 md:mr-10 lg:mr-16 xl:mr-23 w-[80px] md:w-[100px] lg:w-[120px] xl:w-[140px] h-auto"
+          className="mr-6 md:mr-10 lg:mr-16 xl:mr-23 w-[80px] h-auto"
         />
 
         <div className="hidden md:flex space-x-4 lg:space-x-7 font-bold text-lg lg:text-xl xl:text-2xl items-end-safe">

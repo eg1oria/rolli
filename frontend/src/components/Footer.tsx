@@ -121,7 +121,7 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
               </li>
               <li>
                 <a
-                  href="https://vk.com/"
+                  href="https://vk.com/market-19468570?screen=group"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 transition-opacity hover:opacity-60">

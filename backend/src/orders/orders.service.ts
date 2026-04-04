@@ -33,7 +33,9 @@ export class OrdersService {
     // }
 
     if (dto.items.length === 0) {
-      throw new BadRequestException('Заказ должен содержать хотя бы один товар');
+      throw new BadRequestException(
+        'Заказ должен содержать хотя бы один товар',
+      );
     }
 
     // Merge duplicate productIds
@@ -79,6 +81,22 @@ export class OrdersService {
         price: product.price,
       };
     });
+
+    // Add sauce prices to total
+    if (dto.sauces) {
+      const sauceNames = dto.sauces
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (sauceNames.length > 0) {
+        const sauces = await this.prisma.sauce.findMany({
+          where: { name: { in: sauceNames }, isAvailable: true },
+        });
+        for (const sauce of sauces) {
+          totalPrice += sauce.price;
+        }
+      }
+    }
 
     const orderNumber = this.generateOrderNumber();
 

@@ -121,7 +121,7 @@ export default function MenuModal({
               </div>
             </a>
             <a
-              href="https://vk.com/rollisushi"
+              href="https://vk.com/rolliorb"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 md:px-4 py-2.5 md:py-3 rounded-full flex-1 text-white min-h-[44px]"

@@ -40,7 +40,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           alt="Hero Image"
           width={955}
           height={775}
-          className="absolute right-0 z-1 hidden md:block w-[500px] lg:w-[700px] xl:w-[955px]"
+          className="absolute -right-[40px] z-1 hidden md:block w-[500px] lg:w-[700px] xl:w-[955px]"
           style={{ bottom: '-22px' }}
         />
 
@@ -83,7 +83,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
             Доставка роллов от Rolli, которые хочется заказывать снова
           </h1>
           <p
-            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl md:max-w-[50%] lg:max-w-[60%]"
+            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl md:max-w-[40%] lg:max-w-[50%]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 400,
