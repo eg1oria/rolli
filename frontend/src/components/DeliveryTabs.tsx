@@ -229,9 +229,9 @@ export default function DeliveryTabs({
                           height={280}
                           className="w-full h-[96px] md:h-[118px] object-cover blur-[20px] scale-[1.1]"
                         />
-                        <div className="absolute inset-0 bg-black/25 flex items-center px-5 md:px-8">
+                        <div className="absolute inset-0 bg-black/25 flex items-center py-1 px-5 md:px-8">
                           <div className="text-white max-w-[85%]">
-                            <p className="text-xl md:text-4xl font-semibold uppercase leading-tight">
+                            <p className="text-lg md:text-2xl font-semibold uppercase leading-tight">
                               {promo.title}
                             </p>
                             {promo.description && (
@@ -261,7 +261,7 @@ export default function DeliveryTabs({
                           height={280}
                           className="w-full h-[96px] md:h-[118px] object-cover blur-[20px] scale-[1.1]"
                         />
-                        <div className="absolute inset-0 bg-black/20 flex items-center px-5 md:px-8">
+                        <div className="absolute inset-0 bg-black/20 flex items-center py-1 px-5 md:px-8">
                           <p className="text-white text-lg md:text-2xl font-semibold">
                             Специальное предложение
                           </p>
