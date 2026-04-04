@@ -73,7 +73,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
         {/* Text content */}
         <div className="max-w-7xl flex flex-col items-start space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-18 xl:space-y-24 z-10">
           <h1
-            className="mb-1 md:mb-4.5 text-[22px] sm:text-2xl md:text-4xl lg:text-5xl xl:text-[64px] md:max-w-[60%] lg:max-w-[60%]"
+            className="mb-1 md:mb-4.5 text-[22px] sm:text-2xl md:text-4xl lg:text-5xl xl:text-[64px] md:max-w-[70%] lg:max-w-[60%]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 600,
@@ -83,7 +83,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
             Доставка роллов от Rolli, которые хочется заказывать снова
           </h1>
           <p
-            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl"
+            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl md:max-w-[70%] lg:max-w-[60%]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 400,
