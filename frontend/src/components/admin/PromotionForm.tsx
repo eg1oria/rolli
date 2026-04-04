@@ -8,13 +8,14 @@ import { FiX } from 'react-icons/fi';
 interface PromotionFormProps {
   isOpen: boolean;
   promotion: Promotion | null;
-  onSave: (data: { title: string; imageUrl: string; isActive: boolean; sortOrder: number }) => void;
+  onSave: (data: { title: string; description: string; imageUrl: string; isActive: boolean; sortOrder: number }) => void;
   onClose: () => void;
   isLoading?: boolean;
 }
 
 export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLoading }: PromotionFormProps) {
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isActive, setIsActive] = useState(true);
   const [sortOrder, setSortOrder] = useState('0');
@@ -23,11 +24,13 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
   useEffect(() => {
     if (promotion) {
       setTitle(promotion.title);
+      setDescription(promotion.description || '');
       setImageUrl(promotion.imageUrl);
       setIsActive(promotion.isActive);
       setSortOrder(String(promotion.sortOrder));
     } else {
       setTitle('');
+      setDescription('');
       setImageUrl('');
       setIsActive(true);
       setSortOrder('0');
@@ -43,6 +46,7 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
     if (Object.keys(errs).length > 0) return;
     onSave({
       title: title.trim(),
+      description: description.trim(),
       imageUrl,
       isActive,
       sortOrder: Number(sortOrder),
@@ -78,6 +82,19 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border outline-none"
+              style={{ borderColor: '#E5E7EB' }}
+              onFocus={(e) => (e.target.style.borderColor = '#D5715D')}
+              onBlur={(e) => (e.target.style.borderColor = '#E5E7EB')}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Описание</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              className="w-full px-4 py-2.5 rounded-xl border outline-none resize-none"
               style={{ borderColor: '#E5E7EB' }}
               onFocus={(e) => (e.target.style.borderColor = '#D5715D')}
               onBlur={(e) => (e.target.style.borderColor = '#E5E7EB')}
