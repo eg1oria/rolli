@@ -46,12 +46,13 @@ model Sauce {
 }
 
 model Promotion {
-  id        Int      @id @default(autoincrement())
-  title     String   @default("")
-  imageUrl  String
-  isActive  Boolean  @default(true)
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String   @default("")
+  description String   @default("")
+  imageUrl    String
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
 }
 
 model GiftPromotion {

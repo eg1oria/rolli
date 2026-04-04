@@ -234,6 +234,11 @@ export default function DeliveryTabs({
                             <p className="text-xl md:text-4xl font-semibold uppercase leading-tight">
                               {promo.title}
                             </p>
+                            {promo.description && (
+                              <p className="text-xs md:text-sm font-medium mt-0.5 opacity-90 leading-snug">
+                                {promo.description}
+                              </p>
+                            )}
                           </div>
                           <HiOutlineChevronRight
                             size={38}

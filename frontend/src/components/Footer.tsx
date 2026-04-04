@@ -116,7 +116,7 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 transition-opacity hover:opacity-60">
                   <FaTelegramPlane className="w-4 h-4" />
-                  @rolli56
+                  Телеграм
                 </a>
               </li>
               <li>

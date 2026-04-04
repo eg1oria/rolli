@@ -7,6 +7,11 @@ export class CreatePromotionDto {
   @IsOptional()
   title?: string;
 
+  @ApiProperty({ example: 'Только сегодня! Успейте воспользоваться', required: false })
+  @IsString()
+  @IsOptional()
+  description?: string;
+
   @ApiProperty({ example: '/uploads/promotions/sale-card1.png' })
   @IsString()
   imageUrl: string;
