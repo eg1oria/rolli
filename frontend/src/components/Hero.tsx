@@ -83,7 +83,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
             Доставка роллов от Rolli, которые хочется заказывать снова
           </h1>
           <p
-            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl md:max-w-[70%] lg:max-w-[60%]"
+            className="text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl md:max-w-[50%] lg:max-w-[60%]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 400,
@@ -154,7 +154,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
 
       {/* Bottom bar */}
       <div
-        className="flex items-center justify-center space-x-2 py-3 md:py-4 text-white z-10 text-sm md:text-lg lg:text-xl xl:text-2xl font-light px-4"
+        className="flex items-center justify-center space-x-2 py-2 md:py-4 text-white z-10 text-sm md:text-lg lg:text-xl xl:text-2xl font-light px-4"
         style={{
           backgroundColor: '#343943',
           fontFamily: 'Montserrat, sans-serif',
