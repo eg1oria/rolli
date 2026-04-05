@@ -159,7 +159,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           fontFamily: 'Montserrat, sans-serif',
         }}>
         <CiClock2 className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-[34px] xl:h-[34px] shrink-0" />
-        <span className="font-bold mr-2">Готовим с 9:00 до 22:00.</span>
+        <span className="font-bold mr-2">Готовим с 12:00 до 22:00.</span>
         <span className="hidden sm:inline">Можно сделать предзаказ.</span>
       </div>
     </section>
