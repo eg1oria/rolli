@@ -90,7 +90,7 @@ export default function DeliveryTabs({
               color: activeTab === 'delivery' ? '#fff' : '#2D2D2D',
               fontWeight: activeTab === 'delivery' ? 600 : 400,
             }}>
-            Доставка курьером
+            Доставка
           </button>
           <button
             onClick={() => onTabChange('pickup')}

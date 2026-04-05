@@ -173,7 +173,7 @@ export default function CartModal({
         type: deliveryTab === 'delivery' ? 'DELIVERY' : 'PICKUP',
         customerName: customerName.trim(),
         customerPhone: customerPhone.trim(),
-        address: deliveryTab === 'delivery' ? address.trim() : null,
+        ...(deliveryTab === 'delivery' ? { address: address.trim() } : {}),
         comment: orderComment,
         sauces: Array.from(selectedSauces).join(', '),
         items: items.map((i) => ({
