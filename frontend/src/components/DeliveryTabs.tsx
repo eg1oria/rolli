@@ -227,7 +227,7 @@ export default function DeliveryTabs({
                           alt={promo.title}
                           width={1200}
                           height={280}
-                          className="w-full h-[96px] md:h-[118px] object-cover blur-[1px] scale-[1.1]"
+                          className="w-full h-[96px] md:h-[118px] object-cover blur-[1px] scale-[1.15] -translate-y-1 "
                         />
                         <div className="absolute inset-0 bg-black/25 flex items-center py-1 px-5 md:px-8">
                           <div className="text-white max-w-[85%]">
