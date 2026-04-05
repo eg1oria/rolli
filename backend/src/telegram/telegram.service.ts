@@ -50,28 +50,29 @@ export class TelegramService {
       )
       .join('\n');
 
-    let message = `🆕 Новый заказ #${order.orderNumber}\n\n`;
-    message += `📦 Тип: ${typeLabel}\n`;
-    message += `👤 Имя: ${this.escapeHtml(order.customerName)}\n`;
-    message += `📞 Тел: ${this.escapeHtml(order.customerPhone)}\n`;
+    let message = `<b>НОВЫЙ ЗАКАЗ #${order.orderNumber}</b>\n`;
+    message += `<b>${typeLabel}</b>\n\n`;
+
+    message += `Имя: ${this.escapeHtml(order.customerName)}\n`;
+    message += `Тел: ${this.escapeHtml(order.customerPhone)}\n`;
 
     if (order.type === 'DELIVERY' && order.address) {
-      message += `📍 Адрес: ${this.escapeHtml(order.address)}\n`;
+      message += `Адрес: ${this.escapeHtml(order.address)}\n`;
     } else if (order.type === 'PICKUP') {
-      message += `📍 Самовывоз: Пр. Дзержинского 27/2\n`;
+      message += `Адрес: Пр. Дзержинского 27/2\n`;
     }
 
-    message += `\n🍣 Товары:\n${itemsText}\n`;
+    message += `\n<b>Товары:</b>\n${itemsText}\n`;
 
     if (order.sauces) {
-      message += `\n🫙 Соусы: ${this.escapeHtml(order.sauces)}`;
+      message += `\nСоусы: ${this.escapeHtml(order.sauces)}`;
     }
 
     if (order.comment) {
-      message += `\n💬 Комментарий: ${this.escapeHtml(order.comment)}`;
+      message += `\nКомментарий: ${this.escapeHtml(order.comment)}`;
     }
 
-    message += `\n\n💰 Итого: ${this.formatPrice(order.totalPrice)}`;
+    message += `\n\n<b>Итого: ${this.formatPrice(order.totalPrice)}</b>`;
 
     const now = new Date();
     const timeStr = now.toLocaleString('ru-RU', {
@@ -82,7 +83,7 @@ export class TelegramService {
       hour: '2-digit',
       minute: '2-digit',
     });
-    message += `\n🕐 ${timeStr}`;
+    message += `\n${timeStr}`;
 
     try {
       const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;

@@ -7,13 +7,14 @@ async function main() {
   console.log('Seeding database...');
 
   // Create admin
-  const passwordHash = await bcrypt.hash('admin123', 10);
+  const adminLogin = process.env.ADMIN_LOGIN || 'admin';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const passwordHash = await bcrypt.hash(adminPassword, 10);
   await prisma.admin.upsert({
-    where: { login: 'admin' },
+    where: { login: adminLogin },
     update: { passwordHash },
-    create: { login: 'admin', passwordHash },
+    create: { login: adminLogin, passwordHash },
   });
-  console.log('Admin created: admin / admin123');
 
   // Create categories
   const categories = [
