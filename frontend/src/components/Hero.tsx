@@ -58,7 +58,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           alt="Суши"
           width={265}
           height={265}
-          className="absolute right-[40%] xl:right-[35%] lg:right-130 z-0 animate-levitate-slow hidden md:block w-[120px] lg:w-[200px] xl:w-[265px]"
+          className="absolute right-[40%] xl:right-[35%] max-[1600px]:!right-[30%] max-[1280px]:!right-[40%] lg:right-130 z-0 animate-levitate-slow hidden md:block w-[120px] lg:w-[200px] xl:w-[265px]"
           style={{ top: '250px' }}
         />
         <Image
@@ -66,8 +66,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           alt="Суши"
           width={215}
           height={215}
-          className="absolute right-[20%] xl:right-[10%] xl:top-[110px] lg:right-50 z-3 animate-levitate-fast hidden md:block w-[90px] lg:w-[160px] xl:w-[215px]"
-          style={{ top: '70px' }}
+          className="absolute right-[20%] xl:right-[10%] top-[70px] xl:top-[110px] max-[1600px]:!top-[220px] max-[1280px]:!top-[70px] lg:right-50 z-3 animate-levitate-fast hidden md:block w-[90px] lg:w-[160px] xl:w-[215px]"
         />
 
         {/* Text content */}
