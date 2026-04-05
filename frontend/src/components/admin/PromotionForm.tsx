@@ -8,12 +8,24 @@ import { FiX } from 'react-icons/fi';
 interface PromotionFormProps {
   isOpen: boolean;
   promotion: Promotion | null;
-  onSave: (data: { title: string; description: string; imageUrl: string; isActive: boolean; sortOrder: number }) => void;
+  onSave: (data: {
+    title: string;
+    description: string;
+    imageUrl: string;
+    isActive: boolean;
+    sortOrder: number;
+  }) => void;
   onClose: () => void;
   isLoading?: boolean;
 }
 
-export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLoading }: PromotionFormProps) {
+export default function PromotionForm({
+  isOpen,
+  promotion,
+  onSave,
+  onClose,
+  isLoading,
+}: PromotionFormProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -59,12 +71,10 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-      onClick={onClose}
-    >
+      onClick={onClose}>
       <div
         className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold" style={{ color: '#2D2D2D' }}>
             {promotion ? 'Редактировать акцию' : 'Новая акция'}
@@ -76,7 +86,9 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Заголовок</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Заголовок
+            </label>
             <input
               type="text"
               value={title}
@@ -89,7 +101,9 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Описание</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Описание
+            </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -102,13 +116,17 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-2" style={{ color: '#7A7A7A' }}>Изображение *</label>
+            <label className="block text-xs font-medium mb-2" style={{ color: '#7A7A7A' }}>
+              Изображение *
+            </label>
             <ImageUpload currentImage={imageUrl} onUpload={setImageUrl} type="promotions" />
             {errors.imageUrl && <p className="text-red-500 text-xs mt-1">{errors.imageUrl}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>Порядок</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: '#7A7A7A' }}>
+              Порядок
+            </label>
             <input
               type="number"
               value={sortOrder}
@@ -127,7 +145,9 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
               onChange={(e) => setIsActive(e.target.checked)}
               className="w-4 h-4 rounded accent-[#D5715D]"
             />
-            <span className="text-sm" style={{ color: '#2D2D2D' }}>Активна</span>
+            <span className="text-sm" style={{ color: '#2D2D2D' }}>
+              Активна
+            </span>
           </label>
 
           <div className="flex justify-end gap-3 pt-4">
@@ -135,8 +155,7 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
               type="button"
               onClick={onClose}
               className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
-              style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}
-            >
+              style={{ backgroundColor: '#EDE5D6', color: '#2D2D2D' }}>
               Отмена
             </button>
             <button
@@ -145,8 +164,7 @@ export default function PromotionForm({ isOpen, promotion, onSave, onClose, isLo
               className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-50"
               style={{ backgroundColor: '#D5715D' }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c4604e')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}
-            >
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#D5715D')}>
               {isLoading ? 'Сохранение...' : 'Сохранить'}
             </button>
           </div>

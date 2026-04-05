@@ -40,7 +40,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           alt="Hero Image"
           width={955}
           height={775}
-          className="absolute -right-[40px] z-1 hidden md:block w-[500px] lg:w-[700px] xl:w-[955px]"
+          className="absolute -right-[40px] z-1 hidden md:block w-[500px] lg:w-[700px] xl:w-[785px] 2xl:w-[955px]"
           style={{ bottom: '-22px' }}
         />
 

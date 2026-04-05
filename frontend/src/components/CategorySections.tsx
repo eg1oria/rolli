@@ -58,7 +58,10 @@ export default function CategorySections() {
   return (
     <>
       {sections.map(({ category, products }) => (
-        <div key={category.id} id={`category-${category.id}`} className="px-4 md:px-8 lg:px-16 xl:px-75 py-3">
+        <div
+          key={category.id}
+          id={`category-${category.id}`}
+          className="px-4 md:px-8 lg:px-16 xl:px-75 py-3">
           <h2
             className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4 md:mb-6 lg:mb-9"
             style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -68,7 +71,7 @@ export default function CategorySections() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-9 mt-4 md:mt-6 pb-5 md:pb-7"
             style={{ borderBottom: '4px solid #F3EBDB' }}>
             {products.map((product) => (
-              <div key={product.id}>
+              <div key={product.id} className="flex flex-col h-full">
                 <div className="w-full flex items-center justify-center mb-2 aspect-square">
                   <Image
                     src={getImageUrl(product.imageUrl)}
@@ -83,7 +86,7 @@ export default function CategorySections() {
                   {product.name}
                 </h3>
                 <p className="text-xs md:text-sm text-gray-600">{product.pieces}</p>
-                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4">
+                <p className="text-xs md:text-sm text-gray-600 mt-2 md:mt-4 flex-grow">
                   {product.description}
                 </p>
                 <AddToCartButton product={product} />
