@@ -73,7 +73,7 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
         {/* Text content */}
         <div className="max-w-7xl flex flex-col items-start space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-18 xl:space-y-24 z-10">
           <h1
-            className="mb-1 md:mb-4.5 text-[22px] xl:max-w-[70%] max-[1620px]:!max-w-[50%] max-[1540px]:!max-w-[65%] sm:text-2xl md:text-4xl lg:text-5xl xl:max-[60%] xl:text-[64px] md:max-w-[60%] lg:max-w-[60%]"
+            className="mb-1 md:mb-4.5 text-[22px] xl:max-w-[70%] max-[1620px]:!max-w-[50%] max-[1540px]:!max-w-[65%] max-[767px]:!max-w-full sm:text-2xl md:text-4xl lg:text-5xl xl:max-[60%] xl:text-[64px] md:max-w-[60%] lg:max-w-[60%]"
             style={{
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 600,
