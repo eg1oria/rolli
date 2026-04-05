@@ -153,6 +153,7 @@ export class OrdersService {
         })),
         sauces: order.sauces,
         comment: order.comment,
+        gift: dto.gift || '',
         totalPrice: order.totalPrice,
       })
       .catch((err) => {

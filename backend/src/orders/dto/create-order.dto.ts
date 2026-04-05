@@ -53,6 +53,11 @@ export class CreateOrderDto {
   @IsOptional()
   sauces?: string;
 
+  @ApiProperty({ example: 'Филадельфия 10шт', required: false })
+  @IsString()
+  @IsOptional()
+  gift?: string;
+
   @ApiProperty({ type: [OrderItemDto] })
   @IsArray()
   @ValidateNested({ each: true })

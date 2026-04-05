@@ -15,6 +15,7 @@ interface OrderNotification {
   }>;
   sauces: string;
   comment: string;
+  gift: string;
   totalPrice: number;
 }
 
@@ -70,6 +71,10 @@ export class TelegramService {
 
     if (order.comment) {
       message += `\nКомментарий: ${this.escapeHtml(order.comment)}`;
+    }
+
+    if (order.gift) {
+      message += `\n\n<b>ПОДАРОК: ${this.escapeHtml(order.gift)}</b>`;
     }
 
     message += `\n\n<b>Итого: ${this.formatPrice(order.totalPrice)}</b>`;

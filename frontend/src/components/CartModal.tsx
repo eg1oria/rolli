@@ -165,17 +165,15 @@ export default function CartModal({
     setOrdering(true);
     try {
       const giftEarned = giftPromo && giftRemaining <= 0;
-      const orderComment = giftEarned
-        ? [comment.trim(), `🎁 Подарок: ${giftPromo.giftDescription}`].filter(Boolean).join('\n')
-        : comment.trim();
 
       await apiPost('/orders', {
         type: deliveryTab === 'delivery' ? 'DELIVERY' : 'PICKUP',
         customerName: customerName.trim(),
         customerPhone: customerPhone.trim(),
         ...(deliveryTab === 'delivery' ? { address: address.trim() } : {}),
-        comment: orderComment,
+        comment: comment.trim(),
         sauces: Array.from(selectedSauces).join(', '),
+        ...(giftEarned ? { gift: giftPromo.giftDescription } : {}),
         items: items.map((i) => ({
           productId: i.product.id,
           quantity: i.quantity,
