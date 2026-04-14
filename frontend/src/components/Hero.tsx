@@ -12,7 +12,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}>
-        {/* Glow blobs */}
         <div
           className="absolute rounded-full -left-50 -top-40 z-0"
           style={{
@@ -34,7 +33,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           }}
         />
 
-        {/* Big hero plate — md and up */}
         <Image
           src="/images/hero1.png"
           alt="Hero Image"
@@ -44,7 +42,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           style={{ bottom: '-22px' }}
         />
 
-        {/* Floating sushi — desktop positioned absolutely */}
         <Image
           src="/images/sushi1.png"
           alt="Суши"
@@ -69,7 +66,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           className="absolute right-[20%] xl:right-[10%] top-[70px] xl:top-[110px] max-[1600px]:!top-[200px] max-[1280px]:!top-[70px] lg:right-50 z-3 animate-levitate-fast hidden md:block w-[90px] lg:w-[160px] xl:w-[215px]"
         />
 
-        {/* Text content */}
         <div className="max-w-7xl flex flex-col items-start space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-18 xl:space-y-24 z-10">
           <h1
             className="mb-1 md:mb-4.5 text-[22px] xl:max-w-[70%] max-[1645px]:!max-w-[45%] max-[1540px]:!max-w-[60%] max-[767px]:!max-w-full sm:text-2xl md:text-4xl lg:text-5xl xl:max-[60%] xl:text-[64px] md:max-w-[60%] lg:max-w-[60%]"
@@ -117,7 +113,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
           </div>
         </div>
 
-        {/* Mobile sushi images — visible only on mobile, below text */}
         <div className="relative w-full h-[200px] sm:h-[240px] mt-6 md:hidden z-1">
           <Image
             src="/images/sushi1.png"
@@ -140,7 +135,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
             height={265}
             className="absolute left-4 sm:left-8 bottom-2 w-[100px] sm:w-[130px] animate-levitate-slow z-1"
           />
-          {/* Hero plate on mobile — smaller, centered */}
           <Image
             src="/images/hero1.png"
             alt="Hero Image"
@@ -151,7 +145,6 @@ export default function Hero({ onOrderClick }: { onOrderClick?: () => void }) {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div
         className="flex items-center justify-center space-x-2 py-2 md:py-4 text-white z-10 text-sm md:text-lg lg:text-xl xl:text-2xl font-light px-4"
         style={{

@@ -76,7 +76,6 @@ export default function CartModal({
 
   const total = cartTotal + saucesTotal;
 
-  // Check if outside working hours - DISABLED FOR DEVELOPMENT
   const isOutsideWorkingHours = () => {
     // TODO: Включить при деплое
     return false;

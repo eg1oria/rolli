@@ -30,7 +30,6 @@ export default function PrivacyPolicy() {
             согласие на обработку персональных данных на изложенных ниже условиях.
           </p>
 
-          {/* 1 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">1. Какие данные мы собираем</h2>
 
@@ -67,7 +66,6 @@ export default function PrivacyPolicy() {
             </p>
           </section>
 
-          {/* 2 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">
               2. Цели сбора и обработки данных
@@ -83,7 +81,6 @@ export default function PrivacyPolicy() {
             </ul>
           </section>
 
-          {/* 3 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">3. Хранение и защита данных</h2>
             <p>
@@ -103,7 +100,6 @@ export default function PrivacyPolicy() {
             </p>
           </section>
 
-          {/* 4 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">
               4. Передача данных третьим лицам
@@ -133,7 +129,6 @@ export default function PrivacyPolicy() {
             </ul>
           </section>
 
-          {/* 5 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">5. Права пользователя</h2>
             <p>Вы имеете право:</p>
@@ -155,7 +150,6 @@ export default function PrivacyPolicy() {
             </p>
           </section>
 
-          {/* 6 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">
               6. Файлы cookie и аналитические сервисы
@@ -180,7 +174,6 @@ export default function PrivacyPolicy() {
             </p>
           </section>
 
-          {/* 7 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">
               7. Изменения в Политике конфиденциальности
@@ -197,7 +190,6 @@ export default function PrivacyPolicy() {
             </p>
           </section>
 
-          {/* 8 */}
           <section>
             <h2 className="text-lg md:text-xl font-semibold mb-3">8. Контактная информация</h2>
             <p>

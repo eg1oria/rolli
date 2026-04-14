@@ -84,7 +84,6 @@ html {
   display: none;
 }
 
-/* Ensure inputs don't zoom on iOS */
 @media (max-width: 767px) {
   input[type='text'],
   input[type='tel'],

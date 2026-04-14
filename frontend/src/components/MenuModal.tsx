@@ -49,7 +49,6 @@ export default function MenuModal({
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 bg-black/30 z-[350] transition-opacity duration-300 ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -57,7 +56,6 @@ export default function MenuModal({
         onClick={onClose}
       />
 
-      {/* Card */}
       <div
         className={`fixed inset-y-2 left-2 right-12 sm:right-auto sm:w-[400px] md:w-[460px] z-[400] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${
           open ? 'translate-x-0 opacity-100' : '-translate-x-[120%] opacity-0 pointer-events-none'
@@ -65,7 +63,6 @@ export default function MenuModal({
         <div
           className="h-full overflow-y-auto flex flex-col py-6 md:py-8"
           style={{ fontFamily: 'Montserrat, sans-serif' }}>
-          {/* Header */}
           <div className="flex items-center justify-between px-6 md:px-8 mb-2 md:mb-4">
             <h2 className="text-2xl md:text-3xl font-bold">Меню</h2>
             <button
@@ -75,7 +72,6 @@ export default function MenuModal({
             </button>
           </div>
 
-          {/* Nav — dynamic categories from API */}
           <nav className="flex flex-col px-6 md:px-8 mb-6 md:mb-8">
             {categories.map((cat) => (
               <a
@@ -87,10 +83,8 @@ export default function MenuModal({
             ))}
           </nav>
 
-          {/* Push bottom content down */}
           <div className="flex-1 min-h-4" />
 
-          {/* Location */}
           <div className="px-5 md:px-7 mb-3">
             <div
               className="flex items-center gap-3 p-3.5 md:p-4 rounded-2xl"
@@ -106,7 +100,6 @@ export default function MenuModal({
             </div>
           </div>
 
-          {/* Social */}
           <div className="flex gap-2 px-5 md:px-7 mb-3">
             <a
               href="https://t.me/rolli56"
@@ -136,7 +129,6 @@ export default function MenuModal({
             </a>
           </div>
 
-          {/* Phone */}
           <div className="px-6 md:px-8 mb-4">
             <a
               href="tel:+79123434412"
@@ -146,7 +138,6 @@ export default function MenuModal({
             </a>
           </div>
 
-          {/* Bottom action */}
           <div className="mx-5 md:mx-7 border-t border-black/10 pt-4">
             <button
               className="flex items-center gap-3 w-full cursor-pointer hover:opacity-70 transition-opacity min-h-[48px]"

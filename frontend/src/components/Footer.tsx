@@ -20,7 +20,6 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
 
   return (
     <footer className="mt-16 md:mt-24">
-      {/* Dark banner */}
       <div
         className="py-3 md:py-4 text-center text-white text-sm md:text-base lg:text-lg tracking-widest"
         style={{
@@ -31,9 +30,7 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
         Доставляем роллы, которые хочется заказывать снова
       </div>
 
-      {/* Main footer content */}
       <div className="bg-white px-4 md:px-8 lg:px-16 xl:px-39 py-8 md:py-12 lg:py-16">
-        {/* Logo */}
         <Image
           src="/logo.png"
           alt="Rolli"
@@ -41,10 +38,8 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
           height={60}
           className="mb-8 md:mb-12 w-[120px] md:w-[150px] lg:w-[180px] h-auto"
         />
-
-        {/* Columns */}
+        ={' '}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* About */}
           <div>
             <h3
               className="font-semibold text-base md:text-lg mb-1"
@@ -58,7 +53,6 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
             </p>
           </div>
 
-          {/* Navigation */}
           <div>
             <h3
               className="font-semibold text-base md:text-lg mb-4"
@@ -101,7 +95,6 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
             </ul>
           </div>
 
-          {/* Social & contacts */}
           <div>
             <h3
               className="font-semibold text-base md:text-lg mb-4"
@@ -144,7 +137,6 @@ export default function Footer({ onCartOpen, onContactsOpen }: FooterProps) {
             </ul>
           </div>
 
-          {/* Info */}
           <div>
             <h3
               className="font-semibold text-base md:text-lg mb-4"

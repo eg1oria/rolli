@@ -121,12 +121,10 @@ export default function AddressMapModal({
 
       setMapReady(true);
 
-      // Initial reverse geocode
       const addr = await reverseGeocode(ORENBURG_CENTER[0], ORENBURG_CENTER[1]);
       if (!cancelled) setAddress(addr);
     };
 
-    // Small delay to let DOM render
     const timer = setTimeout(initMap, 100);
 
     return () => {
@@ -141,7 +139,6 @@ export default function AddressMapModal({
     };
   }, [open, reverseGeocode]);
 
-  // Invalidate size when opened
   useEffect(() => {
     if (open && mapRef.current) {
       const timer = setTimeout(() => mapRef.current?.invalidateSize(), 200);
@@ -164,7 +161,6 @@ export default function AddressMapModal({
       <div
         className="relative w-full md:max-w-3xl md:mx-4 rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[95vh] md:max-h-[90vh]"
         style={{ backgroundColor: '#F3EBDB' }}>
-        {/* Header */}
         <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4">
           <h3 className="text-lg md:text-xl font-semibold">Адрес доставки</h3>
           <button
@@ -174,7 +170,6 @@ export default function AddressMapModal({
           </button>
         </div>
 
-        {/* Map */}
         <div className="relative w-full h-[250px] md:h-[400px] lg:h-[500px]">
           <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
           <div ref={mapContainerRef} className="w-full h-full" />
@@ -185,7 +180,6 @@ export default function AddressMapModal({
           )}
         </div>
 
-        {/* Address display & confirm */}
         <div className="px-4 md:px-6 py-3 md:py-4 flex flex-col gap-2 md:gap-3">
           <div
             className="flex items-start gap-3 p-3 rounded-2xl"
